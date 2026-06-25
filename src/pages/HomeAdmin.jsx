@@ -31,7 +31,7 @@ function HomeAdmin() {
           </div>
         </div>
 
-        <div className="card-accion" onClick={() => navegar('/agendar-turno')}>
+        <div className="card-accion" onClick={() => navegar('/agenda')}>
           <div>
             <h2>Reprogramar turno</h2>
             <p>Asigná un turno a un cliente en el horario disponible.</p>

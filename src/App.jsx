@@ -3,6 +3,7 @@ import Login from './pages/Login'
 import Clientes from './pages/Clientes'
 import AgregarCliente from './pages/AgregarCliente'
 import HomeAdmin from './pages/HomeAdmin'
+import Agenda from './pages/Agenda'
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/clientes" element={<Clientes />} />
          <Route path="/agregar-cliente" element={<AgregarCliente />} />
          <Route path="/home" element={<HomeAdmin />} />
+         <Route path="/agenda" element={<Agenda />} />
       </Routes>
     </BrowserRouter>
   )

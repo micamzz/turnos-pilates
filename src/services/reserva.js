@@ -16,7 +16,7 @@ export async function cancelarTurno(clienteId, claseId, fecha) {
   const { data, error } = await supabase
     .from('reserva')
     .upsert(
-      { cliente_id: clienteId, clase_id: claseId, fecha, estado: 'cancelado' },
+      { cliente_id: clienteId, clase_id: claseId, fecha, estado: 'CANCELADA' },
       { onConflict: 'cliente_id,clase_id,fecha' }
     )
     .select()
