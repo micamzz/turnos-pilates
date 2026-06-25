@@ -47,3 +47,22 @@ export async function desactivarInscripcion(id) {
   if (error) throw error
   return data
 }
+
+// Reprograma una inscripción: desactiva la vieja y crea una nueva con la clase elegida
+export async function reprogramarInscripcion(inscripcionId, clienteId, nuevaClaseId) {
+  const { error: errorDesactivar } = await supabase
+    .from('inscripcion')
+    .update({ activa: false })
+    .eq('id', inscripcionId)
+
+  if (errorDesactivar) throw errorDesactivar
+
+  const { data, error: errorCrear } = await supabase
+    .from('inscripcion')
+    .insert({ cliente_id: clienteId, clase_id: nuevaClaseId })
+    .select()
+    .single()
+
+  if (errorCrear) throw errorCrear
+  return data
+}

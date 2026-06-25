@@ -57,3 +57,35 @@ export async function obtenerClientePorId(id){
       if (error) throw error
   return data
  }
+
+ // Trae todos los clientes con su plan y sus inscripciones (clase + día + hora)
+export async function obtenerClientesConInscripciones() {
+  const { data, error } = await supabase
+    .from('clientes')
+    .select(`
+      *,
+      planes(nombre, cantidad_clases),
+      inscripcion(
+        id,
+        activa,
+        clase(dia_semana, hora)
+      )
+    `)
+    .order('nombre')
+
+  if (error) throw error
+  return data
+}
+
+// Marca un cliente como inactivo (dar de baja, sin borrar su historial)
+export async function darDeBajaCliente(id) {
+  const { data, error } = await supabase
+    .from('clientes')
+    .update({ activo: false })
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) throw error
+  return data
+}
