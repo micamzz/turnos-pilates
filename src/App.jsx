@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Clientes from './pages/Clientes'
+import AgregarCliente from './pages/AgregarCliente'
+
 
 function App() {
   return (
@@ -10,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/clientes" element={<Clientes />} />
+         <Route path="/agregar-cliente" element={<AgregarCliente />} />
       </Routes>
     </BrowserRouter>
   )

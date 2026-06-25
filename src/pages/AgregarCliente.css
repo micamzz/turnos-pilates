@@ -1,0 +1,238 @@
+/* Fondo general */
+.contenedor-agregar-cliente {
+  min-height: 100vh;
+  padding: 2rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Titulo principal */
+.contenedor-agregar-cliente h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.125rem;
+  letter-spacing: -0.02em;
+}
+
+/* Card form */
+.contenedor-agregar-cliente form {
+  width: 100%;
+  max-width: 43.75rem;
+  background: #ffffff;
+  border-radius: 1.125rem;
+  padding: 1.75rem 2rem;
+  border: 0.0625rem solid #ece9f7;
+}
+
+/* Secciones */
+.seccion-form {
+  margin-bottom: 0.25rem;
+}
+
+.titulo-seccion {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #5f27cd;
+  margin-bottom: 0.625rem;
+}
+
+.separador {
+  height: 0.0625rem;
+  background: #ece9f7;
+  margin: 0.875rem 0;
+}
+
+/* Fila de campos */
+.fila-campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.875rem;
+}
+
+@media (max-width: 35rem) {
+  .fila-campos {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Inputs */
+.grupo-entrada {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.625rem;
+}
+
+.grupo-entrada label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 0.3125rem;
+}
+
+.opcional {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #9ca3af;
+}
+
+.grupo-entrada input,
+.grupo-entrada select {
+  padding: 0.625rem 0.875rem;
+  border: 0.0625rem solid #dcdde1;
+  border-radius: 0.5625rem;
+  font-size: 1rem;
+  color: #2c3e50;
+  background: #f8f9fa;
+  transition: all 0.2s ease;
+}
+
+.grupo-entrada input:hover,
+.grupo-entrada select:hover {
+  border-color: #c7bce8;
+}
+
+.grupo-entrada input:focus,
+.grupo-entrada select:focus {
+  outline: none;
+  border-color: #5f27cd;
+  background: #fff;
+  box-shadow: 0 0 0 0.1875rem rgba(95, 39, 205, 0.1);
+}
+
+/* Ayuda plan */
+.ayuda-plan {
+  font-size: 0.875rem;
+  color: #7f8c8d;
+  margin-bottom: 0.5rem;
+}
+
+.ayuda-plan strong {
+  color: #5f27cd;
+}
+
+/* Dias */
+.grupo-dia {
+  margin-bottom: 0.5rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.6875rem;
+  border: 0.0625rem solid #ece9f7;
+  background: #faf9fd;
+}
+
+.grupo-dia strong {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.4375rem;
+  text-transform: capitalize;
+}
+
+/* Horarios */
+.lista-horarios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  align-items: center;
+}
+
+.opcion-horario {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.375rem 0.625rem;
+  min-width: 3.625rem;
+  border: 0.0625rem solid #dcdde1;
+  border-radius: 0.5rem;
+  background: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #34495e;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+
+.opcion-horario input {
+  display: none;
+}
+
+.opcion-horario:hover {
+  border-color: #c7bce8;
+  background: #f8f6fc;
+}
+
+.opcion-horario:has(input:checked) {
+  background: #f0ebfc;
+  border-color: #5f27cd;
+  color: #4814a3;
+  font-weight: 700;
+  box-shadow: 0 0.125rem 0.375rem rgba(95, 39, 205, 0.15);
+}
+
+.opcion-horario:has(input:checked::after) {
+  content: "✓";
+  margin-left: 0.3125rem;
+  font-size: 0.75rem;
+  color: #5f27cd;
+}
+
+.opcion-horario.deshabilitado {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #f3f4f6;
+}
+
+.opcion-horario.deshabilitado:hover {
+  border-color: #dcdde1;
+  background: #f3f4f6;
+}
+
+
+
+/* Boton */
+.contenedor-agregar-cliente button[type='submit'] {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 0.5625rem;
+  background-color: #5f27cd;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.contenedor-agregar-cliente button[type='submit']:hover:not(:disabled) {
+  background-color: #4814a3;
+}
+
+.contenedor-agregar-cliente button[type='submit']:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.contenedor-agregar-cliente button[type='submit']:disabled {
+  background-color: #a4b0be;
+  cursor: not-allowed;
+}
+
+/* Mensaje de error */
+.mensaje-error {
+  margin: 0.25rem 0;
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 35rem) {
+  .contenedor-agregar-cliente form {
+    padding: 1.25rem;
+    border-radius: 0.875rem;
+  }
+}
