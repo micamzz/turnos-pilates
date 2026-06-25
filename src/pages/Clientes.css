@@ -8,7 +8,7 @@
 .contenedor-clientes {
   max-width: 900px;
   margin: 32px auto;
-  padding: 0 24px;
+  padding: 0 -8em;
 }
 
 .encabezado-clientes {
@@ -51,7 +51,6 @@
 
 .buscador-clientes {
   width: 100%;
-  box-sizing: border-box;
   padding: 9px 14px 9px 36px;
   border: 0.5px solid #c2ddd2;
   border-radius: 8px;
@@ -63,7 +62,6 @@
 
 .buscador-clientes:focus {
   border-color: #66a082;
-  box-shadow: 0 0 0 3px rgba(102, 160, 130, 0.15);
 }
 
 .tabla-clientes {
@@ -211,7 +209,6 @@
 
 .modal select:focus {
   border-color: #66a082;
-  box-shadow: 0 0 0 3px rgba(102, 160, 130, 0.15);
 }
 
 .acciones-modal {
@@ -247,4 +244,38 @@
 
 .acciones-modal button:last-child:hover {
   background: #558a6e;
+}
+
+.acciones-horario {
+  display: flex;
+  gap: 8px;
+  margin-left: 8px;
+}
+
+.lista-horarios-tabla li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.boton-link-rojo {
+  color: #dc2626;
+}
+
+.boton-reactivar {
+  background-color: #66a082;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.modal input[type='date'] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #c8e0d5;
+  border-radius: 8px;
+  margin-top: 8px;
 }

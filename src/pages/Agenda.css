@@ -186,6 +186,34 @@
   font-size: 0.82rem;
   cursor: pointer;
 }
+
+.fila-cupos {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.boton-mas-recupero {
+  background: #66a082;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 20px;
+  height: 20px;
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.boton-mas-recupero:hover {
+  background: #4f7d65;
+}
+/* FECHAS PASADAS CALENDARIO */
+.celda-pasada {
+  background-color: #f3f4f6;
+  opacity: 0.75;
+}
 /* RESPONSIVE */
 @media (max-width: 700px) {
   .tabla-agenda {

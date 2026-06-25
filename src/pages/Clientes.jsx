@@ -238,9 +238,10 @@ function Clientes() {
               <th>Teléfono</th>
               <th>Plan</th>
               <th>Horario</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
+              <th></th>
+              <th></th> 
+              <th></th> 
+                         </tr>
           </thead>
           <tbody>
             {clientesFiltrados.map((cliente) => {
@@ -262,30 +263,25 @@ function Clientes() {
                             <li key={i.id}>{i.clase.dia_semana} {i.clase.hora.slice(0, 5)}</li>
                           ))}
                         </ul>
-
-                        <div className="acciones-horario">
-                          <button
-                            className="boton-link"
-                            onClick={() => abrirModalReprogramar(cliente.id, inscripcionesActivas)}
-                          >
-                            Reprogramar
-                          </button>
+                      </>
+                    )}
+                  </td>
+              
+                  <td>
                           <button
                             className="boton-link boton-link-rojo"
                             onClick={() => abrirModalCancelarDia(cliente.id, inscripcionesActivas)}
                           >
                             Cancelar día
                           </button>
-                        </div>
-                      </>
-                    )}
+                 
                   </td>
                   <td>
                     <span className={cliente.activo ? 'estado-activo' : 'estado-inactivo'}>
                       {cliente.activo ? 'Activo' : 'Inactivo'}
                     </span>
                   </td>
-                  <td>
+                   <td>
                     {cliente.activo ? (
                       <button className="boton-baja" onClick={() => manejarDarDeBaja(cliente)}>
                         Dar de baja
@@ -295,6 +291,7 @@ function Clientes() {
                         Reactivar
                       </button>
                     )}
+                    
                   </td>
                 </tr>
               )
