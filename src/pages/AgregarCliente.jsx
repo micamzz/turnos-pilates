@@ -5,9 +5,11 @@ import { obtenerClases } from '../services/clase'
 import { crearCliente } from '../services/clientes'
 import { crearInscripciones } from '../services/inscripcion'
 import './AgregarCliente.css'
+import { Layout } from '../components/layout/Layout.jsx'
 
 function AgregarCliente() {
     const [nombre, setNombre] = useState('')
+    const [apellido, setApellido] = useState('')
     const [telefono, setTelefono] = useState('')
     const [email, setEmail] = useState('')
     const [planId, setPlanId] = useState('')
@@ -27,8 +29,10 @@ function AgregarCliente() {
                     obtenerPlanes(),
                     obtenerClases(),
                 ])
+
                 setPlanes(listaPlanes)
                 setClases(listaClases)
+
             } catch (err) {
                 setErrores({ general: 'No se pudieron cargar los datos: ' + err.message })
             }
@@ -69,6 +73,10 @@ function AgregarCliente() {
             nuevosErrores.nombre = 'El nombre es obligatorio'
         }
 
+        if (!apellido.trim()) {
+            nuevosErrores.apellido = 'El apellido es obligatorio'
+        }
+
         if (!telefono.trim()) {
             nuevosErrores.telefono = 'El teléfono es obligatorio'
         }
@@ -87,6 +95,7 @@ function AgregarCliente() {
         try {
             const clienteCreado = await crearCliente({
                 nombre,
+                apellido,
                 telefono,
                 email,
                 plan_id: planId || null,
@@ -113,113 +122,138 @@ function AgregarCliente() {
     }))
 
     return (
-        <div className="contenedor-agregar-cliente">
-            <h1>Agregar Cliente</h1>
+        <Layout>
+            <div className="contenedor-agregar-cliente">
+                <h1>Agregar Cliente</h1>
 
-            <form onSubmit={manejarEnvio}>
-                <div className="seccion-form">
-                    <h2 className="titulo-seccion">Datos del cliente</h2>
-                    <div className="fila-campos">
-                        <div className="grupo-entrada">
-                            <label>Nombre</label>
-                            <input value={nombre} onChange={(e) => setNombre(e.target.value)} />
-                            {errores.nombre && <p className="mensaje-error">{errores.nombre}</p>}
-                        </div>
-
-                        <div className="grupo-entrada">
-                            <label>Teléfono</label>
-                            <input
-                                type="tel"
-                                value={telefono}
-                                onChange={(e) => setTelefono(e.target.value.replace(/[^0-9]/g, ''))}
-                                maxLength={15}
-                            />
-                            {errores.telefono && <p className="mensaje-error">{errores.telefono}</p>}
-                        </div>
-                    </div>
-
-                    <div className="grupo-entrada">
-                        <label>Email <span className="opcional">(opcional)</span></label>
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    </div>
-                </div> {/* fin seccion-form */}
-
-                <div className="separador" />
-                <div className="seccion-form">
-                    <h2 className="titulo-seccion">Plan</h2>
-                    <div className="grupo-entrada">
-                        <select
-                            value={planId}
-                            onChange={(e) => {
-                                setPlanId(e.target.value)
-                                setClasesSeleccionadas([])
-                                setErrores((prev) => ({ ...prev, clases: undefined }))
-                            }}
-                        >
-                            <option value="">Seleccionar plan</option>
-                            {planes.map((plan) => (
-                                <option key={plan.id} value={plan.id}>
-                                    {plan.nombre} ({plan.cantidad_clases} clases/mes)
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div> {/* fin seccion-form */}
-
-                <div className="separador" />
-
-                <div className="seccion-form">
-                    <h2 className="titulo-seccion">Días y horarios fijos</h2>
-
-                    {!planSeleccionado && (
-                        <p className="ayuda-plan">Primero seleccioná un plan para poder elegir días</p>
-                    )}
-
-                    {planSeleccionado && (
-                        <p className="ayuda-plan">
-                            Seleccionaste <strong>{clasesSeleccionadas.length}</strong> de <strong>{maximoClases}</strong> día(s) permitidos
-                        </p>
-                    )}
-
-                    {errores.clases && <p className="mensaje-error">{errores.clases}</p>}
-
-                    {planSeleccionado &&
-                        clasesPorDia.map(({ dia, clases: clasesDelDia }) => (
-                            <div key={dia} className="grupo-dia">
-                                <strong>{dia}</strong>
-                                <div className="lista-horarios">
-                                    {clasesDelDia.map((clase) => {
-                                        const estaSeleccionada = clasesSeleccionadas.includes(clase.id)
-                                        const deshabilitado =
-                                            !estaSeleccionada && maximoClases && clasesSeleccionadas.length >= maximoClases
-
-                                        return (
-                                            <label
-                                                key={clase.id}
-                                                className={`opcion-horario${deshabilitado ? ' deshabilitado' : ''}`}
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    checked={estaSeleccionada}
-                                                    disabled={deshabilitado}
-                                                    onChange={() => alternarClase(clase.id)}
-                                                />
-                                                {clase.hora.slice(0, 5)}
-                                            </label>
-                                        )
-                                    })}
-                                </div>
+                <form onSubmit={manejarEnvio}>
+                    <div className="seccion-form">
+                        <h2 className="titulo-seccion">Datos del cliente</h2>
+                        <div className="fila-campos">
+                            <div className="grupo-entrada">
+                                <label>Nombre</label>
+                                <input value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                                {errores.nombre && <p className="mensaje-error">{errores.nombre}</p>}
                             </div>
-                        ))}
-                </div> {/* fin seccion-form */}
 
-                <button type="submit" disabled={cargando}>
-                    {cargando ? 'Guardando...' : 'Guardar Cliente'}
-                </button>
+                            <div className="grupo-entrada">
+                                <label>Apellido</label>
+                                <input
+                                    type="text"
+                                    value={apellido}
+                                    onChange={(e) => setApellido(e.target.value)}
+                                />
+                                {errores.apellido && <p className="mensaje-error">{errores.apellido}</p>}
+                            </div>
 
-                {errores.general && <p className="mensaje-error">{errores.general}</p>}
-            </form>
-        </div>
+                            <div className="grupo-entrada">
+                                <label>Teléfono</label>
+                                <input
+                                    type="tel"
+                                    value={telefono}
+                                    onChange={(e) => setTelefono(e.target.value.replace(/[^0-9]/g, ''))}
+                                    maxLength={15}
+                                />
+                                {errores.telefono && <p className="mensaje-error">{errores.telefono}</p>}
+                            </div>
+                        </div>
+
+                        <div className="grupo-entrada">
+                            <label>Email <span className="opcional">(opcional)</span></label>
+                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        </div>
+                    </div> {/* fin seccion-form */}
+
+                    <div className="separador" />
+                    <div className="seccion-form">
+                        <h2 className="titulo-seccion">Plan</h2>
+                        <div className="grupo-entrada">
+                            <select
+                                value={planId}
+                                onChange={(e) => {
+                                    setPlanId(e.target.value)
+                                    setClasesSeleccionadas([])
+                                    setErrores((prev) => ({ ...prev, clases: undefined }))
+                                }}
+                            >
+                                <option value="">Seleccionar plan</option>
+                                {planes.map((plan) => (
+                                    <option key={plan.id} value={plan.id}>
+                                        {plan.nombre} ({plan.cantidad_clases} clases/mes)
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div> {/* fin seccion-form */}
+
+                    <div className="separador" />
+
+                    <div className="seccion-form">
+                        <h2 className="titulo-seccion">Días y horarios fijos</h2>
+
+                        {!planSeleccionado && (
+                            <p className="ayuda-plan">Primero seleccioná un plan para poder elegir días</p>
+                        )}
+
+                        {planSeleccionado && (
+                            <p className="ayuda-plan">
+                                Seleccionaste <strong>{clasesSeleccionadas.length}</strong> de <strong>{maximoClases}</strong> día(s) permitidos
+                            </p>
+                        )}
+
+                        {errores.clases && <p className="mensaje-error">{errores.clases}</p>}
+
+                        {planSeleccionado &&
+                            clasesPorDia.map(({ dia, clases: clasesDelDia }) => (
+                                <div key={dia} className="grupo-dia">
+                                    <strong>{dia}</strong>
+                                    <div className="lista-horarios">
+                                        {/* CLASES DEL DIA  */}
+                                        {clasesDelDia.map((clase) => {
+                                            const estaSeleccionada = clasesSeleccionadas.includes(clase.id)
+
+                                            const sinCupos = clase.cuposDisponibles <= 0
+
+                                            const deshabilitado =
+                                                sinCupos ||
+                                                (
+                                                    !estaSeleccionada &&
+                                                    maximoClases &&
+                                                    clasesSeleccionadas.length >= maximoClases
+                                                )
+
+                                            return (
+                                                <label
+                                                    key={clase.id}
+                                                    className={`opcion-horario${deshabilitado ? ' deshabilitado' : ''}`}
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={estaSeleccionada}
+                                                        disabled={deshabilitado}
+                                                        onChange={() => alternarClase(clase.id)}
+                                                    />
+
+                                                    {clase.cuposDisponibles > 0
+                                                        ? `${clase.hora.slice(0, 5)} - ${clase.cuposDisponibles} cupos disponibles`
+                                                        : `${clase.hora.slice(0, 5)} - COMPLETO`
+                                                    }
+                                                </label>
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                            ))}
+                    </div> {/* fin seccion-form */}
+
+                    <button type="submit" disabled={cargando}>
+                        {cargando ? 'Guardando...' : 'Guardar Cliente'}
+                    </button>
+
+                    {errores.general && <p className="mensaje-error">{errores.general}</p>}
+                </form>
+            </div>
+        </Layout>
     )
 }
 

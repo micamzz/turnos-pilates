@@ -21,7 +21,7 @@ function Header() {
 
       <nav className={styles.nav}>
         <Link to="/agenda" className={styles.navLink}>Turnos</Link>
-        <Link to="/agregar-cliente" className={styles.navLink}>Clientes</Link>
+      <Link to="/clientes" className={styles.navLink}>Clientes</Link>
         <button onClick={manejarCerrarSesion} className={styles.botonCerrarSesion}>
           Cerrar sesión
         </button>

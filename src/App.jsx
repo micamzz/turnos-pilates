@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Clientes from './pages/Clientes'
 import AgregarCliente from './pages/AgregarCliente'
+import HomeAdmin from './pages/HomeAdmin'
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/clientes" element={<Clientes />} />
          <Route path="/agregar-cliente" element={<AgregarCliente />} />
+         <Route path="/home" element={<HomeAdmin />} />
       </Routes>
     </BrowserRouter>
   )
