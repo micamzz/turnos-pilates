@@ -12,6 +12,17 @@ export async function obtenerInscripcionesPorCliente(clienteId) {
   return data
 }
 
+// Trae todas las inscripciones activas con su cliente y clase (para armar la grilla completa)
+export async function obtenerInscripcionesConClienteYClase() {
+  const { data, error } = await supabase
+    .from('inscripcion')
+    .select('id, cliente_id, clase_id, clientes(nombre, apellido), clase(dia_semana, hora)')
+    .eq('activa', true)
+
+  if (error) throw error
+  return data
+}
+
 // Crea una inscripción (cliente fijo en una clase). Recibe { cliente_id, clase_id }
 export async function crearInscripcion(datosInscripcion) {
   const { data, error } = await supabase
