@@ -37,20 +37,6 @@ function HomeAdmin() {
             <p>Asigná un turno a un cliente en el horario disponible.</p>
           </div>
         </div>
-
-        <div className="card-accion" onClick={() => navegar('/cancelar-turno')}>
-          <div>
-            <h2>Cancelar turno</h2>
-            <p>Cancelá un turno existente de forma rápida.</p>
-          </div>
-        </div>
-
-        <div className="card-accion" onClick={() => navegar('/horarios-dia')}>
-          <div>
-            <h2>Horarios del día</h2>
-            <p>Consultá los turnos y clases programadas para hoy.</p>
-          </div>
-        </div>
       </div>
     </div>
     </Layout>
