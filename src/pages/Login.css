@@ -97,31 +97,16 @@
 }
 
 .grupo-entrada input:focus {
-  outline: none;
-  border-color: #5f27cd; 
+  outline: none; 
+  border-color: #52b788; 
   background-color: #fff;
 }
-
-/* Mensaje de error */
-.error-campo {
-  display: block;
-  margin-top: 4px;
-  color: #dc2626;
-  font-size: 0.85rem;
-}
-
-.mensaje-error {
-  margin: 0.25rem 0;
-  color: #dc2626;
-  font-size: 0.875rem;
-}
-
 
 /* Botón estilizado */
 .boton-enviar {
   width: 100%;
   padding: 14px;
-  background-color: #5f27cd; /* Color acento principal */
+  background-color: #52b788; /* Color acento principal */
   color: white;
   border: none;
   border-radius: 8px;
@@ -132,18 +117,22 @@
   margin-top: 10px;
 }
 
-.boton-enviar:hover:not(:disabled) {
-  background-color: #4814a3;
+.boton-enviar {
+   background-color: #66a082;
 }
 
-.boton-enviar:active:not(:disabled) {
-  transform: scale(0.98);
+.boton-enviar:hover:not(:disabled) {
+   background-color: #4f7d65;
 }
 
 .boton-enviar:disabled {
   background-color: #a4b0be;
   cursor: not-allowed;
   opacity: 0.7;
+}
+
+.grupo-entrada input:focus {
+  border-color: #66a082;
 }
 
 /* Mostrar/ocultar contraseña */
@@ -162,13 +151,10 @@
   top: 50%;
   right: 12px;
   transform: translateY(-50%);
-
   background: transparent;
   border: none;
-
   color: #6b7280;
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -184,6 +170,19 @@
   outline: none;
 }
 
+/* Mensaje de error */
+.error-campo {
+  display: block;
+  margin-top: 4px;
+  color: #dc2626;
+  font-size: 0.85rem;
+}
+
+.mensaje-error {
+  margin: 0.25rem 0;
+  color: #dc2626;
+  font-size: 0.875rem;
+}
 
 
 /* Responsive: En pantallas pequeñas la imagen desaparece y queda solo el form */

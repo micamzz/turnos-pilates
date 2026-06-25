@@ -1,0 +1,250 @@
+:root {
+  --verde: #66a082;
+  --verde-claro: #e8f4ef;
+  --verde-hover: #558a6e;
+  --verde-borde: #c2ddd2;
+}
+
+.contenedor-clientes {
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+
+.encabezado-clientes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.encabezado-clientes h1 {
+  font-size: 22px;
+  font-weight: 500;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.encabezado-clientes button {
+  background-color: #66a082;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+
+.encabezado-clientes button:hover {
+  background-color: #558a6e;
+}
+
+.buscador-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.buscador-clientes {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 14px 9px 36px;
+  border: 0.5px solid #c2ddd2;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+  color: #2c3e50;
+  outline: none;
+}
+
+.buscador-clientes:focus {
+  border-color: #66a082;
+  box-shadow: 0 0 0 3px rgba(102, 160, 130, 0.15);
+}
+
+.tabla-clientes {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 0.5px solid #c2ddd2;
+}
+
+.tabla-clientes th {
+  background-color: #e8f4ef;
+  color: #558a6e;
+  text-align: left;
+  padding: 11px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tabla-clientes td {
+  padding: 12px 16px;
+  border-top: 0.5px solid #c2ddd2;
+  font-size: 14px;
+  color: #2c3e50;
+  vertical-align: middle;
+}
+
+.tabla-clientes tbody tr:hover td {
+  background-color: #f5faf7;
+}
+
+.lista-horarios-tabla {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.estado-activo {
+  background: #d6f0e3;
+  color: #2a7a52;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.estado-inactivo {
+  background: #f0f0f0;
+  color: #888;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.boton-baja {
+  background: transparent;
+  border: 0.5px solid #e57373;
+  color: #c0392b;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.boton-baja:hover {
+  background: #fdecea;
+}
+
+.boton-link {
+  background: none;
+  border: none;
+  color: #66a082;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0 0 0 6px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mensaje-error {
+  color: #c0392b;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.overlay-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 10px;
+  border: 0.5px solid #c2ddd2;
+  padding: 24px;
+  width: 360px;
+}
+
+.modal h2 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 12px;
+  color: #2c3e50;
+}
+
+.modal p {
+  font-size: 14px;
+  color: #555;
+  margin: 0 0 14px;
+}
+
+.modal label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #558a6e;
+  display: block;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.modal select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 0.5px solid #c2ddd2;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 18px;
+  outline: none;
+  color: #2c3e50;
+}
+
+.modal select:focus {
+  border-color: #66a082;
+  box-shadow: 0 0 0 3px rgba(102, 160, 130, 0.15);
+}
+
+.acciones-modal {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.boton-secundario {
+  background: transparent;
+  border: 0.5px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #555;
+}
+
+.boton-secundario:hover {
+  background: #f5f5f5;
+}
+
+.acciones-modal button:last-child {
+  background: #66a082;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.acciones-modal button:last-child:hover {
+  background: #558a6e;
+}

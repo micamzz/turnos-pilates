@@ -1,0 +1,87 @@
+.contenedor-home-admin {
+  min-height: 100vh;
+  padding: 2.5rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.bienvenida {
+  margin-bottom: 2rem;
+}
+
+.bienvenida h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 6px;
+}
+
+.fecha {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-bottom: 6px;
+}
+
+.subtitulo {
+  font-size: 0.95rem;
+  color: #7f8c8d;
+}
+
+.grid-acciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.card-accion {
+  background: #ffffff;
+  border: 1px solid #e0ede6;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-accion:hover {
+  border-color: #66a082;
+  box-shadow: 0 2px 8px rgba(102, 160, 130, 0.15);
+}
+
+.icono-card {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #e8f5ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.card-accion h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 4px;
+}
+
+.card-accion p {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  line-height: 1.5;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 560px) {
+  .contenedor-home-admin {
+    padding: 1.5rem 1rem;
+  }
+
+  .grid-acciones {
+    grid-template-columns: 1fr;
+  }
+}
