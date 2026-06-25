@@ -7,7 +7,6 @@ function Header() {
   const navegar = useNavigate()
 
   async function manejarCerrarSesion() {
-    // AGREGADO: pide confirmación antes de cerrar sesión
     const confirmado = window.confirm('¿Seguro que querés cerrar sesión?')
     if (!confirmado) return
 
@@ -17,7 +16,7 @@ function Header() {
 
   return (
     <header className={styles.header}>
-      <img src={logoPilates} alt="Aquí y Ahora - Estudio de Pilates" className={styles.logo} />
+    <Link to="/home"> <img src={logoPilates} alt="Aquí y Ahora - Estudio de Pilates" className={styles.logo} /></Link>
 
       <nav className={styles.nav}>
         <Link to="/agenda" className={styles.navLink}>Turnos</Link>
