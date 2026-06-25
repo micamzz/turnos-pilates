@@ -68,6 +68,7 @@ export async function obtenerClientesConInscripciones() {
       inscripcion(
         id,
         activa,
+        clase_id,
         clase(dia_semana, hora)
       )
     `)
@@ -82,6 +83,18 @@ export async function darDeBajaCliente(id) {
   const { data, error } = await supabase
     .from('clientes')
     .update({ activo: false })
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) throw error
+  return data
+}
+
+export async function reactivarCliente(id, planId) {
+  const { data, error } = await supabase
+    .from('clientes')
+    .update({ activo: true, plan_id: planId })
     .eq('id', id)
     .select()
     .single()

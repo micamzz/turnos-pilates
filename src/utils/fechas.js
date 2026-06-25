@@ -27,8 +27,21 @@ export function formatearFechaISO(fecha) {
   return `${año}-${mes}-${dia}`
 }
 
-// Nombre del día en español, para mostrar en la grilla
 export function nombreDia(fecha) {
   const dias = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado']
   return dias[fecha.getDay()]
+}
+
+export function proximaFechaDeDia(nombreDiaBuscado) {
+  const diasOrden = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado']
+  const indiceBuscado = diasOrden.indexOf(nombreDiaBuscado)
+
+  const hoy = new Date()
+  const diferencia = (indiceBuscado - hoy.getDay() + 7) % 7
+  // Si hoy es el mismo día buscado, devuelve la próxima semana (no hoy mismo)
+  const diasAAgregar = diferencia === 0 ? 7 : diferencia
+
+  const proxima = new Date(hoy)
+  proxima.setDate(hoy.getDate() + diasAAgregar)
+  return proxima
 }
