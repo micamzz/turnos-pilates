@@ -81,28 +81,13 @@ export async function obtenerClientesConInscripciones() {
 
 /* Marca el cliente como inactivo y desactiva sus inscripciones */
 export async function darDeBajaCliente(id) {
-  const { data, error } = await supabase
-    .from('clientes')
-    .update({ activo: false })
-    .eq('id', id)
-    .select()
-    .single()
 
-  if (error) throw error
-
-  await desactivarInscripcionesDeCliente(id) // Desactiva todas las inscripciones del clienteS
+   const data = await actualizarCliente(id, { activo: false }) 
+    await desactivarInscripcionesDeCliente(id) // Desactiva todas las inscripciones del clienteS
 
   return data
 }
 
 export async function reactivarCliente(id, planId) {
-  const { data, error } = await supabase
-    .from('clientes')
-    .update({ activo: true, plan_id: planId })
-    .eq('id', id)
-    .select()
-    .single()
-
-  if (error) throw error
-  return data
+   return actualizarCliente(id, { activo: true, plan_id: planId }) 
 }
