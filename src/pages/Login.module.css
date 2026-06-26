@@ -1,5 +1,4 @@
-
-.contenedor-login {
+.contenedorLogin {
   display: flex;
   height: 100vh;
   width: 100vw;
@@ -7,9 +6,8 @@
   background-color: #f7f9fa;
 }
 
-/* HERO*/
-.hero-login {
-  flex: 1.2; 
+.heroLogin {
+  flex: 1.2;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -18,8 +16,7 @@
   padding: 60px;
 }
 
-/* Oscurece un poco la imagen para que el texto blanco se lea bien */
-.capa-hero {
+.capaHero {
   position: absolute;
   top: 0;
   left: 0;
@@ -34,19 +31,18 @@
   z-index: 1;
 }
 
-.capa-hero h2 {
+.tituloHero {
   font-size: 2.5rem;
   margin-bottom: 10px;
   font-weight: 600;
 }
 
-.capa-hero p {
+.textoHero {
   font-size: 1.1rem;
   opacity: 0.9;
 }
 
-/* FORMULARIO */
-.lado-formulario {
+.ladoFormulario {
   flex: 1;
   display: flex;
   align-items: center;
@@ -55,12 +51,12 @@
   padding: 40px;
 }
 
-.envoltura-formulario {
+.envolturaFormulario {
   width: 100%;
   max-width: 400px;
 }
 
-.envoltura-formulario h1 {
+.tituloFormulario {
   font-size: 2.2rem;
   color: #2c3e50;
   margin-bottom: 5px;
@@ -72,12 +68,11 @@
   font-size: 0.95rem;
 }
 
-/* Grupos de inputs */
-.grupo-entrada {
+.grupoEntrada {
   margin-bottom: 20px;
 }
 
-.grupo-entrada label {
+.etiquetaCampo {
   display: block;
   margin-bottom: 8px;
   color: #34495e;
@@ -85,7 +80,7 @@
   font-weight: 600;
 }
 
-.grupo-entrada input {
+.entradaTexto {
   width: 100%;
   padding: 12px 16px;
   border: 1px solid #dcdde1;
@@ -96,17 +91,16 @@
   background-color: #f8f9fa;
 }
 
-.grupo-entrada input:focus {
-  outline: none; 
-  border-color: #52b788; 
+.entradaTexto:focus {
+  outline: none;
+  border-color: #66a082;
   background-color: #fff;
 }
 
-/* Botón estilizado */
-.boton-enviar {
+.botonEnviar {
   width: 100%;
   padding: 14px;
-  background-color: #52b788; /* Color acento principal */
+  background-color: #66a082;
   color: white;
   border: none;
   border-radius: 8px;
@@ -117,36 +111,26 @@
   margin-top: 10px;
 }
 
-.boton-enviar {
-   background-color: #66a082;
+.botonEnviar:hover:not(:disabled) {
+  background-color: #4f7d65;
 }
 
-.boton-enviar:hover:not(:disabled) {
-   background-color: #4f7d65;
-}
-
-.boton-enviar:disabled {
+.botonEnviar:disabled {
   background-color: #a4b0be;
   cursor: not-allowed;
   opacity: 0.7;
 }
 
-.grupo-entrada input:focus {
-  border-color: #66a082;
-}
-
-/* Mostrar/ocultar contraseña */
-
-.contenedor-password {
+.contenedorPassword {
   position: relative;
 }
 
-.contenedor-password input {
+.contenedorPassword .entradaTexto {
   width: 100%;
   padding-right: 45px;
 }
 
-.boton-ojo {
+.botonOjo {
   position: absolute;
   top: 50%;
   right: 12px;
@@ -158,39 +142,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 0;
 }
 
-.boton-ojo:hover {
+.botonOjo:hover {
   color: #374151;
 }
 
-.boton-ojo:focus {
+.botonOjo:focus {
   outline: none;
 }
 
-/* Mensaje de error */
-.error-campo {
+.errorCampo {
   display: block;
   margin-top: 4px;
   color: #dc2626;
   font-size: 0.85rem;
 }
 
-.mensaje-error {
+.mensajeError {
   margin: 0.25rem 0;
   color: #dc2626;
   font-size: 0.875rem;
 }
 
-
-/* Responsive: En pantallas pequeñas la imagen desaparece y queda solo el form */
 @media (max-width: 768px) {
-  .hero-login {
+  .heroLogin {
     display: none;
   }
-  .lado-formulario {
+  .ladoFormulario {
     padding: 20px;
   }
 }

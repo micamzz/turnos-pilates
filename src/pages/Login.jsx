@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../config/supabase'
 import heroBg from '../assets/hero-pilates.png';
-import './Login.css';
 import { Eye, EyeOff } from "lucide-react";
+import styles from './Login.module.css'
+
+console.log("¿Qué tiene styles?:", styles);
 
 function Login() {
   const [correo, setCorreo] = useState('')
@@ -51,50 +53,51 @@ function Login() {
     navegar("/home");
   }
 
-
   return (
-    <div className="contenedor-login">
+    <div className={styles.contenedorLogin}>
       {/* Lado Izquierdo: Imagen de fondo Hero */}
       <div
-        className="hero-login"
+        className={styles.heroLogin}
         style={{ backgroundImage: `url(${heroBg})` }}
       >
-        <div className="capa-hero">
-          <h2>Aqui y ahora Pilates Reformer</h2>
-          <p>Gestiona tus clases de Pilates de forma simple y rápida.</p>
+        <div className={styles.capaHero}>
+          <h2 className={styles.tituloHero}>Aqui y ahora Pilates Reformer</h2>
+          <p className={styles.textoHero}>Gestiona tus clases de Pilates de forma simple y rápida.</p>
         </div>
       </div>
 
       {/* Lado Derecho: Formulario */}
-      <div className="lado-formulario">
-        <div className="envoltura-formulario">
-          <h1>Bienvenid@</h1>
-          <p className="subtitulo">Por favor, ingresa tus credenciales</p>
+      <div className={styles.ladoFormulario}>
+        <div className={styles.envolturaFormulario}>
+          <h1 className={styles.tituloFormulario}>Bienvenid@</h1>
+          <p className={styles.subtitulo}>Por favor, ingresa tus credenciales</p>
 
           {/* form */}
           <form onSubmit={manejarEnvio}>
-            <div className="grupo-entrada">
-              <label>Email</label>
+            <div className={styles.grupoEntrada}>
+              <label className={styles.etiquetaCampo}>Email</label>
               <input
                 type="email"
+                className={styles.entradaTexto}
                 value={correo}
                 onChange={(e) => setCorreo(e.target.value)}
                 placeholder="ejemplo@correo.com"
               />
 
               {errores.correo && (
-                <span className="error-campo">
+                <span className={styles.errorCampo}>
                   {errores.correo}
                 </span>
               )}
             </div>
 
-            <div className="grupo-entrada">
-              <label>Contraseña</label>
+            <div className={styles.grupoEntrada}>
+              <label className={styles.etiquetaCampo}>Contraseña</label>
 
-              <div className="contenedor-password">
+              <div className={styles.contenedorPassword}>
                 <input
                   type={mostrarContrasena ? "text" : "password"}
+                  className={styles.entradaTexto}
                   value={contrasena}
                   onChange={(e) => setContrasena(e.target.value)}
                   placeholder="••••••••"
@@ -102,7 +105,7 @@ function Login() {
 
                 <button
                   type="button"
-                  className="boton-ojo"
+                  className={styles.botonOjo}
                   onClick={() => setMostrarContrasena(!mostrarContrasena)}
                   aria-label={
                     mostrarContrasena
@@ -119,21 +122,21 @@ function Login() {
               </div>
 
               {errores.contrasena && (
-                <span className="error-campo">
+                <span className={styles.errorCampo}>
                   {errores.contrasena}
                 </span>
               )}
             </div>
 
             {errores.general && (
-              <p className="mensaje-error">
+              <p className={styles.mensajeError}>
                 {errores.general}
               </p>
             )}
 
             <button
               type="submit"
-              className="boton-enviar"
+              className={styles.botonEnviar}
               disabled={cargando}
             >
               {cargando ? "Ingresando..." : "Ingresar"}
@@ -144,8 +147,6 @@ function Login() {
       </div>
     </div>
   )
-
-
 }
 
 export default Login
