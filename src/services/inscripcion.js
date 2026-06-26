@@ -46,7 +46,7 @@ export async function crearInscripciones(listaInscripciones) {
   return data
 }
 
-// Da de baja una inscripción 
+// Da de baja una inscripción puntual
 export async function desactivarInscripcion(id) {
   const { data, error } = await supabase
     .from('inscripcion')
@@ -57,6 +57,18 @@ export async function desactivarInscripcion(id) {
 
   if (error) throw error
   return data
+}
+
+/*  Desactiva todas las inscripciones activas de un cliente de una sola vez.
+Cuando se da de baja al cliente, libera sus cupos de la agenda  */
+export async function desactivarInscripcionesDeCliente(clienteId) {
+  const { error } = await supabase
+    .from('inscripcion')
+    .update({ activa: false })
+    .eq('cliente_id', clienteId)
+    .eq('activa', true)
+
+  if (error) throw error
 }
 
 // Reprograma una inscripción: desactiva la vieja y crea una nueva con la clase elegida

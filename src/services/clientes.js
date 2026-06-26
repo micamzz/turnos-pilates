@@ -1,6 +1,7 @@
 import { supabase } from '../config/supabase'
+import { desactivarInscripcionesDeCliente } from './inscripcion' 
 
-// Crear un cliente nuevo(objeto)
+// Crear un cliente nuevo (objeto)
 export async function crearCliente(datosCliente) {
   const { data, error } = await supabase
     .from('clientes')
@@ -36,29 +37,29 @@ export async function eliminarCliente(id) {
 }
 
 // Obtener todos los clientes
-export async function obtenerClientes(){
-    const {data,error} = await supabase
+export async function obtenerClientes() {
+  const { data, error } = await supabase
     .from('clientes')
     .select('*, planes(nombre, cantidad_clases)')
     .order('nombre')
 
-      if (error) throw error
+  if (error) throw error
   return data
 }
 
 // Obtener un cliente por id
-export async function obtenerClientePorId(id){
-    const {data,error} = await supabase
+export async function obtenerClientePorId(id) {
+  const { data, error } = await supabase
     .from('clientes')
     .select('*, planes(nombre, cantidad_clases)')
     .eq('id', id)
-    .single()      
+    .single()
 
-      if (error) throw error
+  if (error) throw error
   return data
- }
+}
 
- // Trae todos los clientes con su plan y sus inscripciones (clase + día + hora)
+// Trae todos los clientes con su plan y sus inscripciones (clase + día + hora)
 export async function obtenerClientesConInscripciones() {
   const { data, error } = await supabase
     .from('clientes')
@@ -78,7 +79,7 @@ export async function obtenerClientesConInscripciones() {
   return data
 }
 
-// Marca un cliente como inactivo (dar de baja, sin borrar su historial)
+/* Marca el cliente como inactivo y desactiva sus inscripciones */
 export async function darDeBajaCliente(id) {
   const { data, error } = await supabase
     .from('clientes')
@@ -88,6 +89,9 @@ export async function darDeBajaCliente(id) {
     .single()
 
   if (error) throw error
+
+  await desactivarInscripcionesDeCliente(id) // Desactiva todas las inscripciones del clienteS
+
   return data
 }
 
