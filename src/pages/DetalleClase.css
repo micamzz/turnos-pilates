@@ -1,0 +1,282 @@
+.contenedor-detalle {
+  max-width: 700px;
+  margin: 36px auto;
+  padding: 0 24px;
+}
+
+.boton-volver {
+  background: none;
+  border: none;
+  color: #66a082;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.boton-volver:hover {
+  color: #4f7d65;
+}
+
+/* ── Encabezado ── */
+.detalle-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.detalle-titulo {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 6px;
+}
+
+.detalle-subtitulo {
+  font-size: 15px;
+  color: #666;
+  margin: 0;
+}
+
+.badge-cupos-detalle {
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 6px 16px;
+  white-space: nowrap;
+}
+
+.badge-cupos-detalle.libres {
+  background: #e8f4ef;
+  color: #3d7a5d;
+  border: 1px solid #a8d5bc;
+}
+
+.badge-cupos-detalle.completo {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
+
+/* ── Sección inscriptos ── */
+.detalle-seccion {
+  background: #fff;
+  border: 1px solid #c2ddd2;
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.detalle-seccion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.detalle-seccion-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.boton-agregar-detalle {
+  background: #66a082;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.boton-agregar-detalle:hover {
+  background: #4f7d65;
+}
+
+.detalle-vacio {
+  color: #999;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* ── Lista de inscriptos ── */
+.lista-inscriptos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-inscripto {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: #f5faf7;
+  border-radius: 8px;
+  border: 1px solid #d6eee3;
+}
+
+.inscripto-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.inscripto-nombre {
+  font-size: 15px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.etiqueta-recupero {
+  background: #e8f4ef;
+  color: #3d7a5d;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 2px 8px;
+  border: 1px solid #a8d5bc;
+}
+
+.boton-eliminar-inscripto {
+  background: transparent;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.boton-eliminar-inscripto:hover {
+  background: #fef2f2;
+}
+
+/* ── Modal ── */
+.overlay-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #c2ddd2;
+  padding: 24px;
+  width: 420px;
+  max-width: 90vw;
+}
+
+.modal h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #2c3e50;
+}
+
+.modal p {
+  font-size: 14px;
+  color: #555;
+  margin: 0 0 14px;
+}
+
+.lista-dias-modal {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+
+.item-dia-modal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e8f4ef;
+  font-size: 14px;
+  gap: 12px;
+}
+
+.fecha-cancelacion {
+  color: #999;
+  font-size: 12px;
+}
+
+.acciones-modal {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.boton-secundario {
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #555;
+}
+
+.boton-secundario:hover {
+  background: #f5f5f5;
+}
+
+.boton-habilitar {
+  background: #66a082;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.boton-habilitar:hover {
+  background: #4f7d65;
+}
+
+.mensaje-error {
+  color: #dc2626;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+/* Cliente de prueba*/
+.botones-agregar-detalle {
+  display: flex;
+  gap: 8px;
+}
+
+.boton-agregar-prueba {
+  background: white;
+  color: #66a082;
+  border: 1px solid #66a082;
+}
+
+.etiqueta-prueba {
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-left: 8px;
+}
