@@ -4,6 +4,8 @@ import Clientes from './pages/Clientes'
 import AgregarCliente from './pages/AgregarCliente'
 import HomeAdmin from './pages/HomeAdmin'
 import Agenda from './pages/Agenda'
+import DetalleClase from './pages/DetalleClase.jsx'
+
 
 
 function App() {
@@ -17,6 +19,7 @@ function App() {
          <Route path="/agregar-cliente" element={<AgregarCliente />} />
          <Route path="/home" element={<HomeAdmin />} />
          <Route path="/agenda" element={<Agenda />} />
+         <Route path="/agenda/:claseId/:fecha" element={<DetalleClase />} />
       </Routes>
     </BrowserRouter>
   )

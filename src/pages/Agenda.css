@@ -8,139 +8,43 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 28px;
 }
 
 .encabezado-agenda h1 {
+  font-size: 22px;
+  font-weight: 600;
   color: #2c3e50;
+  margin: 0;
 }
 
 .encabezado-agenda button {
-  background: #f4faf7;
+  background: #fff;
   color: #66a082;
-  border: 1px solid #66a082;
+  border: 1.5px solid #66a082;
   border-radius: 8px;
-  padding: 8px 14px;
+  padding: 9px 22px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  transition: background 0.15s;
 }
 
 .encabezado-agenda button:hover {
-  background: #e0f0e8;
-}
-
-.tabla-agenda {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  font-size: 0.85rem;
-}
-
-.tabla-agenda th {
-  background-color: #66a082;
-  color: white;
-  padding: 10px;
-}
-
-.fecha-chica {
-  display: block;
-  font-size: 0.72rem;
-  opacity: 0.85;
-}
-
-.celda-hora {
-  font-weight: 700;
-  background: #f4faf7;
-  text-align: center;
-  color: #2c3e50;
-}
-
-.celda-vacia {
-  text-align: center;
-  color: #c8e0d5;
-}
-
-.celda-turno {
-  padding: 6px;
-  border: 1px solid #c8e0d5;
-  vertical-align: top;
-}
-
-.chip-cliente {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #e0f0e8;
-  border-radius: 6px;
-  padding: 3px 6px;
-  margin-bottom: 3px;
-  font-size: 0.78rem;
-  color: #4f7d65;
-}
-
-.boton-cancelar-chip {
-  background: none;
-  border: none;
-  color: #dc2626;
-  cursor: pointer;
-  font-size: 0.78rem;
-  padding: 0 0 0 6px;
-}
-
-.cupos-libres {
-  color: #4f7d65;
-  font-size: 0.72rem;
-  font-weight: 600;
-}
-
-.sin-cupos {
-  color: #dc2626;
-  font-weight: 700;
-  font-size: 0.72rem;
-}
-
-/* BOTON FERIADO */
-.boton-feriado {
-  display: block;
-  margin: 4px auto 0;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  color: white;
-  font-size: 0.68rem;
-  padding: 3px 8px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.boton-feriado:hover {
-  background: rgba(255, 255, 255, 0.35);
-}
-
-.boton-feriado.activo {
-  background: #dc2626;
-  border-color: #dc2626;
-}
-
-.celda-feriado {
-  text-align: center;
-  background: #e5e7eb;
-  color: #6b7280;
-  font-weight: 600;
-  font-size: 0.78rem;
+  background: #e8f4ef;
 }
 
 .boton-abrir-modal-feriado {
   display: block;
-  margin: 0 auto 20px;
+  margin: 0 0 20px auto;
   background: #fff;
   color: #dc2626;
   border: 1px solid #dc2626;
   border-radius: 8px;
-  padding: 8px 16px;
+  padding: 7px 14px;
   font-weight: 600;
+  font-size: 13px;
   cursor: pointer;
 }
 
@@ -148,9 +52,169 @@
   background: #fef2f2;
 }
 
+/* ── Tabla ── */
+.tabla-agenda {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: transparent;
+    table-layout: fixed; 
+}
+
+.tabla-agenda thead tr th {
+  background: transparent;
+  color: #66a082;
+  font-weight: 700;
+  font-size: 13px;
+  text-align: center;
+  padding: 0 6px 14px;
+  letter-spacing: 0.05em;
+  border: none;
+}
+
+.tabla-agenda thead tr th:first-child {
+  color: #2c3e50;
+  font-size: 12px;
+}
+
+.fecha-chica {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: #888;
+  margin-top: 2px;
+  letter-spacing: 0;
+}
+
+
+.celda-vacia {
+  padding: 6px;
+  border: none;
+}
+
+/* ── Feriado ── */
+.celda-feriado {
+  padding: 6px;
+  border: none;
+}
+
+.celda-feriado-inner {
+  background: #e5e7eb;
+  color: #9ca3af;
+  font-weight: 600;
+  font-size: 12px;
+  border-radius: 10px;
+  padding: 14px 8px;
+  text-align: center;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Celda con turno ── */
+.celda-turno {
+  padding: 6px;
+  border: none;
+  vertical-align: top;
+}
+
+/* ── Tarjeta ── */
+.tarjeta-clase {
+background: #fff;
+  border: 1.8px solid #66a082;
+  border-radius: 10px;
+  padding: 12px 10px 10px;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.tarjeta-clickeable:hover {
+  background: #4f7d65;
+  box-shadow: 0 3px 10px rgba(80, 130, 100, 0.3);
+}
+
+.tarjeta-pasada {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── Contenido de la tarjeta ── */
+
+.hora-clase {
+  font-weight: 600;
+   color: #090d11; 
+  text-align: center;
+}
+
+/* ── Cupos — solo texto, centrado, sin fondo ni borde ── */
+.fila-cupos {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+     color: #090d11; 
+
+}
+
+.badge-cupos {
+  font-size: 12px;
+  font-weight: 600;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: center;
+}
+
+.badge-cupos.libres {
+  color: #266a48;
+
+}
+
+.badge-cupos.completo {
+  color: #cf2222;;
+}
+
+/* ── Modales ── */
+.overlay-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  border: 0.5px solid #c2ddd2;
+  padding: 24px;
+  width: 380px;
+  max-width: 90vw;
+}
+
+.modal h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: #2c3e50;
+}
+
+.modal p {
+  font-size: 14px;
+  color: #555;
+  margin: 0 0 14px;
+}
+
 .lista-dias-modal {
   list-style: none;
-  margin: 16px 0;
+  margin: 12px 0;
   padding: 0;
 }
 
@@ -159,12 +223,34 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px solid #c8e0d5;
+  border-bottom: 1px solid #e8f4ef;
+  font-size: 14px;
 }
 
 .etiqueta-feriado {
   color: #dc2626;
-  font-size: 0.8rem;
+  font-size: 12px;
+}
+
+.acciones-modal {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.boton-secundario {
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #555;
+}
+
+.boton-secundario:hover {
+  background: #f5f5f5;
 }
 
 .boton-inhabilitar {
@@ -173,7 +259,7 @@
   border: none;
   border-radius: 6px;
   padding: 6px 12px;
-  font-size: 0.82rem;
+  font-size: 12px;
   cursor: pointer;
 }
 
@@ -183,45 +269,20 @@
   border: none;
   border-radius: 6px;
   padding: 6px 12px;
-  font-size: 0.82rem;
+  font-size: 12px;
   cursor: pointer;
 }
 
-.fila-cupos {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 4px;
+.mensaje-error {
+  color: #dc2626;
+  font-size: 14px;
+  margin: 8px 0;
 }
 
-.boton-mas-recupero {
-  background: #66a082;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  width: 20px;
-  height: 20px;
-  font-size: 0.85rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.boton-mas-recupero:hover {
-  background: #4f7d65;
-}
-/* FECHAS PASADAS CALENDARIO */
-.celda-pasada {
-  background-color: #f3f4f6;
-  opacity: 0.75;
-}
-/* RESPONSIVE */
 @media (max-width: 700px) {
-  .tabla-agenda {
-    font-size: 0.75rem;
-  }
-
   .encabezado-agenda {
     flex-direction: column;
     gap: 10px;
+    text-align: center;
   }
 }
