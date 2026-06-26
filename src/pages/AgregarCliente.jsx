@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
+import { Layout } from '../components/layout/Layout.jsx'
 import { useNavigate } from 'react-router-dom'
 import { obtenerPlanes } from "../services/planes"
 import { obtenerClases } from '../services/clase'
 import { crearCliente } from '../services/clientes'
 import { crearInscripciones } from '../services/inscripcion'
 import './AgregarCliente.css'
-import { Layout } from '../components/layout/Layout.jsx'
+import { agruparClasesPorDia } from '../utils/fechas'
+
 
 function AgregarCliente() {
     const [nombre, setNombre] = useState('')
@@ -80,9 +82,11 @@ function AgregarCliente() {
         if (!telefono.trim()) {
             nuevosErrores.telefono = 'El teléfono es obligatorio'
         }
-
+        if (!planId) {
+            nuevosErrores.plan = 'Seleccioná un plan'
+        }
         if (clasesSeleccionadas.length === 0) {
-            nuevosErrores.clases = 'Debes seleccionar un plan para poder registrar un nuevo cliente'
+            nuevosErrores.clases = 'Seleccioná al menos un día y horario'
         }
 
         setErrores(nuevosErrores)
@@ -107,7 +111,7 @@ function AgregarCliente() {
             }))
             await crearInscripciones(inscripciones)
 
-            navegar('/landing')
+            navegar('/home')
         } catch (err) {
             setErrores({ general: 'No se pudo guardar el cliente: ' + err.message })
         } finally {
@@ -115,11 +119,7 @@ function AgregarCliente() {
         }
     }
 
-    const diasOrdenados = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes']
-    const clasesPorDia = diasOrdenados.map((dia) => ({
-        dia,
-        clases: clases.filter((c) => c.dia_semana === dia),
-    }))
+   const clasesPorDia = agruparClasesPorDia(clases)
 
     return (
         <Layout>
@@ -246,7 +246,7 @@ function AgregarCliente() {
                             ))}
                     </div> {/* fin seccion-form */}
 
-                    <button type="submit" disabled={cargando}>
+                    <button type="submit" disabled={cargando} className="boton-guardar">
                         {cargando ? 'Guardando...' : 'Guardar Cliente'}
                     </button>
 

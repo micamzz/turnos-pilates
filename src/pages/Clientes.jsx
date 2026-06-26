@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { obtenerClientesConInscripciones, darDeBajaCliente, reactivarCliente } from '../services/clientes'
 import { obtenerClases } from '../services/clase'
-import { reprogramarInscripcion } from '../services/inscripcion'
-import { crearInscripciones } from '../services/inscripcion'
+import { reprogramarInscripcion, crearInscripciones } from '../services/inscripcion'
 import { cancelarTurno } from '../services/reserva'
 import { obtenerPlanes } from '../services/planes'
 import { obtenerFeriadosEnRango } from '../services/feriado'
-import { proximaFechaDeDia, formatearFechaISO } from '../utils/fechas'
+import {proximaFechaDeDia, formatearFechaISO, agruparClasesPorDia, primerYUltimoDiaDelMes,} from '../utils/fechas'
 import { Layout } from '../components/layout/Layout.jsx'
+import ModalConfirmacion from '../components/ModalConfirmacion/ModalConfirmacion.jsx' 
 import './Clientes.css'
 
 function Clientes() {
@@ -20,15 +20,15 @@ function Clientes() {
   const [busqueda, setBusqueda] = useState('')
   const [feriados, setFeriados] = useState([])
 
-  // Modal Reprogramar: { clienteId, inscripciones, inscripcionElegida } o null
+  // Guarda el cliente a dar de baja, o null si no hay ningún confirm pendiente
+  const [clienteABajar, setClienteABajar] = useState(null)
+
   const [modalReprogramar, setModalReprogramar] = useState(null)
   const [nuevaClaseId, setNuevaClaseId] = useState('')
 
-  // Modal Cancelar día: { clienteId, inscripciones, inscripcionElegida } o null
   const [modalCancelarDia, setModalCancelarDia] = useState(null)
   const [fechaCancelar, setFechaCancelar] = useState('')
 
-  // Modal Reactivar: cliente o null
   const [modalReactivar, setModalReactivar] = useState(null)
   const [planReactivarId, setPlanReactivarId] = useState('')
   const [clasesReactivarSeleccionadas, setClasesReactivarSeleccionadas] = useState([])
@@ -39,31 +39,27 @@ function Clientes() {
     cargarDatos()
   }, [])
 
- async function cargarDatos() {
-  try {
-    const [listaClientes, listaClases, listaPlanes] = await Promise.all([
-      obtenerClientesConInscripciones(),
-      obtenerClases(),
-      obtenerPlanes(),
-    ])
-    setClientes(listaClientes)
-    setClases(listaClases)
-    setPlanes(listaPlanes)
+  async function cargarDatos() {
+    try {
+      const [listaClientes, listaClases, listaPlanes] = await Promise.all([
+        obtenerClientesConInscripciones(),obtenerClases(), obtenerPlanes(),])
+      setClientes(listaClientes)
+      setClases(listaClases)
+      setPlanes(listaPlanes)
 
-    // feriados de los próximos 3 meses, para validar el selector de fecha
-    const hoy = new Date()
-    const en3Meses = new Date(hoy.getFullYear(), hoy.getMonth() + 3, 0)
-    const formatear = (d) => d.toISOString().slice(0, 10)
-    const listaFeriados = await obtenerFeriadosEnRango(formatear(hoy), formatear(en3Meses))
-    setFeriados(listaFeriados)
-  } catch (err) {
-    setError('No se pudieron cargar los datos: ' + err.message)
-  } finally {
-    setCargando(false)
+      const hoy = new Date()
+      const en3Meses = new Date(hoy.getFullYear(), hoy.getMonth() + 3, 0)
+      const { desde } = primerYUltimoDiaDelMes(hoy)
+      const { hasta } = primerYUltimoDiaDelMes(en3Meses)
+      const listaFeriados = await obtenerFeriadosEnRango(desde, hasta)
+      setFeriados(listaFeriados)
+    } catch (err) {
+      setError('No se pudieron cargar los datos: ' + err.message)
+    } finally {
+      setCargando(false)
+    }
   }
-}
 
-  // Busca por nombre + apellido, ignora espacios extra, ordena A-Z
   const clientesFiltrados = clientes
     .filter((c) => {
       const textoBusqueda = busqueda.trim().toLowerCase()
@@ -72,12 +68,12 @@ function Clientes() {
     })
     .sort((a, b) => a.nombre.localeCompare(b.nombre))
 
-  async function manejarDarDeBaja(cliente) {
-    const confirmado = window.confirm(`¿Dar de baja a ${cliente.nombre}?`)
-    if (!confirmado) return
-
+    
+  // Solo ejecuta la baja. La pregunta la hace el ModalConfirmacion antes de llamarla.
+  async function confirmarDarDeBaja() {
     try {
-      await darDeBajaCliente(cliente.id)
+      await darDeBajaCliente(clienteABajar.id)
+      setClienteABajar(null)
       await cargarDatos()
     } catch (err) {
       setError('No se pudo dar de baja: ' + err.message)
@@ -130,31 +126,30 @@ function Clientes() {
     setModalCancelarDia((prev) => ({ ...prev, inscripcionElegida: inscripcion }))
   }
 
- async function confirmarCancelarDia() {
-  if (!fechaCancelar) {
-    setError('Seleccioná una fecha')
-    return
-  }
+  async function confirmarCancelarDia() {
+    if (!fechaCancelar) {
+      setError('Seleccioná una fecha')
+      return
+    }
 
-  // bloquea si la fecha elegida es feriado
-  const esFeriado = feriados.some((f) => f.fecha === fechaCancelar)
-  if (esFeriado) {
-    setError('Esa fecha está marcada como feriado, no se puede cancelar un turno ahí')
-    return
-  }
+    const esFeriado = feriados.some((f) => f.fecha === fechaCancelar)
+    if (esFeriado) {
+      setError('Esa fecha está marcada como feriado, no se puede cancelar un turno ahí')
+      return
+    }
 
-  try {
-    await cancelarTurno(
-      modalCancelarDia.clienteId,
-      modalCancelarDia.inscripcionElegida.clase_id,
-      fechaCancelar
-    )
-    cerrarModalCancelarDia()
-    await cargarDatos()
-  } catch (err) {
-    setError('No se pudo cancelar el día: ' + err.message)
+    try {
+      await cancelarTurno(
+        modalCancelarDia.clienteId,
+        modalCancelarDia.inscripcionElegida.clase_id,
+        fechaCancelar
+      )
+      cerrarModalCancelarDia()
+      await cargarDatos()
+    } catch (err) {
+      setError('No se pudo cancelar el día: ' + err.message)
+    }
   }
-}
 
   // ---- Reactivar cliente (con nuevo plan y días) ----
   function abrirModalReactivar(cliente) {
@@ -204,11 +199,7 @@ function Clientes() {
     }
   }
 
-  const diasOrdenados = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes']
-  const clasesPorDiaReactivar = diasOrdenados.map((dia) => ({
-    dia,
-    clases: clases.filter((c) => c.dia_semana === dia),
-  }))
+  const clasesPorDia = agruparClasesPorDia(clases)
 
   return (
     <Layout>
@@ -238,17 +229,17 @@ function Clientes() {
               <th>Teléfono</th>
               <th>Plan</th>
               <th>Horario</th>
+              <th>Turno</th>
+              <th>Estado</th>
               <th></th>
-              <th></th> 
-              <th></th> 
-                         </tr>
+            </tr>
           </thead>
           <tbody>
             {clientesFiltrados.map((cliente) => {
               const inscripcionesActivas = cliente.inscripcion.filter((i) => i.activa)
 
               return (
-                <tr key={cliente.id}>
+                <tr key={cliente.id} className={!cliente.activo ? 'fila-inactiva' : ''}>
                   <td>{cliente.nombre}</td>
                   <td>{cliente.apellido}</td>
                   <td>{cliente.telefono}</td>
@@ -257,33 +248,41 @@ function Clientes() {
                     {inscripcionesActivas.length === 0 ? (
                       '-'
                     ) : (
-                      <>
-                        <ul className="lista-horarios-tabla">
-                          {inscripcionesActivas.map((i) => (
-                            <li key={i.id}>{i.clase.dia_semana} {i.clase.hora.slice(0, 5)}</li>
-                          ))}
-                        </ul>
-                      </>
+                      <ul className="lista-horarios-tabla">
+                        {inscripcionesActivas.map((i) => (
+                          <li key={i.id}>{i.clase.dia_semana} {i.clase.hora.slice(0, 5)}</li>
+                        ))}
+                      </ul>
                     )}
                   </td>
-              
                   <td>
-                          <button
-                            className="boton-link boton-link-rojo"
-                            onClick={() => abrirModalCancelarDia(cliente.id, inscripcionesActivas)}
-                          >
-                            Cancelar día
-                          </button>
-                 
+                    {cliente.activo && inscripcionesActivas.length > 0 && (
+                      <div className="acciones-horario">
+                        <button
+                          className="boton-link"
+                          onClick={() => abrirModalReprogramar(cliente.id, inscripcionesActivas)}
+                        >
+                          Reprogramar
+                        </button>
+                        <button
+                          className="boton-link boton-link-rojo"
+                          onClick={() => abrirModalCancelarDia(cliente.id, inscripcionesActivas)}
+                        >
+                          Cancelar día
+                        </button>
+                      </div>
+                    )}
                   </td>
                   <td>
                     <span className={cliente.activo ? 'estado-activo' : 'estado-inactivo'}>
                       {cliente.activo ? 'Activo' : 'Inactivo'}
                     </span>
                   </td>
-                   <td>
+                  <td>
                     {cliente.activo ? (
-                      <button className="boton-baja" onClick={() => manejarDarDeBaja(cliente)}>
+                 
+                      // Ahora solo guarda el cliente en el estado para que se abra el ModalConfirmacion.
+                      <button className="boton-baja" onClick={() => setClienteABajar(cliente)}>
                         Dar de baja
                       </button>
                     ) : (
@@ -291,7 +290,6 @@ function Clientes() {
                         Reactivar
                       </button>
                     )}
-                    
                   </td>
                 </tr>
               )
@@ -303,6 +301,11 @@ function Clientes() {
         {modalReprogramar && (
           <div className="overlay-modal">
             <div className="modal">
+      
+              <button className="boton-cerrar-modal" onClick={cerrarModalReprogramar} aria-label="Cerrar">
+                ✕
+              </button>
+
               <h2>Reprogramar turno</h2>
 
               {!modalReprogramar.inscripcionElegida ? (
@@ -312,13 +315,12 @@ function Clientes() {
                     {modalReprogramar.inscripciones.map((i) => (
                       <li key={i.id} className="item-dia-modal">
                         <span>{i.clase.dia_semana} {i.clase.hora.slice(0, 5)}</span>
-                        <button
-                          className="boton-inhabilitar"
-                          onClick={() => setModalReprogramar((prev) => ({ ...prev, inscripcionElegida: i }))}
-                        >
-                          Elegir
-                        </button>
+                       
+                        <button className="boton-inhabilitar"
+                          onClick={() => setModalReprogramar((prev) => ({ ...prev, inscripcionElegida: i }))} >
+                          Elegir  </button>
                       </li>
+
                     ))}
                   </ul>
                   <div className="acciones-modal">
@@ -357,6 +359,11 @@ function Clientes() {
         {modalCancelarDia && (
           <div className="overlay-modal">
             <div className="modal">
+              {/* botón X agregado */}
+              <button className="boton-cerrar-modal" onClick={cerrarModalCancelarDia} aria-label="Cerrar">
+                ✕
+              </button>
+
               <h2>Cancelar día puntual</h2>
 
               {!modalCancelarDia.inscripcionElegida ? (
@@ -401,60 +408,67 @@ function Clientes() {
         {modalReactivar && (
           <div className="overlay-modal">
             <div className="modal">
+              {/* botón X agregado */}
+              <button className="boton-cerrar-modal" onClick={cerrarModalReactivar} aria-label="Cerrar">
+                ✕
+              </button>
+
               <h2>Reactivar a {modalReactivar.nombre}</h2>
 
-              <label>Plan</label>
-              <select
-                value={planReactivarId}
-                onChange={(e) => {
-                  setPlanReactivarId(e.target.value)
-                  setClasesReactivarSeleccionadas([])
-                }}
-              >
-                <option value="">Seleccionar plan</option>
-                {planes.map((plan) => (
-                  <option key={plan.id} value={plan.id}>
-                    {plan.nombre} ({plan.cantidad_clases} clases/mes)
-                  </option>
-                ))}
-              </select>
-
-              {planReactivarSeleccionado && (
-                <>
-                  <p className="ayuda-plan">
-                    Seleccionaste <strong>{clasesReactivarSeleccionadas.length}</strong> de{' '}
-                    <strong>{maximoClasesReactivar}</strong> día(s)
-                  </p>
-                  {clasesPorDiaReactivar.map(({ dia, clases: clasesDelDia }) => (
-                    <div key={dia} className="grupo-dia">
-                      <strong>{dia}</strong>
-                      <div className="lista-horarios">
-                        {clasesDelDia.map((clase) => {
-                          const estaSeleccionada = clasesReactivarSeleccionadas.includes(clase.id)
-                          const sinCupos = clase.cuposDisponibles <= 0
-                          const deshabilitado =
-                            sinCupos ||
-                            (!estaSeleccionada &&
-                              maximoClasesReactivar &&
-                              clasesReactivarSeleccionadas.length >= maximoClasesReactivar)
-
-                          return (
-                            <label key={clase.id} className={`opcion-horario${deshabilitado ? ' deshabilitado' : ''}`}>
-                              <input
-                                type="checkbox"
-                                checked={estaSeleccionada}
-                                disabled={deshabilitado}
-                                onChange={() => alternarClaseReactivar(clase.id)}
-                              />
-                              {clase.hora.slice(0, 5)}
-                            </label>
-                          )
-                        })}
-                      </div>
-                    </div>
+              <div className="modal-contenido-scroll">
+                <label>Plan</label>
+                <select
+                  value={planReactivarId}
+                  onChange={(e) => {
+                    setPlanReactivarId(e.target.value)
+                    setClasesReactivarSeleccionadas([])
+                  }}
+                >
+                  <option value="">Seleccionar plan</option>
+                  {planes.map((plan) => (
+                    <option key={plan.id} value={plan.id}>
+                      {plan.nombre} ({plan.cantidad_clases} clases/mes)
+                    </option>
                   ))}
-                </>
-              )}
+                </select>
+
+                {planReactivarSeleccionado && (
+                  <>
+                    <p className="ayuda-plan">
+                      Seleccionaste <strong>{clasesReactivarSeleccionadas.length}</strong> de{' '}
+                      <strong>{maximoClasesReactivar}</strong> día(s)
+                    </p>
+                    {clasesPorDia.map(({ dia, clases: clasesDelDia }) => (
+                      <div key={dia} className="grupo-dia">
+                        <strong>{dia}</strong>
+                        <div className="lista-horarios">
+                          {clasesDelDia.map((clase) => {
+                            const estaSeleccionada = clasesReactivarSeleccionadas.includes(clase.id)
+                            const sinCupos = clase.cuposDisponibles <= 0
+                            const deshabilitado =
+                              sinCupos ||
+                              (!estaSeleccionada &&
+                                maximoClasesReactivar &&
+                                clasesReactivarSeleccionadas.length >= maximoClasesReactivar)
+
+                            return (
+                              <label key={clase.id} className={`opcion-horario${deshabilitado ? ' deshabilitado' : ''}`}>
+                                <input
+                                  type="checkbox"
+                                  checked={estaSeleccionada}
+                                  disabled={deshabilitado}
+                                  onChange={() => alternarClaseReactivar(clase.id)}
+                                />
+                                {clase.hora.slice(0, 5)}
+                              </label>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
 
               <div className="acciones-modal">
                 <button onClick={cerrarModalReactivar} className="boton-secundario">Cancelar</button>
@@ -462,6 +476,15 @@ function Clientes() {
               </div>
             </div>
           </div>
+        )}
+
+        {/*  modal nuevo, reemplaza al window.confirm() de "Dar de baja" */}
+        {clienteABajar && (
+          <ModalConfirmacion
+            mensaje={`¿Dar de baja a ${clienteABajar.nombre}?`}
+            alConfirmar={confirmarDarDeBaja}
+            alCancelar={() => setClienteABajar(null)}
+          />
         )}
       </div>
     </Layout>
