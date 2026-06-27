@@ -6,10 +6,10 @@ import { reprogramarInscripcion, crearInscripciones } from '../services/inscripc
 import { cancelarTurno } from '../services/reserva'
 import { obtenerPlanes } from '../services/planes'
 import { obtenerFeriadosEnRango } from '../services/feriado'
-import {proximaFechaDeDia, formatearFechaISO, agruparClasesPorDia, primerYUltimoDiaDelMes,} from '../utils/fechas'
+import { proximaFechaDeDia, formatearFechaISO, agruparClasesPorDia, primerYUltimoDiaDelMes } from '../utils/fechas'
 import { Layout } from '../components/layout/Layout.jsx'
-import ModalConfirmacion from '../components/ModalConfirmacion/ModalConfirmacion.jsx' 
-import './Clientes.css'
+import ModalConfirmacion from '../components/ModalConfirmacion/ModalConfirmacion.jsx'
+import styles from './Clientes.module.css' 
 
 function Clientes() {
   const [clientes, setClientes] = useState([])
@@ -34,6 +34,8 @@ function Clientes() {
   const [clasesReactivarSeleccionadas, setClasesReactivarSeleccionadas] = useState([])
 
   const navegar = useNavigate()
+  const [paginaActual, setPaginaActual] = useState(0)
+  const CLIENTES_POR_PAGINA = 15
 
   useEffect(() => {
     cargarDatos()
@@ -42,7 +44,7 @@ function Clientes() {
   async function cargarDatos() {
     try {
       const [listaClientes, listaClases, listaPlanes] = await Promise.all([
-        obtenerClientesConInscripciones(),obtenerClases(), obtenerPlanes(),])
+        obtenerClientesConInscripciones(), obtenerClases(), obtenerPlanes(),])
       setClientes(listaClientes)
       setClases(listaClases)
       setPlanes(listaPlanes)
@@ -68,7 +70,18 @@ function Clientes() {
     })
     .sort((a, b) => a.nombre.localeCompare(b.nombre))
 
-    
+  const totalPaginas = Math.ceil(clientesFiltrados.length / CLIENTES_POR_PAGINA)
+  const clientesPaginados = clientesFiltrados.slice(
+    paginaActual * CLIENTES_POR_PAGINA,
+    (paginaActual + 1) * CLIENTES_POR_PAGINA
+  )
+
+  function handleBusqueda(e) {
+    setBusqueda(e.target.value)
+    setPaginaActual(0)
+  }
+
+
   // Solo ejecuta la baja. La pregunta la hace el ModalConfirmacion antes de llamarla.
   async function confirmarDarDeBaja() {
     try {
@@ -203,69 +216,78 @@ function Clientes() {
 
   return (
     <Layout>
-      <div className="contenedor-clientes">
-        <div className="encabezado-clientes">
-          <h1>Clientes</h1>
-          <button onClick={() => navegar('/agregar-cliente')}>+ Agregar Cliente</button>
+      <div className={styles.contenedorClientes}>
+        <div className={styles.encabezadoClientes}>
+          <h1 className={styles.tituloPagina}>Clientes</h1>
+          <button className={styles.botonAgregarCliente} onClick={() => navegar('/agregar-cliente')}>
+            + Agregar Cliente
+          </button>
         </div>
 
         <input
           type="text"
           placeholder="Buscar por nombre o apellido..."
           value={busqueda}
-          onChange={(e) => setBusqueda(e.target.value)}
-          className="buscador-clientes"
+          onChange={handleBusqueda}
+          className={styles.buscadorClientes}
         />
 
         {cargando && <p>Cargando clientes...</p>}
-        {error && <p className="mensaje-error">{error}</p>}
+        {error && <p className={styles.mensajeError}>{error}</p>}
         {!cargando && clientesFiltrados.length === 0 && <p>No se encontraron clientes.</p>}
 
-        <table className="tabla-clientes">
+        <table className={styles.tablaClientes}>
           <thead>
             <tr>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Teléfono</th>
-              <th>Plan</th>
-              <th>Horario</th>
-              <th>Turno</th>
-              <th>Estado</th>
-              <th></th>
+              <th className={styles.encabezadoColumna}>Nombre</th>
+              <th className={styles.encabezadoColumna}>Apellido</th>
+              <th className={styles.encabezadoColumna}>Teléfono</th>
+              <th className={styles.encabezadoColumna}>Plan</th>
+              <th className={styles.encabezadoColumna}>Horario</th>
+              <th className={styles.encabezadoColumna}>Turno</th>
+              <th className={styles.encabezadoColumna}>Estado</th>
+              <th className={styles.encabezadoColumna}></th>
             </tr>
           </thead>
           <tbody>
-            {clientesFiltrados.map((cliente) => {
+            {clientesPaginados.map((cliente) => {
               const inscripcionesActivas = cliente.inscripcion.filter((i) => i.activa)
 
               return (
-                <tr key={cliente.id} className={!cliente.activo ? 'fila-inactiva' : ''}>
-                  <td>{cliente.nombre}</td>
-                  <td>{cliente.apellido}</td>
-                  <td>{cliente.telefono}</td>
-                  <td>{cliente.planes ? cliente.planes.nombre : 'Sin plan'}</td>
-                  <td>
+
+                <tr
+                  key={cliente.id}
+                  className={`${styles.filaCliente} ${!cliente.activo ? styles.filaInactiva : ''}`}
+                >
+                  <td className={styles.celdaTabla}>{cliente.nombre}</td>
+                  <td className={styles.celdaTabla}>{cliente.apellido}</td>
+                  <td className={styles.celdaTabla}>{cliente.telefono}</td>
+                  <td className={styles.celdaTabla}>{cliente.planes ? cliente.planes.nombre : 'Sin plan'}</td>
+                  <td className={styles.celdaTabla}>
                     {inscripcionesActivas.length === 0 ? (
                       '-'
                     ) : (
-                      <ul className="lista-horarios-tabla">
+                      <ul className={styles.listaHorariosTabla}>
                         {inscripcionesActivas.map((i) => (
-                          <li key={i.id}>{i.clase.dia_semana} {i.clase.hora.slice(0, 5)}</li>
+  
+                          <li key={i.id} className={styles.itemHorarioTabla}>
+                            {i.clase.dia_semana} {i.clase.hora.slice(0, 5)}
+                          </li>
                         ))}
                       </ul>
                     )}
                   </td>
-                  <td>
+                  <td className={styles.celdaTabla}>
                     {cliente.activo && inscripcionesActivas.length > 0 && (
-                      <div className="acciones-horario">
+                      <div className={styles.accionesHorario}>
                         <button
-                          className="boton-link"
+                          className={styles.botonLink}
                           onClick={() => abrirModalReprogramar(cliente.id, inscripcionesActivas)}
                         >
                           Reprogramar
                         </button>
                         <button
-                          className="boton-link boton-link-rojo"
+                          className={`${styles.botonLink} ${styles.botonLinkRojo}`}
                           onClick={() => abrirModalCancelarDia(cliente.id, inscripcionesActivas)}
                         >
                           Cancelar día
@@ -273,20 +295,19 @@ function Clientes() {
                       </div>
                     )}
                   </td>
-                  <td>
-                    <span className={cliente.activo ? 'estado-activo' : 'estado-inactivo'}>
+                  <td className={styles.celdaTabla}>
+                    <span className={cliente.activo ? styles.estadoActivo : styles.estadoInactivo}>
                       {cliente.activo ? 'Activo' : 'Inactivo'}
                     </span>
                   </td>
-                  <td>
+                  <td className={styles.celdaTabla}>
                     {cliente.activo ? (
-                 
                       // Ahora solo guarda el cliente en el estado para que se abra el ModalConfirmacion.
-                      <button className="boton-baja" onClick={() => setClienteABajar(cliente)}>
+                      <button className={styles.botonBaja} onClick={() => setClienteABajar(cliente)}>
                         Dar de baja
                       </button>
                     ) : (
-                      <button className="boton-reactivar" onClick={() => abrirModalReactivar(cliente)}>
+                      <button className={styles.botonReactivar} onClick={() => abrirModalReactivar(cliente)}>
                         Reactivar
                       </button>
                     )}
@@ -297,46 +318,71 @@ function Clientes() {
           </tbody>
         </table>
 
+        {totalPaginas > 1 && (
+          <div className={styles.paginacion}>
+            <button
+              className={styles.botonPagina}
+              onClick={() => setPaginaActual((p) => p - 1)}
+              disabled={paginaActual === 0}
+            >
+              ← Anterior
+            </button>
+            <span className={styles.paginaInfo}>
+              {paginaActual + 1} / {totalPaginas}
+            </span>
+            <button
+              className={styles.botonPagina}
+              onClick={() => setPaginaActual((p) => p + 1)}
+              disabled={paginaActual >= totalPaginas - 1}
+            >
+              Siguiente →
+            </button>
+          </div>
+        )}
+
         {/* Modal: Reprogramar */}
         {modalReprogramar && (
-          <div className="overlay-modal">
-            <div className="modal">
-      
-              <button className="boton-cerrar-modal" onClick={cerrarModalReprogramar} aria-label="Cerrar">
+          <div className={styles.overlayModal}>
+            <div className={styles.modal}>
+
+              <button className={styles.botonCerrarModal} onClick={cerrarModalReprogramar} aria-label="Cerrar">
                 ✕
               </button>
 
-              <h2>Reprogramar turno</h2>
+  
+              <h2 className={styles.tituloModal}>Reprogramar turno</h2>
 
               {!modalReprogramar.inscripcionElegida ? (
                 <>
-                  <p>¿Cuál día querés reprogramar?</p>
-                  <ul className="lista-dias-modal">
+
+                  <p className={styles.textoModal}>¿Cuál día querés reprogramar?</p>
+                  <ul className={styles.listaDiasModal}>
                     {modalReprogramar.inscripciones.map((i) => (
-                      <li key={i.id} className="item-dia-modal">
+                      <li key={i.id} className={styles.itemDiaModal}>
                         <span>{i.clase.dia_semana} {i.clase.hora.slice(0, 5)}</span>
-                       
-                        <button className="boton-inhabilitar"
+
+                        <button className={styles.botonInhabilitar}
                           onClick={() => setModalReprogramar((prev) => ({ ...prev, inscripcionElegida: i }))} >
                           Elegir  </button>
                       </li>
 
                     ))}
                   </ul>
-                  <div className="acciones-modal">
-                    <button onClick={cerrarModalReprogramar} className="boton-secundario">Cerrar</button>
+                  <div className={styles.accionesModal}>
+                    <button onClick={cerrarModalReprogramar} className={styles.botonSecundario}>Cerrar</button>
                   </div>
                 </>
               ) : (
                 <>
-                  <p>
+                  <p className={styles.textoModal}>
                     Día actual: <strong>
                       {modalReprogramar.inscripcionElegida.clase.dia_semana}{' '}
                       {modalReprogramar.inscripcionElegida.clase.hora.slice(0, 5)}
                     </strong>
                   </p>
-                  <label>Nueva clase</label>
-                  <select value={nuevaClaseId} onChange={(e) => setNuevaClaseId(e.target.value)}>
+                  <label className={styles.etiquetaModal}>Nueva clase</label>
+   
+                  <select className={styles.campoSelectModal} value={nuevaClaseId} onChange={(e) => setNuevaClaseId(e.target.value)}>
                     <option value="">Seleccionar clase</option>
                     {clases.map((clase) => (
                       <option key={clase.id} value={clase.id} disabled={clase.cuposDisponibles <= 0}>
@@ -345,9 +391,9 @@ function Clientes() {
                       </option>
                     ))}
                   </select>
-                  <div className="acciones-modal">
-                    <button onClick={cerrarModalReprogramar} className="boton-secundario">Cancelar</button>
-                    <button onClick={confirmarReprogramacion}>Confirmar</button>
+                  <div className={styles.accionesModal}>
+                    <button onClick={cerrarModalReprogramar} className={styles.botonSecundario}>Cancelar</button>
+                    <button className={styles.botonConfirmar} onClick={confirmarReprogramacion}>Confirmar</button>
                   </div>
                 </>
               )}
@@ -357,46 +403,50 @@ function Clientes() {
 
         {/* Modal: Cancelar día puntual */}
         {modalCancelarDia && (
-          <div className="overlay-modal">
-            <div className="modal">
-              {/* botón X agregado */}
-              <button className="boton-cerrar-modal" onClick={cerrarModalCancelarDia} aria-label="Cerrar">
+          <div className={styles.overlayModal}>
+            <div className={styles.modal}>
+              <button className={styles.botonCerrarModal} onClick={cerrarModalCancelarDia} aria-label="Cerrar">
                 ✕
               </button>
 
-              <h2>Cancelar día puntual</h2>
+              <h2 className={styles.tituloModal}>Cancelar día puntual</h2>
 
               {!modalCancelarDia.inscripcionElegida ? (
                 <>
-                  <p>¿Cuál día querés cancelar?</p>
-                  <ul className="lista-dias-modal">
+                  <p className={styles.textoModal}>¿Cuál día querés cancelar?</p>
+                  <ul className={styles.listaDiasModal}>
                     {modalCancelarDia.inscripciones.map((i) => (
-                      <li key={i.id} className="item-dia-modal">
+                      <li key={i.id} className={styles.itemDiaModal}>
                         <span>{i.clase.dia_semana} {i.clase.hora.slice(0, 5)}</span>
-                        <button className="boton-inhabilitar" onClick={() => elegirInscripcionParaCancelar(i)}>
+                        <button className={styles.botonInhabilitar} onClick={() => elegirInscripcionParaCancelar(i)}>
                           Elegir
                         </button>
                       </li>
                     ))}
                   </ul>
-                  <div className="acciones-modal">
-                    <button onClick={cerrarModalCancelarDia} className="boton-secundario">Cerrar</button>
+                  <div className={styles.accionesModal}>
+                    <button onClick={cerrarModalCancelarDia} className={styles.botonSecundario}>Cerrar</button>
                   </div>
                 </>
               ) : (
                 <>
-                  <p>
+                  <p className={styles.textoModal}>
                     Día fijo: <strong>
                       {modalCancelarDia.inscripcionElegida.clase.dia_semana}{' '}
                       {modalCancelarDia.inscripcionElegida.clase.hora.slice(0, 5)}
                     </strong>
                   </p>
-                  <label>Fecha a cancelar</label>
-                  <input type="date" value={fechaCancelar} onChange={(e) => setFechaCancelar(e.target.value)} />
-                  <p className="ayuda-plan">El cliente vuelve a su horario normal la semana siguiente.</p>
-                  <div className="acciones-modal">
-                    <button onClick={cerrarModalCancelarDia} className="boton-secundario">Cancelar</button>
-                    <button onClick={confirmarCancelarDia}>Confirmar</button>
+                  <label className={styles.etiquetaModal}>Fecha a cancelar</label>
+                  <input
+                    type="date"
+                    className={styles.campoFechaModal}
+                    value={fechaCancelar}
+                    onChange={(e) => setFechaCancelar(e.target.value)}
+                  />
+                  <p className={styles.ayudaPlan}>El cliente vuelve a su horario normal la semana siguiente.</p>
+                  <div className={styles.accionesModal}>
+                    <button onClick={cerrarModalCancelarDia} className={styles.botonSecundario}>Cancelar</button>
+                    <button className={styles.botonConfirmar} onClick={confirmarCancelarDia}>Confirmar</button>
                   </div>
                 </>
               )}
@@ -406,18 +456,18 @@ function Clientes() {
 
         {/* Modal: Reactivar cliente */}
         {modalReactivar && (
-          <div className="overlay-modal">
-            <div className="modal">
-              {/* botón X agregado */}
-              <button className="boton-cerrar-modal" onClick={cerrarModalReactivar} aria-label="Cerrar">
+          <div className={styles.overlayModal}>
+            <div className={styles.modal}>
+              <button className={styles.botonCerrarModal} onClick={cerrarModalReactivar} aria-label="Cerrar">
                 ✕
               </button>
 
-              <h2>Reactivar a {modalReactivar.nombre}</h2>
+              <h2 className={styles.tituloModal}>Reactivar a {modalReactivar.nombre}</h2>
 
-              <div className="modal-contenido-scroll">
-                <label>Plan</label>
+              <div className={styles.modalContenidoScroll}>
+                <label className={styles.etiquetaModal}>Plan</label>
                 <select
+                  className={styles.campoSelectModal}
                   value={planReactivarId}
                   onChange={(e) => {
                     setPlanReactivarId(e.target.value)
@@ -434,14 +484,15 @@ function Clientes() {
 
                 {planReactivarSeleccionado && (
                   <>
-                    <p className="ayuda-plan">
+                    <p className={styles.ayudaPlan}>
                       Seleccionaste <strong>{clasesReactivarSeleccionadas.length}</strong> de{' '}
                       <strong>{maximoClasesReactivar}</strong> día(s)
                     </p>
                     {clasesPorDia.map(({ dia, clases: clasesDelDia }) => (
-                      <div key={dia} className="grupo-dia">
-                        <strong>{dia}</strong>
-                        <div className="lista-horarios">
+                      <div key={dia} className={styles.grupoDia}>
+            
+                        <strong className={styles.nombreDia}>{dia}</strong>
+                        <div className={styles.listaHorarios}>
                           {clasesDelDia.map((clase) => {
                             const estaSeleccionada = clasesReactivarSeleccionadas.includes(clase.id)
                             const sinCupos = clase.cuposDisponibles <= 0
@@ -452,7 +503,12 @@ function Clientes() {
                                 clasesReactivarSeleccionadas.length >= maximoClasesReactivar)
 
                             return (
-                              <label key={clase.id} className={`opcion-horario${deshabilitado ? ' deshabilitado' : ''}`}>
+                              //  las clases combinadas ahora se arman con
+                              // template string usando las claves del objeto styles
+                              <label
+                                key={clase.id}
+                                className={`${styles.opcionHorario} ${deshabilitado ? styles.opcionHorarioDeshabilitado : ''}`}
+                              >
                                 <input
                                   type="checkbox"
                                   checked={estaSeleccionada}
@@ -470,17 +526,16 @@ function Clientes() {
                 )}
               </div>
 
-              <div className="acciones-modal">
-                <button onClick={cerrarModalReactivar} className="boton-secundario">Cancelar</button>
-                <button onClick={confirmarReactivacion}>Confirmar</button>
+              <div className={styles.accionesModal}>
+                <button onClick={cerrarModalReactivar} className={styles.botonSecundario}>Cancelar</button>
+                <button className={styles.botonConfirmar} onClick={confirmarReactivacion}>Confirmar</button>
               </div>
             </div>
           </div>
         )}
 
-        {/*  modal nuevo, reemplaza al window.confirm() de "Dar de baja" */}
-        {clienteABajar && (
-          <ModalConfirmacion
+        {/* modal  */}
+        {clienteABajar && (<ModalConfirmacion
             mensaje={`¿Dar de baja a ${clienteABajar.nombre}?`}
             alConfirmar={confirmarDarDeBaja}
             alCancelar={() => setClienteABajar(null)}

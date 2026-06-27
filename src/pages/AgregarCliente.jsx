@@ -5,9 +5,8 @@ import { obtenerPlanes } from "../services/planes"
 import { obtenerClases } from '../services/clase'
 import { crearCliente } from '../services/clientes'
 import { crearInscripciones } from '../services/inscripcion'
-import './AgregarCliente.css'
 import { agruparClasesPorDia } from '../utils/fechas'
-
+import styles from './AgregarCliente.module.css'
 
 function AgregarCliente() {
     const [nombre, setNombre] = useState('')
@@ -119,56 +118,59 @@ function AgregarCliente() {
         }
     }
 
-   const clasesPorDia = agruparClasesPorDia(clases)
+    const clasesPorDia = agruparClasesPorDia(clases)
 
     return (
         <Layout>
-            <div className="contenedor-agregar-cliente">
-                <h1>Agregar Cliente</h1>
+            <div className={styles.contenedorAgregarCliente}>
+                <h1 className={styles.tituloPagina}>Agregar Cliente</h1>
 
-                <form onSubmit={manejarEnvio}>
-                    <div className="seccion-form">
-                        <h2 className="titulo-seccion">Datos del cliente</h2>
-                        <div className="fila-campos">
-                            <div className="grupo-entrada">
-                                <label>Nombre</label>
-                                <input value={nombre} onChange={(e) => setNombre(e.target.value)} />
-                                {errores.nombre && <p className="mensaje-error">{errores.nombre}</p>}
+                <form onSubmit={manejarEnvio} className={styles.formularioCliente}>
+                    <div className={styles.seccionForm}>
+                        <h2 className={styles.tituloSeccion}>Datos del cliente</h2>
+                        <div className={styles.filaCampos}>
+                            <div className={styles.grupoEntrada}>
+                                <label className={styles.etiquetaCampo}>Nombre</label>
+                                <input className={styles.entradaTexto} value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                                {errores.nombre && <p className={styles.mensajeError}>{errores.nombre}</p>}
                             </div>
 
-                            <div className="grupo-entrada">
-                                <label>Apellido</label>
+                            <div className={styles.grupoEntrada}>
+                                <label className={styles.etiquetaCampo}>Apellido</label>
                                 <input
                                     type="text"
+                                    className={styles.entradaTexto}
                                     value={apellido}
                                     onChange={(e) => setApellido(e.target.value)}
                                 />
-                                {errores.apellido && <p className="mensaje-error">{errores.apellido}</p>}
+                                {errores.apellido && <p className={styles.mensajeError}>{errores.apellido}</p>}
                             </div>
 
-                            <div className="grupo-entrada">
-                                <label>Teléfono</label>
+                            <div className={styles.grupoEntrada}>
+                                <label className={styles.etiquetaCampo}>Teléfono</label>
                                 <input
                                     type="tel"
+                                    className={styles.entradaTexto}
                                     value={telefono}
                                     onChange={(e) => setTelefono(e.target.value.replace(/[^0-9]/g, ''))}
                                     maxLength={15}
                                 />
-                                {errores.telefono && <p className="mensaje-error">{errores.telefono}</p>}
+                                {errores.telefono && <p className={styles.mensajeError}>{errores.telefono}</p>}
                             </div>
                         </div>
 
-                        <div className="grupo-entrada">
-                            <label>Email <span className="opcional">(opcional)</span></label>
-                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <div className={styles.grupoEntrada}>
+                            <label className={styles.etiquetaCampo}>Email <span className={styles.opcional}>(opcional)</span></label>
+                            <input type="email" className={styles.entradaTexto} value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
-                    </div> {/* fin seccion-form */}
+                    </div>
 
-                    <div className="separador" />
-                    <div className="seccion-form">
-                        <h2 className="titulo-seccion">Plan</h2>
-                        <div className="grupo-entrada">
+                    <div className={styles.separador} />
+                    <div className={styles.seccionForm}>
+                        <h2 className={styles.tituloSeccion}>Plan</h2>
+                        <div className={styles.grupoEntrada}>
                             <select
+                                className={styles.entradaSelect}
                                 value={planId}
                                 onChange={(e) => {
                                     setPlanId(e.target.value)
@@ -184,48 +186,44 @@ function AgregarCliente() {
                                 ))}
                             </select>
                         </div>
-                    </div> {/* fin seccion-form */}
+                    </div>
 
-                    <div className="separador" />
+                    <div className={styles.separador} />
 
-                    <div className="seccion-form">
-                        <h2 className="titulo-seccion">Días y horarios fijos</h2>
+                    <div className={styles.seccionForm}>
+                        <h2 className={styles.tituloSeccion}>Días y horarios fijos</h2>
 
                         {!planSeleccionado && (
-                            <p className="ayuda-plan">Primero seleccioná un plan para poder elegir días</p>
+                            <p className={styles.ayudaPlan}>Primero seleccioná un plan para poder elegir días</p>
                         )}
 
                         {planSeleccionado && (
-                            <p className="ayuda-plan">
+                            <p className={styles.ayudaPlan}>
                                 Seleccionaste <strong>{clasesSeleccionadas.length}</strong> de <strong>{maximoClases}</strong> día(s) permitidos
                             </p>
                         )}
 
-                        {errores.clases && <p className="mensaje-error">{errores.clases}</p>}
+                        {errores.clases && <p className={styles.mensajeError}>{errores.clases}</p>}
 
                         {planSeleccionado &&
                             clasesPorDia.map(({ dia, clases: clasesDelDia }) => (
-                                <div key={dia} className="grupo-dia">
-                                    <strong>{dia}</strong>
-                                    <div className="lista-horarios">
-                                        {/* CLASES DEL DIA  */}
+                                <div key={dia} className={styles.grupoDia}>
+                                    <strong className={styles.nombreDia}>{dia}</strong>
+                                    <div className={styles.listaHorarios}>
                                         {clasesDelDia.map((clase) => {
                                             const estaSeleccionada = clasesSeleccionadas.includes(clase.id)
-
                                             const sinCupos = clase.cuposDisponibles <= 0
 
                                             const deshabilitado =
                                                 sinCupos ||
-                                                (
-                                                    !estaSeleccionada &&
+                                                (!estaSeleccionada &&
                                                     maximoClases &&
-                                                    clasesSeleccionadas.length >= maximoClases
-                                                )
+                                                    clasesSeleccionadas.length >= maximoClases)
 
                                             return (
                                                 <label
                                                     key={clase.id}
-                                                    className={`opcion-horario${deshabilitado ? ' deshabilitado' : ''}`}
+                                                    className={`${styles.opcionHorario} ${deshabilitado ? styles.deshabilitado : ''}`}
                                                 >
                                                     <input
                                                         type="checkbox"
@@ -244,13 +242,13 @@ function AgregarCliente() {
                                     </div>
                                 </div>
                             ))}
-                    </div> {/* fin seccion-form */}
+                    </div>
 
-                    <button type="submit" disabled={cargando} className="boton-guardar">
+                    <button type="submit" disabled={cargando} className={styles.botonGuardar}>
                         {cargando ? 'Guardando...' : 'Guardar Cliente'}
                     </button>
 
-                    {errores.general && <p className="mensaje-error">{errores.general}</p>}
+                    {errores.general && <p className={styles.mensajeError}>{errores.general}</p>}
                 </form>
             </div>
         </Layout>

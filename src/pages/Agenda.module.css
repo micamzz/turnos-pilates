@@ -1,24 +1,26 @@
-.contenedor-agenda {
+.contenedorAgenda {
   max-width: 1100px;
   margin: 30px auto;
   padding: 0 20px;
 }
 
-.encabezado-agenda {
+.encabezadoAgenda {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 28px;
 }
 
-.encabezado-agenda h1 {
+/* CAMBIO: antes .encabezado-agenda h1 */
+.tituloPagina {
   font-size: 22px;
   font-weight: 600;
   color: #2c3e50;
   margin: 0;
 }
 
-.encabezado-agenda button {
+/* CAMBIO: antes .encabezado-agenda button (sin clase propia) */
+.botonNavegarSemana {
   background: #fff;
   color: #66a082;
   border: 1.5px solid #66a082;
@@ -31,11 +33,11 @@
   transition: background 0.15s;
 }
 
-.encabezado-agenda button:hover {
+.botonNavegarSemana:hover {
   background: #e8f4ef;
 }
 
-.boton-abrir-modal-feriado {
+.botonAbrirModalFeriado {
   display: block;
   margin: 0 0 20px auto;
   background: #fff;
@@ -48,20 +50,20 @@
   cursor: pointer;
 }
 
-.boton-abrir-modal-feriado:hover {
+.botonAbrirModalFeriado:hover {
   background: #fef2f2;
 }
 
-/* ── Tabla ── */
-.tabla-agenda {
+.tablaAgenda {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
   background: transparent;
-    table-layout: fixed; 
+  table-layout: fixed;
 }
 
-.tabla-agenda thead tr th {
+/* CAMBIO: antes .tabla-agenda thead tr th */
+.encabezadoColumnaDia {
   background: transparent;
   color: #66a082;
   font-weight: 700;
@@ -72,12 +74,17 @@
   border: none;
 }
 
-.tabla-agenda thead tr th:first-child {
+/* CAMBIO: antes .tabla-agenda thead tr th:first-child. Como ya no hay
+   columna de hora a la izquierda (se quitó en una sesión anterior), esta
+   regla queda disponible para usarse en el primer <th> si hiciera falta,
+   pero hoy ningún <th> la necesita — se deja definida por las dudas de
+   que el primer día de la semana necesite distinguirse visualmente. */
+.encabezadoColumnaDia:first-child {
   color: #2c3e50;
   font-size: 12px;
 }
 
-.fecha-chica {
+.fechaChica {
   display: block;
   font-size: 11px;
   font-weight: 400;
@@ -86,19 +93,17 @@
   letter-spacing: 0;
 }
 
-
-.celda-vacia {
+.celdaVacia {
   padding: 6px;
   border: none;
 }
 
-/* ── Feriado ── */
-.celda-feriado {
+.celdaFeriado {
   padding: 6px;
   border: none;
 }
 
-.celda-feriado-inner {
+.celdaFeriadoInner {
   background: #e5e7eb;
   color: #9ca3af;
   font-weight: 600;
@@ -112,16 +117,14 @@
   justify-content: center;
 }
 
-/* ── Celda con turno ── */
-.celda-turno {
+.celdaTurno {
   padding: 6px;
   border: none;
   vertical-align: top;
 }
 
-/* ── Tarjeta ── */
-.tarjeta-clase {
-background: #fff;
+.tarjetaClase {
+  background: #fff;
   border: 1.8px solid #66a082;
   border-radius: 10px;
   padding: 12px 10px 10px;
@@ -133,35 +136,31 @@ background: #fff;
   gap: 4px;
 }
 
-.tarjeta-clickeable:hover {
+.tarjetaClickeable:hover {
   background: #4f7d65;
   box-shadow: 0 3px 10px rgba(80, 130, 100, 0.3);
 }
 
-.tarjeta-pasada {
+.tarjetaPasada {
   opacity: 0.4;
   cursor: default;
   pointer-events: none;
 }
 
-/* ── Contenido de la tarjeta ── */
-
-.hora-clase {
+.horaClase {
   font-weight: 600;
-   color: #090d11; 
+  color: #090d11;
   text-align: center;
 }
 
-/* ── Cupos — solo texto, centrado, sin fondo ni borde ── */
-.fila-cupos {
+.filaCupos {
   width: 100%;
   display: flex;
   justify-content: center;
-     color: #090d11; 
-
+  color: #090d11;
 }
 
-.badge-cupos {
+.badgeCupos {
   font-size: 12px;
   font-weight: 600;
   background: none;
@@ -170,20 +169,18 @@ background: #fff;
   text-align: center;
 }
 
-.badge-cupos.libres {
+.badgeCuposLibres {
   color: #266a48;
-
 }
 
-.badge-cupos.completo {
-  color: #cf2222;;
+.badgeCuposCompleto {
+  color: #cf2222;
 }
 
-/* ── Modales ── */
-.overlay-modal {
+.overlayModal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.35);
+  background: rgba(0, 0, 0, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -191,6 +188,7 @@ background: #fff;
 }
 
 .modal {
+  position: relative;
   background: #fff;
   border-radius: 12px;
   border: 0.5px solid #c2ddd2;
@@ -199,26 +197,28 @@ background: #fff;
   max-width: 90vw;
 }
 
-.modal h2 {
+/* CAMBIO: antes .modal h2 */
+.tituloModal {
   font-size: 16px;
   font-weight: 600;
   margin: 0 0 12px;
   color: #2c3e50;
 }
 
-.modal p {
+/* CAMBIO: antes .modal p */
+.textoModal {
   font-size: 14px;
   color: #555;
   margin: 0 0 14px;
 }
 
-.lista-dias-modal {
+.listaDiasModal {
   list-style: none;
   margin: 12px 0;
   padding: 0;
 }
 
-.item-dia-modal {
+.itemDiaModal {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -227,19 +227,19 @@ background: #fff;
   font-size: 14px;
 }
 
-.etiqueta-feriado {
+.etiquetaFeriado {
   color: #dc2626;
   font-size: 12px;
 }
 
-.acciones-modal {
+.accionesModal {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 16px;
 }
 
-.boton-secundario {
+.botonSecundario {
   background: transparent;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -249,11 +249,11 @@ background: #fff;
   color: #555;
 }
 
-.boton-secundario:hover {
+.botonSecundario:hover {
   background: #f5f5f5;
 }
 
-.boton-inhabilitar {
+.botonInhabilitar {
   background: #dc2626;
   color: white;
   border: none;
@@ -263,7 +263,7 @@ background: #fff;
   cursor: pointer;
 }
 
-.boton-habilitar {
+.botonHabilitar {
   background: #66a082;
   color: white;
   border: none;
@@ -273,14 +273,33 @@ background: #fff;
   cursor: pointer;
 }
 
-.mensaje-error {
+.mensajeError {
   color: #dc2626;
   font-size: 14px;
   margin: 8px 0;
 }
 
+/* CAMBIO: este botón no tenía clase propia en el original, solo X agregada
+   en la sesión de modales — agrego la clase faltante para el botón de cerrar */
+.botonCerrarModal {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.botonCerrarModal:hover {
+  color: #4b5563;
+}
+
 @media (max-width: 700px) {
-  .encabezado-agenda {
+  .encabezadoAgenda {
     flex-direction: column;
     gap: 10px;
     text-align: center;

@@ -1,5 +1,4 @@
-/* Fondo general */
-.contenedor-agregar-cliente {
+.contenedorAgregarCliente {
   min-height: 100vh;
   padding: 2rem 1.25rem;
   display: flex;
@@ -7,13 +6,13 @@
   align-items: center;
 }
 
-.contenedor-agregar-cliente h1 {
+.tituloPagina {
   font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 1.125rem;
 }
 
-.contenedor-agregar-cliente form {
+.formularioCliente {
   width: 100%;
   max-width: 43.75rem;
   background: #ffffff;
@@ -22,7 +21,7 @@
   border: 0.0625rem solid #c8e0d5;
 }
 
-.titulo-seccion {
+.tituloSeccion {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -37,19 +36,19 @@
   margin: 0.875rem 0;
 }
 
-.fila-campos {
+.filaCampos {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.875rem;
 }
 
-.grupo-entrada {
+.grupoEntrada {
   display: flex;
   flex-direction: column;
   margin-bottom: 0.625rem;
 }
 
-.grupo-entrada label {
+.etiquetaCampo {
   font-size: 0.875rem;
   font-weight: 600;
   color: #34495e;
@@ -62,8 +61,8 @@
   color: #9ca3af;
 }
 
-.grupo-entrada input,
-.grupo-entrada select {
+.entradaTexto,
+.entradaSelect {
   padding: 0.625rem 0.875rem;
   border: 0.0625rem solid #dcdde1;
   border-radius: 0.5625rem;
@@ -73,37 +72,36 @@
   transition: all 0.2s ease;
 }
 
-.grupo-entrada input:hover,
-.grupo-entrada select:hover {
+.entradaTexto:hover,
+.entradaSelect:hover {
   border-color: #66a082;
 }
 
-.grupo-entrada input:focus,
-.grupo-entrada select:focus {
+.entradaTexto:focus,
+.entradaSelect:focus {
   outline: none;
   border-color: #66a082;
-  background:inherit;
+  background: inherit;
 }
 
-.ayuda-plan {
+.ayudaPlan {
   font-size: 0.875rem;
   color: #7f8c8d;
   margin-bottom: 0.5rem;
 }
 
-.ayuda-plan strong {
+.ayudaPlan strong {
   color: #66a082;
 }
 
-.grupo-dia {
+.grupoDia {
   margin-bottom: 0.5rem;
   padding: 0.625rem 0.75rem;
   border-radius: 0.6875rem;
   border: 0.0625rem solid #c8e0d5;
-
 }
 
-.grupo-dia strong {
+.nombreDia {
   display: block;
   font-size: 0.875rem;
   font-weight: 700;
@@ -112,14 +110,14 @@
   text-transform: capitalize;
 }
 
-.lista-horarios {
+.listaHorarios {
   display: flex;
   flex-wrap: wrap;
   gap: 0.375rem;
   align-items: center;
 }
 
-.opcion-horario {
+.opcionHorario {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -136,16 +134,16 @@
   user-select: none;
 }
 
-.opcion-horario input {
+.opcionHorario input[type="checkbox"] {
   display: none;
 }
 
-.opcion-horario:hover {
+.opcionHorario:hover {
   border-color: #66a082;
   background: #f4faf7;
 }
 
-.opcion-horario:has(input:checked) {
+.opcionHorario:has(input:checked) {
   background: #e0f0e8;
   border-color: #66a082;
   color: #4f7d65;
@@ -153,19 +151,19 @@
   box-shadow: 0 0.125rem 0.375rem rgba(102, 160, 130, 0.2);
 }
 
-.opcion-horario.deshabilitado {
+.opcionHorario.deshabilitado {
   opacity: 0.4;
   cursor: not-allowed;
   background: #f3f4f6;
 }
 
-.opcion-horario.deshabilitado:hover {
+.opcionHorario.deshabilitado:hover {
   border-color: #dcdde1;
   background: #f3f4f6;
 }
 
-.boton-guardar{
-width: 27%;
+.botonGuardar {
+  width: 27%;
   margin: 0.75rem auto 0;
   display: block;
   padding: 0.75rem 1rem;
@@ -178,33 +176,31 @@ width: 27%;
   cursor: pointer;
 }
 
-.contenedor-agregar-cliente button[type='submit']:hover:not(:disabled) {
+.botonGuardar:hover:not(:disabled) {
   background-color: #4f7d65;
 }
 
-.contenedor-agregar-cliente button[type='submit']:active:not(:disabled) {
+.botonGuardar:active:not(:disabled) {
   transform: scale(0.98);
 }
 
-.contenedor-agregar-cliente button[type='submit']:disabled {
+.botonGuardar:disabled {
   background-color: #a4b0be;
   cursor: not-allowed;
 }
 
-.mensaje-error {
+.mensajeError {
   margin: 0.25rem 0;
   color: #dc2626;
   font-size: 0.875rem;
 }
 
-
-/* ── RESPONSIVE ── */
 @media (max-width: 35rem) {
-  .fila-campos {
+  .filaCampos {
     grid-template-columns: 1fr;
   }
 
-  .contenedor-agregar-cliente form {
+  .formularioCliente {
     padding: 1.25rem;
     border-radius: 0.875rem;
   }

@@ -1,0 +1,448 @@
+:root {
+  --verde: #66a082;
+  --verde-hover: #558a6e;
+  --verde-claro: #e8f4ef;
+  --verde-borde: #c2ddd2;
+  --verde-fondo: #c8e0d5;
+  --rojo: #b91c1c;
+  --rojo-baja: #491c20;
+  --texto: #2c3e50;
+  --texto-suave: #555;
+  --texto-muted: #888;
+  --gris-claro: #dcdde1;
+  --gris-fondo: #f3f4f6;
+  --gris-hover: #9ca3af;
+}
+
+.contenedorClientes {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1.25rem;
+}
+
+.encabezadoClientes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.tituloPagina {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 500;
+  color: var(--texto);
+}
+
+.botonAgregarCliente {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  background-color: var(--verde);
+  color: white;
+  transition: background 0.15s;
+}
+
+.botonAgregarCliente:hover {
+  background-color: var(--verde-hover);
+}
+
+.botonReactivar {
+  background-color: var(--verde);
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.botonReactivar:hover {
+  background-color: var(--verde-hover);
+}
+
+.botonBaja {
+  background-color: var(--rojo-baja);
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.botonBaja:hover {
+  background-color: #6b2227;
+}
+
+.botonLink {
+  background: none;
+  border: none;
+  color: var(--verde);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding-left: 0.375rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.botonLinkRojo {
+  color: var(--rojo);
+}
+
+.buscadorClientes {
+  width: 100%;
+  max-width: 350px;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--gris-claro);
+  border-radius: 0.5rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  background: white;
+  color: var(--texto);
+  outline: none;
+}
+
+.buscadorClientes:focus {
+  border-color: var(--verde);
+}
+
+.tablaClientes {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 0.625rem;
+  overflow: hidden;
+  border: 0.5px solid var(--verde-borde);
+}
+
+.encabezadoColumna {
+  background-color: var(--verde-claro);
+  color: var(--verde-hover);
+  text-align: left;
+  padding: 0.6875rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.celdaTabla {
+  padding: 0.75rem 1rem;
+  border-top: 0.5px solid var(--verde-borde);
+  font-size: 0.875rem;
+  color: var(--texto);
+  vertical-align: middle;
+}
+
+
+.filaCliente:hover {
+  background-color: #f5faf7;
+}
+
+.listaHorariosTabla {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+
+.itemHorarioTabla {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.accionesHorario {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.estadoActivo,
+.estadoInactivo {
+  padding: 0.1875rem 0.625rem;
+  border-radius: 1.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.estadoActivo {
+  background: #d6f0e3;
+  color: #2a7a52;
+}
+
+.estadoInactivo {
+  background: var(--gris-fondo);
+  color: var(--texto-muted);
+}
+
+.filaInactiva {
+  background-color: var(--gris-fondo);
+}
+
+
+.filaInactiva .celdaTabla {
+  color: var(--gris-hover);
+}
+
+.filaInactiva .botonReactivar {
+  color: white;
+}
+
+.mensajeError {
+  color: var(--rojo);
+  font-size: 0.875rem;
+  margin: 0.5rem 0;
+}
+
+.paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-bottom: 1rem;
+}
+
+.botonPagina {
+  background-color: var(--verde);
+  color: white;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.botonPagina:hover:not(:disabled) {
+  background-color: var(--verde-hover);
+}
+
+.botonPagina:disabled {
+  background-color: var(--verde-fondo);
+  cursor: not-allowed;
+}
+
+.paginaInfo {
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+  min-width: 4rem;
+  text-align: center;
+}
+
+.overlayModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  z-index: 1000;
+}
+
+.modal {
+  position: relative;
+  background: white;
+  border-radius: 0.75rem;
+  border: 0.5px solid var(--verde-borde);
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tituloModal {
+  padding: 1.5rem 1.5rem 0;
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--texto);
+}
+
+.textoModal {
+  padding: 0 1.5rem;
+  margin: 0 0 0.75rem;
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+
+
+.etiquetaModal {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--verde-hover);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.campoSelectModal,
+.campoFechaModal {
+  width: 100%;
+  padding: 0.625rem;
+  margin-top: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--texto);
+  outline: none;
+  border: 1px solid var(--gris-claro);
+  box-sizing: border-box;
+}
+
+.campoSelectModal:focus,
+.campoFechaModal:focus {
+  border-color: var(--verde);
+}
+
+.modalContenidoScroll {
+  overflow-y: auto;
+  padding: 0 1.5rem;
+  flex: 1;
+}
+
+.accionesModal {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.625rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--verde-borde);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.botonSecundario {
+  background: var(--gris-fondo);
+  color: var(--texto);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.botonSecundario:hover {
+  background: var(--gris-claro);
+}
+
+.botonConfirmar {
+  background: var(--verde);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.botonConfirmar:hover {
+  background-color: var(--verde-hover);
+}
+
+.botonCerrarModal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--gris-hover);
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.botonCerrarModal:hover {
+  color: var(--texto-suave);
+}
+
+.listaDiasModal {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.itemDiaModal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 0.5px solid var(--verde-borde);
+  font-size: 0.875rem;
+}
+
+.grupoDia {
+  margin-bottom: 1rem;
+}
+
+.nombreDia {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--texto-suave);
+  margin-bottom: 0.375rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.listaHorarios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.opcionHorario {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  color: var(--texto);
+}
+
+.opcionHorarioDeshabilitado {
+  color: var(--gris-hover);
+  cursor: not-allowed;
+}
+
+.ayudaPlan {
+  font-size: 0.8125rem;
+  color: var(--texto-suave);
+  margin: 0.5rem 0 1rem;
+}
+
+.botonInhabilitar {
+  background: none;
+  border: 1px solid var(--verde-borde);
+  color: var(--verde-hover);
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.botonInhabilitar:hover {
+  background: var(--verde-claro);
+}

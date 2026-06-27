@@ -5,8 +5,15 @@ import { obtenerClases } from '../services/clase'
 import { obtenerInscripcionesConClienteYClase } from '../services/inscripcion'
 import { obtenerReservasEnRango } from '../services/reserva'
 import { obtenerFeriadosEnRango, crearFeriado, eliminarFeriado } from '../services/feriado'
-import { obtenerDiasDeLaSemana,formatearFechaISO,nombreDia,esFechaPasada, clientesEnClaseYFecha, } from '../utils/fechas'
-import './Agenda.css'
+import {
+  obtenerDiasDeLaSemana,
+  formatearFechaISO,
+  nombreDia,
+  esFechaPasada,
+  clientesEnClaseYFecha,
+} from '../utils/fechas'
+import ModalConfirmacion from '../components/ModalConfirmacion/ModalConfirmacion.jsx'
+import styles from './Agenda.module.css' 
 
 function Agenda() {
   const navegar = useNavigate()
@@ -18,6 +25,9 @@ function Agenda() {
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState('')
   const [modalFeriadoAbierto, setModalFeriadoAbierto] = useState(false)
+
+
+  const [confirmacionFeriado, setConfirmacionFeriado] = useState(null)
 
   const diasSemana = obtenerDiasDeLaSemana(offsetSemana)
 
@@ -53,28 +63,25 @@ function Agenda() {
   }
 
 
-  async function manejarFeriado(fechaISO) {
-    if (esFeriado(fechaISO)) {
-      const confirmado = window.confirm('¿Habilitar este día nuevamente?')
-      if (!confirmado) return
-      try {
-        await eliminarFeriado(fechaISO)
-        await cargarDatos()
-      } catch (err) {
-        setError('No se pudo habilitar el día: ' + err.message)
-      }
-    } else {
-      const confirmado = window.confirm('¿Inhabilitar este día completo (ej. feriado)?')
-      if (!confirmado) return
-      try {
-        await crearFeriado(fechaISO)
-        await cargarDatos()
-      } catch (err) {
-        setError('No se pudo inhabilitar el día: ' + err.message)
-      }
-    }
+  function pedirConfirmacionFeriado(fechaISO) {
+    setConfirmacionFeriado({ fechaISO, esHabilitar: esFeriado(fechaISO) })
   }
 
+
+  async function confirmarCambioFeriado() {
+    const { fechaISO, esHabilitar } = confirmacionFeriado
+    try {
+      if (esHabilitar) {
+        await eliminarFeriado(fechaISO)
+      } else {
+        await crearFeriado(fechaISO)
+      }
+      setConfirmacionFeriado(null)
+      await cargarDatos()
+    } catch (err) {
+      setError('No se pudo actualizar el día: ' + err.message)
+    }
+  }
 
   function cantidadInscriptos(claseId, fechaISO) {
     const inscripcionesDeLaClase = inscripciones.filter((i) => i.clase_id === claseId)
@@ -85,31 +92,38 @@ function Agenda() {
 
   return (
     <Layout>
-      <div className="contenedor-agenda">
-        <div className="encabezado-agenda">
-          <button onClick={() => setOffsetSemana((s) => s - 1)}> Anterior</button>
-          <h1>Agenda semanal</h1>
-          <button onClick={() => setOffsetSemana((s) => s + 1)}>Siguiente </button>
+     
+      <div className={styles.contenedorAgenda}>
+        <div className={styles.encabezadoAgenda}>
+       
+          <button className={styles.botonNavegarSemana} onClick={() => setOffsetSemana((s) => s - 1)}>
+            ← Anterior
+          </button>
+      
+          <h1 className={styles.tituloPagina}>Agenda semanal</h1>
+          <button className={styles.botonNavegarSemana} onClick={() => setOffsetSemana((s) => s + 1)}>
+            Siguiente →
+          </button>
         </div>
 
-        <button className="boton-abrir-modal-feriado" onClick={() => setModalFeriadoAbierto(true)}>
+        <button className={styles.botonAbrirModalFeriado} onClick={() => setModalFeriadoAbierto(true)}>
           Inhabilitar día
         </button>
 
-        {error && <p className="mensaje-error">{error}</p>}
+        {error && <p className={styles.mensajeError}>{error}</p>}
         {cargando && <p>Cargando agenda...</p>}
 
         {!cargando && (
-          <table className="tabla-agenda">
+          <table className={styles.tablaAgenda}>
             <thead>
               <tr>
-             
                 {diasSemana.map((fecha) => {
                   const fechaISO = formatearFechaISO(fecha)
                   return (
-                    <th key={fechaISO}>
+       
+                    <th key={fechaISO} className={styles.encabezadoColumnaDia}>
                       {nombreDia(fecha).toUpperCase()}
-                      <span className="fecha-chica">
+                      <span className={styles.fechaChica}>
                         ({fecha.getDate()}/{fecha.getMonth() + 1}/{fecha.getFullYear()})
                       </span>
                     </th>
@@ -120,7 +134,6 @@ function Agenda() {
             <tbody>
               {horariosUnicos.map((hora) => (
                 <tr key={hora}>
-              
                   {diasSemana.map((fecha) => {
                     const diaNombre = nombreDia(fecha)
                     const fechaISO = formatearFechaISO(fecha)
@@ -128,14 +141,14 @@ function Agenda() {
 
                     if (esFeriado(fechaISO)) {
                       return (
-                        <td key={fechaISO} className="celda-feriado">
-                          <div className="celda-feriado-inner">Feriado</div>
+                        <td key={fechaISO} className={styles.celdaFeriado}>
+                          <div className={styles.celdaFeriadoInner}>Feriado</div>
                         </td>
                       )
                     }
 
                     if (!clase) {
-                      return <td key={fechaISO} className="celda-vacia" />
+                      return <td key={fechaISO} className={styles.celdaVacia} />
                     }
 
                     const totalInscriptos = cantidadInscriptos(clase.id, fechaISO)
@@ -143,14 +156,17 @@ function Agenda() {
                     const pasada = esFechaPasada(fechaISO)
 
                     return (
-                      <td key={fechaISO} className="celda-turno">
+                      <td key={fechaISO} className={styles.celdaTurno}>
+           
                         <div
-                          className={`tarjeta-clase ${pasada ? 'tarjeta-pasada' : 'tarjeta-clickeable'}`}
+                          className={`${styles.tarjetaClase} ${pasada ? styles.tarjetaPasada : styles.tarjetaClickeable}`}
                           onClick={() => navegar(`/agenda/${clase.id}/${fechaISO}`)}
                         >
-                          <div className="hora-clase">{hora.slice(0, 5)} hs</div>
-                          <div className="fila-cupos">
-                            <span className={`badge-cupos ${cuposLibres > 0 ? 'libres' : 'completo'}`}>
+                          <div className={styles.horaClase}>{hora.slice(0, 5)} hs</div>
+                          <div className={styles.filaCupos}>
+                            <span
+                              className={`${styles.badgeCupos} ${cuposLibres > 0 ? styles.badgeCuposLibres : styles.badgeCuposCompleto}`}
+                            >
                               {cuposLibres > 0 ? `${cuposLibres} libres` : 'Cupo completo'}
                             </span>
                           </div>
@@ -166,23 +182,32 @@ function Agenda() {
 
         {/* Modal: Inhabilitar día */}
         {modalFeriadoAbierto && (
-          <div className="overlay-modal">
-            <div className="modal">
-              <h2>Inhabilitar día</h2>
-              <p>Elegí qué día de esta semana querés inhabilitar:</p>
-              <ul className="lista-dias-modal">
+          <div className={styles.overlayModal}>
+            <div className={styles.modal}>
+              <button
+                className={styles.botonCerrarModal}
+                onClick={() => setModalFeriadoAbierto(false)}
+                aria-label="Cerrar"
+              >
+                ✕
+              </button>
+
+              <h2 className={styles.tituloModal}>Inhabilitar día</h2>
+              <p className={styles.textoModal}>Elegí qué día de esta semana querés inhabilitar:</p>
+              <ul className={styles.listaDiasModal}>
                 {diasSemana.map((fecha) => {
                   const fechaISO = formatearFechaISO(fecha)
                   const yaEsFeriado = esFeriado(fechaISO)
                   return (
-                    <li key={fechaISO} className="item-dia-modal">
+                    <li key={fechaISO} className={styles.itemDiaModal}>
                       <span>
                         {nombreDia(fecha)} {fecha.getDate()}/{fecha.getMonth() + 1}
-                        {yaEsFeriado && <span className="etiqueta-feriado"> (Feriado)</span>}
+                        {yaEsFeriado && <span className={styles.etiquetaFeriado}> (Feriado)</span>}
                       </span>
+                
                       <button
-                        className={yaEsFeriado ? 'boton-habilitar' : 'boton-inhabilitar'}
-                        onClick={() => manejarFeriado(fechaISO)}
+                        className={yaEsFeriado ? styles.botonHabilitar : styles.botonInhabilitar}
+                        onClick={() => pedirConfirmacionFeriado(fechaISO)}
                       >
                         {yaEsFeriado ? 'Habilitar' : 'Inhabilitar'}
                       </button>
@@ -190,13 +215,26 @@ function Agenda() {
                   )
                 })}
               </ul>
-              <div className="acciones-modal">
-                <button onClick={() => setModalFeriadoAbierto(false)} className="boton-secundario">
+              <div className={styles.accionesModal}>
+                <button onClick={() => setModalFeriadoAbierto(false)} className={styles.botonSecundario}>
                   Cerrar
                 </button>
               </div>
             </div>
           </div>
+        )}
+
+        
+        {confirmacionFeriado && (
+          <ModalConfirmacion
+            mensaje={
+              confirmacionFeriado.esHabilitar
+                ? '¿Habilitar este día nuevamente?'
+                : '¿Inhabilitar este día completo (ej. feriado)?'
+            }
+            alConfirmar={confirmarCambioFeriado}
+            alCancelar={() => setConfirmacionFeriado(null)}
+          />
         )}
       </div>
     </Layout>
