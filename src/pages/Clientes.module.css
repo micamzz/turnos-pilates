@@ -409,7 +409,7 @@
   display: block;
   font-size: var(--texto-sm);
   color: var(--texto-secundario);
-  margin-bottom: var(--espacio-1);
+  margin-bottom: var(--espacio-2);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -420,19 +420,53 @@
   gap: var(--espacio-2);
 }
 
+/* CAMBIO: antes era texto plano con checkbox nativo visible, sin borde
+   ni fondo — se veía como un formulario crudo, no como un chip
+   seleccionable. Ahora usa el mismo patrón "chip" que ya existe en
+   AgregarCliente.module.css, para que ambas pantallas se vean
+   consistentes entre sí. */
 .opcionHorario {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  gap: var(--espacio-1);
-  font-size: var(--texto-base);
+  justify-content: center;
+  padding: var(--espacio-1) var(--espacio-3);
+  min-width: 3.625rem;
+  min-height: 36px;
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-input);
+  background: #fff;
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-medio);
+  color: var(--texto-secundario);
   cursor: pointer;
-  color: var(--texto-principal);
-  min-height: 32px;
+  user-select: none;
+  transition: border-color 0.1s, background 0.1s;
+}
+
+.opcionHorario input[type="checkbox"] {
+  display: none;
+}
+
+.opcionHorario:hover {
+  border-color: var(--verde);
+}
+
+.opcionHorario:has(input:checked) {
+  background: var(--verde);
+  border-color: var(--verde);
+  color: white;
+  font-weight: var(--peso-bold);
 }
 
 .opcionHorarioDeshabilitado {
-  color: var(--texto-tenue);
+  opacity: 0.4;
   cursor: not-allowed;
+  background: #f3f4f6;
+}
+
+.opcionHorarioDeshabilitado:hover {
+  border-color: var(--borde-sutil);
 }
 
 .ayudaPlan {

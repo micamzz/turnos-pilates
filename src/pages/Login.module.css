@@ -189,20 +189,22 @@
       flex: 1;
       width: 100%;
       height: 100vh;
+      margin-top: 2em;
       background-image: url('../assets/pilates-login.jpg');
       background-repeat: no-repeat;
       background-position: top;
       background-size: contain;
-      align-items: flex-end;
+      align-items: center;
+
   
     }
     }
-
 
 /* MOBILE MEDIANO */
 @media (max-width: 480px) {
   .ladoFormulario {
     padding: var(--espacio-6) var(--espacio-4);
+     padding-top: 35vh;
 
   }
 
@@ -215,7 +217,8 @@
 @media (max-width: 360px) {
   .ladoFormulario {
     padding: var(--espacio-4);
-    padding-top: 8vh;
+     padding-top: 27vh;
+
   }
 
   .tituloFormulario {
