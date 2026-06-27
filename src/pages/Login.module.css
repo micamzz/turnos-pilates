@@ -6,6 +6,7 @@
   background-color: #f7f9fa;
 }
 
+/* Panel hero: imagen + gradiente */
 .heroLogin {
   flex: 1.2;
   background-size: cover;
@@ -31,27 +32,29 @@
   z-index: 1;
 }
 
-/* Cambiar color */
 .tituloHero {
   font-family: var(--fuente-titulo);
   font-size: var(--texto-xl);
-  font-weight: var(--peso-medio); 
-  color: var(--texto-principal);
-  margin-bottom: var(--espacio-1);
+  font-weight: var(--peso-medio);
+  color: white;
+  margin: 0 0 var(--espacio-1);
 }
 
 .textoHero {
   font-size: var(--texto-md);
   opacity: 0.9;
+  margin: 0;
 }
 
+/* Panel formulario */
 .ladoFormulario {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #ffffff;
-  padding: var(--espacio-8);
+  padding: var(--espacio-8) var(--espacio-6);
+  overflow-y: auto;
 }
 
 .envolturaFormulario {
@@ -60,17 +63,16 @@
 }
 
 .tituloFormulario {
- font-family: var(--fuente-titulo);
+  font-family: var(--fuente-titulo);
   font-size: var(--texto-xl);
-  font-weight: var(--peso-medio); 
+  font-weight: var(--peso-medio);
   color: var(--texto-principal);
-  margin-bottom: var(--espacio-1);
+  margin: 0 0 var(--espacio-1);
 }
-
 
 .subtitulo {
   color: var(--texto-secundario);
-  margin-bottom: var(--espacio-8);
+  margin: 0 0 var(--espacio-8);
   font-size: var(--texto-base);
 }
 
@@ -86,18 +88,16 @@
   font-weight: var(--peso-bold);
 }
 
-/* CAMBIO: mismo ajuste que el resto del sistema — borde definido en
-   vez de fondo gris claro sin límite, foco marcado solo con color
-   de borde, sin sombra difusa (glow) */
 .entradaTexto {
   width: 100%;
   padding: var(--espacio-3) var(--espacio-4);
   border: 1px solid var(--borde-definido);
   border-radius: var(--radio-input);
-  font-size: var(--texto-md);
+  font-size: var(--texto-base);
   color: var(--texto-principal);
   transition: border-color 0.1s;
   background-color: #fff;
+  min-height: var(--altura-boton);
 }
 
 .entradaTexto:focus {
@@ -112,11 +112,12 @@
   color: white;
   border: none;
   border-radius: var(--radio-input);
-  font-size: var(--texto-md);
+  font-size: var(--texto-base);
   font-weight: var(--peso-bold);
   cursor: pointer;
   transition: background-color 0.1s;
   margin-top: var(--espacio-2);
+  min-height: var(--altura-boton);
 }
 
 .botonEnviar:hover:not(:disabled) {
@@ -135,7 +136,7 @@
 
 .contenedorPassword .entradaTexto {
   width: 100%;
-  padding-right: 45px;
+  padding-right: 48px;
 }
 
 .botonOjo {
@@ -150,7 +151,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  padding: var(--espacio-1);
+  min-width: 36px;
+  min-height: 36px;
 }
 
 .botonOjo:hover {
@@ -174,11 +177,34 @@
   font-size: var(--texto-sm);
 }
 
-@media (max-width: 768px) {
+/* TABLET: ocultar hero */
+@media (max-width: 900px) {
   .heroLogin {
     display: none;
   }
+}
+
+/* MOBILE MEDIANO */
+@media (max-width: 480px) {
+  .ladoFormulario {
+    padding: var(--espacio-6) var(--espacio-4);
+    align-items: flex-start;
+    padding-top: 10vh;
+  }
+
+  .subtitulo {
+    margin-bottom: var(--espacio-6);
+  }
+}
+
+/* MOBILE PEQUEÑO */
+@media (max-width: 360px) {
   .ladoFormulario {
     padding: var(--espacio-4);
+    padding-top: 8vh;
+  }
+
+  .tituloFormulario {
+    font-size: 24px;
   }
 }

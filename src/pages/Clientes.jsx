@@ -253,15 +253,16 @@ function Clientes() {
         {error && <p className={styles.mensajeError}>{error}</p>}
         {!cargando && clientesFiltrados.length === 0 && <p>No se encontraron alumnos.</p>}
 
+        {/* Tabla: visible en tablet/desktop */}
         <table className={styles.tablaClientes}>
           <thead>
             <tr>
               <th className={styles.encabezadoColumna}>Nombre</th>
               <th className={styles.encabezadoColumna}>Apellido</th>
-              <th className={styles.encabezadoColumna}>Teléfono</th>
+              <th className={`${styles.encabezadoColumna} ${styles.colTelefono}`}>Teléfono</th>
               <th className={styles.encabezadoColumna}>Plan</th>
               <th className={styles.encabezadoColumna}>Horario</th>
-              <th className={styles.encabezadoColumna}>Turno</th>
+              <th className={`${styles.encabezadoColumna} ${styles.colTurno}`}>Turno</th>
               <th className={styles.encabezadoColumna}>Estado</th>
               <th className={styles.encabezadoColumna}></th>
             </tr>
@@ -277,7 +278,7 @@ function Clientes() {
                 >
                   <td className={styles.celdaTabla}>{cliente.nombre}</td>
                   <td className={styles.celdaTabla}>{cliente.apellido}</td>
-                  <td className={styles.celdaTabla}>{cliente.telefono}</td>
+                  <td className={`${styles.celdaTabla} ${styles.colTelefono}`}>{cliente.telefono}</td>
                   <td className={styles.celdaTabla}>{cliente.planes ? cliente.planes.nombre : 'Sin plan'}</td>
                   <td className={styles.celdaTabla}>
                     {inscripcionesActivas.length === 0 ? (
@@ -292,7 +293,7 @@ function Clientes() {
                       </ul>
                     )}
                   </td>
-                  <td className={styles.celdaTabla}>
+                  <td className={`${styles.celdaTabla} ${styles.colTurno}`}>
                     {cliente.activo && inscripcionesActivas.length > 0 && (
                       <div className={styles.accionesHorario}>
                         <button
@@ -331,6 +332,77 @@ function Clientes() {
             })}
           </tbody>
         </table>
+
+        {/* Cards: visible solo en mobile */}
+        <div className={styles.listaClientesMobile}>
+          {clientesPaginados.map((cliente) => {
+            const inscripcionesActivas = cliente.inscripcion.filter((i) => i.activa)
+            return (
+              <div
+                key={cliente.id}
+                className={`${styles.cardClienteMobile} ${!cliente.activo ? styles.filaInactiva : ''}`}
+              >
+                <div className={styles.cardClienteEncabezado}>
+                  <div className={styles.cardClienteNombre}>
+                    {cliente.nombre} {cliente.apellido}
+                  </div>
+                  <span className={cliente.activo ? styles.estadoActivo : styles.estadoInactivo}>
+                    {cliente.activo ? 'Activo' : 'Inactivo'}
+                  </span>
+                </div>
+
+                {cliente.telefono && (
+                  <div className={styles.cardClienteDetalle}>
+                    <span>Teléfono</span>
+                    {cliente.telefono}
+                  </div>
+                )}
+
+                <div className={styles.cardClienteDetalle}>
+                  <span>Plan</span>
+                  {cliente.planes ? cliente.planes.nombre : 'Sin plan'}
+                </div>
+
+                {inscripcionesActivas.length > 0 && (
+                  <div className={styles.cardClienteDetalle}>
+                    <span>Horario</span>
+                    {inscripcionesActivas.map((i) => (
+                      <div key={i.id}>{i.clase.dia_semana} {i.clase.hora.slice(0, 5)}</div>
+                    ))}
+                  </div>
+                )}
+
+                <div className={styles.cardClienteAcciones}>
+                  {cliente.activo && inscripcionesActivas.length > 0 && (
+                    <>
+                      <button
+                        className={styles.botonLink}
+                        onClick={() => abrirModalReprogramar(cliente.id, inscripcionesActivas)}
+                      >
+                        Reprogramar
+                      </button>
+                      <button
+                        className={`${styles.botonLink} ${styles.botonLinkRojo}`}
+                        onClick={() => abrirModalCancelarDia(cliente.id, inscripcionesActivas)}
+                      >
+                        Cancelar día
+                      </button>
+                    </>
+                  )}
+                  {cliente.activo ? (
+                    <button className={styles.botonBaja} onClick={() => setClienteABajar(cliente)}>
+                      Dar de baja
+                    </button>
+                  ) : (
+                    <button className={styles.botonReactivar} onClick={() => abrirModalReactivar(cliente)}>
+                      Reactivar
+                    </button>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
 
         {totalPaginas > 1 && (
           <div className={styles.paginacion}>

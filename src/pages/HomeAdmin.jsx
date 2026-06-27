@@ -40,13 +40,13 @@ function HomeAdmin() {
         <div className={styles.bienvenida}>
           <h1 className={styles.tituloBienvenida}>Bienvenida al panel de administración</h1>
           <p className={styles.fecha}>{fecha}</p>
-          <p className={styles.subtitulo}>Desde acá podés gestionar clientes, turnos y horarios del estudio.</p>
+          <p className={styles.subtitulo}>Desde acá podés gestionar alumnos turnos y horarios del estudio.</p>
         </div>
 
         <div className={styles.gridAcciones}>
           <div className={styles.cardAccion} onClick={() => navegar('/agregar-cliente')}>
             <div>
-              <h2 className={styles.tituloCard}>Agregar cliente</h2>
+              <h2 className={styles.tituloCard}>Agregar alumno</h2>
               <p className={styles.textoCard}>Registrá un nuevo cliente con sus datos y plan asignado.</p>
             </div>
           </div>

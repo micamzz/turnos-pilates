@@ -1,12 +1,12 @@
 .footer {
   background-color: #f7f9fa;
-  border-top: 1px solid #ece9f7;
-  padding: 14px 32px;
+  border-top: 1px solid var(--borde-sutil);
+  padding: var(--espacio-3) var(--espacio-6);
   text-align: center;
 }
 
 .footer p {
-  color: #7f8c8d;
-  font-size: 0.82rem;
+  color: var(--texto-tenue);
+  font-size: var(--texto-xs);
   margin: 0;
 }

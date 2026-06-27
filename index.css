@@ -7,7 +7,7 @@
   --radio-pill: 999px;
   /* SOLO badges de estado (Activo, Asistió, etc.) */
 
-  /* Espaciado: escala única, separar con aire en vez de bordes  */
+  /* Espaciado: escala única */
   --espacio-1: 4px;
   --espacio-2: 8px;
   --espacio-3: 12px;
@@ -20,17 +20,11 @@
   --sombra-definicion: 0 1px 2px rgba(0, 0, 0, 0.06);
   --borde-definido: #d8d2c5;
 
-  /*Color: funcional, no decorativo  */
-  --verde: #3f5e44;
-  --verde-oscuro: #2c4530;
-  --verde-fondo: #eef2ec;
-
-  /* DESPUÉS — mismo tono de familia, menos saturado */
+  /* Color */
   --verde: #5a7a5e;
   --verde-oscuro: #3f5e44;
-  /* el viejo "--verde" pasa a ser el oscuro */
   --verde-suave: #87a18a;
-
+  --verde-fondo: #eef2ec;
 
   --texto-principal: #232323;
   --texto-secundario: #6b6560;
@@ -56,6 +50,14 @@
   --peso-normal: 400;
   --peso-medio: 600;
   --peso-bold: 700;
+
+  /* Sistema de contenedores — ancho máximo uniforme */
+  --contenedor-max: 1100px;
+  --contenedor-padding-x: var(--espacio-6);
+  --contenedor-padding-x-mobile: var(--espacio-4);
+
+  /* Altura mínima de botones táctiles */
+  --altura-boton: 44px;
 }
 
 html,
@@ -67,12 +69,10 @@ body,
   padding: 0;
 }
 
-/* Reset base */
 * {
   box-sizing: border-box;
 }
 
-/* Base global */
 body {
   margin: 0;
   font-family: var(--fuente-base);
@@ -81,19 +81,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Links */
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* Buttons */
 button {
   font-family: inherit;
   cursor: pointer;
 }
 
-/* Inputs */
-input {
+input,
+select,
+textarea {
   font-family: inherit;
+}
+
+/* Reduce texto-xl en móviles para que los títulos no rompan layout */
+@media (max-width: 480px) {
+  :root {
+    --texto-xl: 28px;
+    --texto-md: 16px;
+    --contenedor-padding-x: var(--espacio-4);
+  }
 }

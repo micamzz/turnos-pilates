@@ -1,25 +1,28 @@
 .contenedorClientes {
-  max-width: 1100px;
-  margin: var(--espacio-8) auto;
-  padding: 0 var(--espacio-4);
+  max-width: var(--contenedor-max);
+  margin: 0 auto;
+  padding: var(--espacio-8) var(--contenedor-padding-x);
+  min-height: 100vh;
 }
 
 .encabezadoClientes {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--espacio-4);
+  align-items: flex-start;
+  margin-bottom: var(--espacio-6);
+  flex-wrap: wrap;
+  gap: var(--espacio-3);
 }
 
 .tituloPagina {
- font-family: var(--fuente-titulo);
+  font-family: var(--fuente-titulo);
   font-size: var(--texto-xl);
-  font-weight: var(--peso-medio); 
+  font-weight: var(--peso-medio);
   color: var(--texto-principal);
-  margin-bottom: var(--espacio-1);
+  margin: 0;
 }
 
-
+/* ---- BOTONES ---- */
 .botonAgregarCliente {
   display: flex;
   align-items: center;
@@ -33,6 +36,8 @@
   background-color: var(--verde);
   color: white;
   transition: background 0.1s;
+  min-height: var(--altura-boton);
+  white-space: nowrap;
 }
 
 .botonAgregarCliente:hover {
@@ -48,6 +53,8 @@
   font-size: var(--texto-xs);
   cursor: pointer;
   transition: background 0.1s;
+  min-height: 32px;
+  white-space: nowrap;
 }
 
 .botonReactivar:hover {
@@ -63,6 +70,8 @@
   font-size: var(--texto-xs);
   cursor: pointer;
   transition: background 0.1s, border-color 0.1s;
+  min-height: 32px;
+  white-space: nowrap;
 }
 
 .botonBaja:hover {
@@ -73,18 +82,18 @@
 .botonLink {
   background: none;
   border: none;
-  color: var(--verde);
+  color: var(--verde-oscuro);
   font-size: var(--texto-xs);
   cursor: pointer;
   padding-left: var(--espacio-1);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  min-height: 28px;
 }
 
 .botonLinkRojo {
   color: var(--error);
 }
 
+/* ---- BUSCADOR ---- */
 .buscadorClientes {
   width: 100%;
   max-width: 350px;
@@ -96,13 +105,14 @@
   background: white;
   color: var(--texto-principal);
   outline: none;
+  min-height: var(--altura-boton);
 }
 
 .buscadorClientes:focus {
   border-color: var(--verde);
 }
 
-
+/* ---- TABLA DESKTOP/TABLET ---- */
 .tablaClientes {
   width: 100%;
   border-collapse: collapse;
@@ -113,16 +123,17 @@
   background-color: transparent;
   color: var(--texto-tenue);
   text-align: left;
-  padding: var(--espacio-2) var(--espacio-4) var(--espacio-2) 0;
+  padding: var(--espacio-2) var(--espacio-3) var(--espacio-2) 0;
   font-size: var(--texto-xs);
   font-weight: var(--peso-bold);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   border-bottom: 1px solid var(--borde-sutil);
+  white-space: nowrap;
 }
 
 .celdaTabla {
-  padding: var(--espacio-3) var(--espacio-4) var(--espacio-3) 0;
+  padding: var(--espacio-3) var(--espacio-3) var(--espacio-3) 0;
   border-bottom: 1px solid var(--borde-sutil);
   font-size: var(--texto-base);
   color: var(--texto-principal);
@@ -154,13 +165,14 @@
   margin-left: var(--espacio-2);
 }
 
-
+/* ---- BADGES ---- */
 .estadoActivo,
 .estadoInactivo {
   padding: 2px var(--espacio-3);
   border-radius: var(--radio-pill);
   font-size: var(--texto-xs);
   font-weight: var(--peso-medio);
+  white-space: nowrap;
 }
 
 .estadoActivo {
@@ -191,13 +203,15 @@
   margin: var(--espacio-2) 0;
 }
 
+/* ---- PAGINACIÓN ---- */
 .paginacion {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--espacio-4);
   margin-top: var(--espacio-6);
-  padding-bottom: var(--espacio-4);
+  padding-bottom: var(--espacio-6);
+  flex-wrap: wrap;
 }
 
 .botonPagina {
@@ -209,6 +223,7 @@
   font-size: var(--texto-sm);
   cursor: pointer;
   transition: background-color 0.1s;
+  min-height: var(--altura-boton);
 }
 
 .botonPagina:hover:not(:disabled) {
@@ -227,6 +242,7 @@
   text-align: center;
 }
 
+/* ---- MODALES ---- */
 .overlayModal {
   position: fixed;
   inset: 0;
@@ -245,7 +261,7 @@
   box-shadow: var(--sombra-flotante);
   width: 100%;
   max-width: 480px;
-  max-height: 85vh;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -279,7 +295,7 @@
 .campoSelectModal,
 .campoFechaModal {
   width: 100%;
-  padding: var(--espacio-2);
+  padding: var(--espacio-2) var(--espacio-3);
   margin-top: var(--espacio-2);
   border-radius: var(--radio-input);
   font-size: var(--texto-base);
@@ -287,6 +303,7 @@
   outline: none;
   border: 1px solid var(--borde-sutil);
   box-sizing: border-box;
+  min-height: var(--altura-boton);
 }
 
 .campoSelectModal:focus,
@@ -308,6 +325,7 @@
   border-top: 1px solid var(--borde-sutil);
   margin: 0;
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
 .botonSecundario {
@@ -319,6 +337,7 @@
   font-size: var(--texto-sm);
   cursor: pointer;
   transition: background 0.1s;
+  min-height: var(--altura-boton);
 }
 
 .botonSecundario:hover {
@@ -335,6 +354,7 @@
   font-weight: var(--peso-medio);
   cursor: pointer;
   transition: background 0.1s;
+  min-height: var(--altura-boton);
 }
 
 .botonConfirmar:hover {
@@ -343,15 +363,20 @@
 
 .botonCerrarModal {
   position: absolute;
-  top: var(--espacio-4);
-  right: var(--espacio-4);
+  top: var(--espacio-3);
+  right: var(--espacio-3);
   background: none;
   border: none;
   font-size: 1.3rem;
   line-height: 1;
   color: var(--texto-tenue);
   cursor: pointer;
-  padding: var(--espacio-1);
+  padding: var(--espacio-2);
+  min-width: 36px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .botonCerrarModal:hover {
@@ -402,6 +427,7 @@
   font-size: var(--texto-base);
   cursor: pointer;
   color: var(--texto-principal);
+  min-height: 32px;
 }
 
 .opcionHorarioDeshabilitado {
@@ -424,8 +450,117 @@
   font-size: var(--texto-sm);
   cursor: pointer;
   transition: background 0.1s;
+  min-height: 32px;
 }
 
 .botonInhabilitar:hover {
   background: var(--verde-fondo);
+}
+
+/* ---- CARDS MOBILE: reemplaza tabla en pantallas pequeñas ---- */
+.listaClientesMobile {
+  display: none;
+  flex-direction: column;
+  gap: var(--espacio-3);
+}
+
+.cardClienteMobile {
+  background: #fff;
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-panel);
+  padding: var(--espacio-4);
+}
+
+.cardClienteMobile.filaInactiva {
+  background: #fafafa;
+}
+
+.cardClienteEncabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--espacio-2);
+  gap: var(--espacio-2);
+}
+
+.cardClienteNombre {
+  font-size: var(--texto-base);
+  font-weight: var(--peso-medio);
+  color: var(--texto-principal);
+  line-height: 1.3;
+}
+
+.cardClienteMobile.filaInactiva .cardClienteNombre {
+  color: var(--texto-tenue);
+}
+
+.cardClienteDetalle {
+  font-size: var(--texto-sm);
+  color: var(--texto-secundario);
+  margin-bottom: var(--espacio-1);
+}
+
+.cardClienteDetalle span {
+  color: var(--texto-tenue);
+  font-size: var(--texto-xs);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.cardClienteAcciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-2);
+  margin-top: var(--espacio-3);
+  padding-top: var(--espacio-3);
+  border-top: 1px solid var(--borde-sutil);
+}
+
+/* ---- TABLET ---- */
+@media (max-width: 900px) {
+  .contenedorClientes {
+    padding: var(--espacio-6) var(--contenedor-padding-x-mobile);
+  }
+
+  /* ocultar cols menos importantes */
+  .colTelefono,
+  .colTurno {
+    display: none;
+  }
+}
+
+/* ---- MOBILE: cambiar tabla por cards ---- */
+@media (max-width: 640px) {
+  .contenedorClientes {
+    padding: var(--espacio-4) var(--contenedor-padding-x-mobile);
+  }
+
+  .encabezadoClientes {
+    margin-bottom: var(--espacio-4);
+  }
+
+  .buscadorClientes {
+    max-width: 100%;
+  }
+
+  .tablaClientes {
+    display: none;
+  }
+
+  .listaClientesMobile {
+    display: flex;
+  }
+}
+
+/* ---- MOBILE PEQUEÑO ---- */
+@media (max-width: 360px) {
+  .cardClienteAcciones {
+    flex-direction: column;
+  }
+
+  .botonReactivar,
+  .botonBaja {
+    width: 100%;
+    text-align: center;
+  }
 }

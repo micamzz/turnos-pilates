@@ -1,17 +1,22 @@
 .contenedorAgregarCliente {
+  max-width: var(--contenedor-max);
+  margin: 0 auto;
+  padding: var(--espacio-8) var(--contenedor-padding-x);
   min-height: 100vh;
-  padding: var(--espacio-8) var(--espacio-4);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .tituloPagina {
- font-family: var(--fuente-titulo);
+  font-family: var(--fuente-titulo);
   font-size: var(--texto-xl);
-  font-weight: var(--peso-medio); 
+  font-weight: var(--peso-medio);
   color: var(--texto-principal);
-  margin-bottom: var(--espacio-1);
+  margin: 0 0 var(--espacio-6);
+  align-self: flex-start;
+  width: 100%;
+  max-width: 43.75rem;
 }
 
 .formularioCliente {
@@ -29,7 +34,7 @@
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--verde);
-  margin-bottom: var(--espacio-2);
+  margin: 0 0 var(--espacio-2);
 }
 
 .separador {
@@ -63,7 +68,6 @@
   color: var(--texto-tenue);
 }
 
-
 .entradaTexto,
 .entradaSelect {
   padding: var(--espacio-2) var(--espacio-3);
@@ -73,6 +77,8 @@
   color: var(--texto-principal);
   background: #fff;
   transition: border-color 0.1s;
+  min-height: var(--altura-boton);
+  width: 100%;
 }
 
 .entradaTexto:hover,
@@ -96,7 +102,6 @@
   color: var(--verde);
 }
 
-
 .grupoDia {
   padding: var(--espacio-2) 0;
   border-bottom: 1px solid var(--borde-sutil);
@@ -118,14 +123,14 @@
   align-items: center;
 }
 
-
 .opcionHorario {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--espacio-1) var(--espacio-2);
+  padding: var(--espacio-1) var(--espacio-3);
   min-width: 3.625rem;
+  min-height: 36px;
   border: 1px solid var(--borde-sutil);
   border-radius: var(--radio-input);
   background: #fff;
@@ -163,11 +168,11 @@
   background: #f3f4f6;
 }
 
-
 .botonGuardar {
- display: block; 
+  display: block;
   width: auto;
-  margin: var(--espacio-3) auto 0;
+  min-width: 180px;
+  margin: var(--espacio-6) auto 0;
   padding: var(--espacio-3) var(--espacio-8);
   border: none;
   border-radius: var(--radio-input);
@@ -177,6 +182,7 @@
   font-size: var(--texto-base);
   cursor: pointer;
   transition: background 0.1s;
+  min-height: var(--altura-boton);
 }
 
 .botonGuardar:hover:not(:disabled) {
@@ -198,12 +204,36 @@
   font-size: var(--texto-sm);
 }
 
-@media (max-width: 35rem) {
+/* TABLET */
+@media (max-width: 768px) {
+  .contenedorAgregarCliente {
+    padding: var(--espacio-6) var(--contenedor-padding-x-mobile);
+  }
+
+  .formularioCliente {
+    padding: var(--espacio-4) var(--espacio-6);
+  }
+}
+
+/* MOBILE MEDIANO */
+@media (max-width: 560px) {
   .filaCampos {
     grid-template-columns: 1fr;
   }
 
   .formularioCliente {
     padding: var(--espacio-4);
+  }
+
+  .botonGuardar {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+/* MOBILE PEQUEÑO */
+@media (max-width: 360px) {
+  .contenedorAgregarCliente {
+    padding: var(--espacio-4) var(--espacio-3);
   }
 }

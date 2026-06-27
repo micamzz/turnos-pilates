@@ -1,7 +1,7 @@
 .header {
   background-color: #37634c;
-  height: 70px;
-  padding: 0 32px;
+  height: 64px;
+  padding: 0 var(--espacio-6);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -9,18 +9,18 @@
 }
 
 .logo {
-  height: 100px;
+  height: 90px;
   width: auto;
   position: absolute;
   top: 56%;
   transform: translateY(-50%);
-  left: 32px;
+  left: var(--espacio-6);
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: var(--espacio-6);
   margin-left: auto;
 }
 
@@ -47,6 +47,7 @@
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
+  min-height: 38px;
 }
 
 .botonCerrarSesion:hover {
@@ -58,34 +59,38 @@
   background: transparent;
   border: none;
   color: white;
-  font-size: 2rem;
+  font-size: 1.8rem;
   cursor: pointer;
+  padding: var(--espacio-2);
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 /* TABLET */
-
 @media (max-width: 1024px) {
   .logo {
-    height: 80px;
+    height: 75px;
   }
 }
 
 /* MOBILE */
-
 @media (max-width: 768px) {
   .header {
-    height: 70px;
-    padding: 0 16px;
+    height: 60px;
+    padding: 0 var(--espacio-4);
   }
 
   .logo {
     position: static;
     transform: none;
-    height: 70px;
+    height: 60px;
   }
 
   .hamburguesa {
-    display: block;
+    display: flex;
   }
 
   .nav {
@@ -95,16 +100,16 @@
   .navAbierto {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 16px;
+    align-items: stretch;
+    gap: var(--espacio-2);
 
     position: absolute;
-    top: 70px;
+    top: 60px;
     left: 0;
     right: 0;
 
     background-color: #37634c;
-    padding: 20px;
+    padding: var(--espacio-4);
     z-index: 1000;
 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -114,5 +119,10 @@
   .botonCerrarSesion {
     width: 100%;
     text-align: center;
+    padding: var(--espacio-3) var(--espacio-4);
+    min-height: var(--altura-boton);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
