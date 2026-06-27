@@ -6,6 +6,7 @@ import { obtenerClases } from '../services/clase'
 import { crearCliente } from '../services/clientes'
 import { crearInscripciones } from '../services/inscripcion'
 import { agruparClasesPorDia } from '../utils/fechas'
+import ModalConfirmacion from '../components/ModalConfirmacion/ModalConfirmacion.jsx'
 import styles from './AgregarCliente.module.css'
 
 function AgregarCliente() {
@@ -15,6 +16,8 @@ function AgregarCliente() {
     const [email, setEmail] = useState('')
     const [planId, setPlanId] = useState('')
     const [clasesSeleccionadas, setClasesSeleccionadas] = useState([])
+
+    const [clienteCreadoExitoso, setClienteCreadoExitoso] = useState(null)
 
     const [planes, setPlanes] = useState([])
     const [clases, setClases] = useState([])
@@ -110,12 +113,18 @@ function AgregarCliente() {
             }))
             await crearInscripciones(inscripciones)
 
-            navegar('/home')
+            setClienteCreadoExitoso({ nombre, apellido })
         } catch (err) {
             setErrores({ general: 'No se pudo guardar el cliente: ' + err.message })
         } finally {
             setCargando(false)
         }
+    }
+
+    /* Modal */
+    function irALaAgenda() {
+        setClienteCreadoExitoso(null)
+        navegar('/agenda')
     }
 
     const clasesPorDia = agruparClasesPorDia(clases)
@@ -251,6 +260,15 @@ function AgregarCliente() {
                     {errores.general && <p className={styles.mensajeError}>{errores.general}</p>}
                 </form>
             </div>
+
+            {/* Modal */}
+            {clienteCreadoExitoso && (
+                <ModalConfirmacion
+                    mensaje={`${clienteCreadoExitoso.nombre} ${clienteCreadoExitoso.apellido} fue agregado correctamente.`}
+                    alConfirmar={irALaAgenda}
+                    textoBoton="Ir a la agenda"
+                />
+            )}
         </Layout>
     )
 }

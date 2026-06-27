@@ -3,9 +3,17 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Layout } from '../components/layout/Layout.jsx'
 import { obtenerClases } from '../services/clase'
 import { obtenerInscripcionesConClienteYClase } from '../services/inscripcion'
-import { obtenerReservasEnRango, cancelarTurno, crearRecupero, obtenerCancelacionesDelMes, crearVisitaDePrueba, } from '../services/reserva'
-import { clientesEnClaseYFecha } from '../utils/fechas'
-import './DetalleClase.css'
+import {
+  obtenerReservasEnRango,
+  cancelarTurno,
+  crearRecupero,
+  obtenerCancelacionesDelMes,
+  crearVisitaDePrueba,
+  marcarAsistencia,
+} from '../services/reserva'
+import { clientesEnClaseYFecha, claseYaPaso } from '../utils/fechas'
+import ModalConfirmacion from '../components/ModalConfirmacion/ModalConfirmacion.jsx'
+import styles from './DetalleClase.module.css'
 
 function DetalleClase() {
   const { claseId, fecha } = useParams()
@@ -18,10 +26,12 @@ function DetalleClase() {
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState('')
   const [modalAgregar, setModalAgregar] = useState(false)
-
-  // nuevo estado para el modal de visita de prueba
   const [modalPrueba, setModalPrueba] = useState(false)
   const [nombrePrueba, setNombrePrueba] = useState('')
+
+  // Guarda el inscripto a cancelar, o null si no hay ningún confirm
+  // pendiente. Reemplaza al window.confirm() de manejarEliminar().
+  const [inscriptoACancelar, setInscriptoACancelar] = useState(null)
 
   useEffect(() => {
     cargarDatos()
@@ -51,13 +61,15 @@ function DetalleClase() {
 
   const clientesHoy = clientesEnClaseYFecha(inscripciones, reservas, claseId, fecha)
 
-  async function manejarEliminar(inscripto) {
-    const nombre = inscripto.clientes?.nombre || 'este cliente'
-    const confirmado = window.confirm(`¿Cancelar el turno de ${nombre} para este día?`)
-    if (!confirmado) return
+  // true si ya pasó el margen de 12hs del día siguiente a la fecha de la clase.
+  const yaPaso = clase ? claseYaPaso(fecha, clase.hora) : false
 
+  // Esta función ya no pregunta nada con window.confirm() — solo ejecuta
+  // la cancelación. La pregunta la hace el ModalConfirmacion ahora.
+  async function confirmarCancelacion() {
     try {
-      await cancelarTurno(inscripto.cliente_id, claseId, fecha)
+      await cancelarTurno(inscriptoACancelar.cliente_id, claseId, fecha)
+      setInscriptoACancelar(null)
       await cargarDatos()
     } catch (err) {
       setError('No se pudo cancelar: ' + err.message)
@@ -74,7 +86,6 @@ function DetalleClase() {
     }
   }
 
-  // Confirma la visita de prueba con el nombre tipeado.
   async function confirmarVisitaDePrueba() {
     if (!nombrePrueba.trim()) {
       setError('Ingresá el nombre de la persona')
@@ -90,6 +101,17 @@ function DetalleClase() {
     }
   }
 
+  // Marca asistencia directo, sin pasar por modal de confirmación — es una
+  // acción positiva y rápida, no necesita la misma fricción que cancelar.
+  async function confirmarAsistencia(persona) {
+    try {
+      await marcarAsistencia(persona.cliente_id, claseId, fecha)
+      await cargarDatos()
+    } catch (err) {
+      setError('No se pudo marcar la asistencia: ' + err.message)
+    }
+  }
+
   const cuposLibres = clase ? clase.capacidad - clientesHoy.length : 0
 
   const [anio, mes, dia] = fecha.split('-')
@@ -97,38 +119,46 @@ function DetalleClase() {
 
   return (
     <Layout>
-      <div className="contenedor-detalle">
-        <button className="boton-volver" onClick={() => navegar('/agenda')}>
+      <div className={styles.contenedorDetalle}>
+        <button className={styles.botonVolver} onClick={() => navegar('/agenda')}>
           ← Volver a la agenda
         </button>
 
         {cargando && <p>Cargando...</p>}
-        {error && <p className="mensaje-error">{error}</p>}
+        {error && <p className={styles.mensajeError}>{error}</p>}
 
         {!cargando && clase && (
           <>
-            <div className="detalle-encabezado">
+            <div className={styles.detalleEncabezado}>
               <div>
-                <h1 className="detalle-titulo">Pilates</h1>
-                <p className="detalle-subtitulo">
+                <h1 className={styles.detalleTitulo}>Pilates</h1>
+                <p className={styles.detalleSubtitulo}>
                   {clase.dia_semana} {fechaMostrar} · {clase.hora.slice(0, 5)} hs
                 </p>
               </div>
-              <div className={`badge-cupos-detalle ${cuposLibres > 0 ? 'libres' : 'completo'}`}>
+              <div
+                className={`${styles.badgeCuposDetalle} ${
+                  cuposLibres > 0 ? styles.badgeCuposDetalleLibres : styles.badgeCuposDetalleCompleto
+                }`}
+              >
                 {cuposLibres > 0 ? `${cuposLibres} cupos libres` : 'Cupo completo'}
               </div>
             </div>
 
-            <div className="detalle-seccion">
-              <div className="detalle-seccion-header">
-                <h2>Inscriptos ({clientesHoy.length}/{clase.capacidad})</h2>
-                {/* hay 2 botones cuando hay cupo: Agregar cliente(recupero) y Agregar prueba (visita nueva sin registro) */}
-                {cuposLibres > 0 && (
-                  <div className="botones-agregar-detalle">
-                    <button className="boton-agregar-detalle" onClick={() => setModalAgregar(true)}>
+            <div className={styles.detalleSeccion}>
+              <div className={styles.detalleSeccionHeader}>
+                <h2 className={styles.tituloSeccion}>
+                  Inscriptos ({clientesHoy.length}/{clase.capacidad})
+                </h2>
+                {cuposLibres > 0 && !yaPaso && (
+                  <div className={styles.botonesAgregarDetalle}>
+                    <button className={styles.botonAgregarDetalle} onClick={() => setModalAgregar(true)}>
                       + Agregar cliente
                     </button>
-                    <button className="boton-agregar-detalle boton-agregar-prueba" onClick={() => setModalPrueba(true)}>
+                    <button
+                      className={`${styles.botonAgregarDetalle} ${styles.botonAgregarPrueba}`}
+                      onClick={() => setModalPrueba(true)}
+                    >
                       + Clase de prueba
                     </button>
                   </div>
@@ -136,22 +166,37 @@ function DetalleClase() {
               </div>
 
               {clientesHoy.length === 0 ? (
-                <p className="detalle-vacio">No hay nadie inscripto en esta clase.</p>
+                <p className={styles.detalleVacio}>No hay nadie inscripto en esta clase.</p>
               ) : (
-                <ul className="lista-inscriptos">
+                <ul className={styles.listaInscriptos}>
                   {clientesHoy.map((i) => (
-                    <li key={i.id} className="item-inscripto">
-                      <div className="inscripto-info">
-                        <span className="inscripto-nombre">
+                    <li key={i.id} className={styles.itemInscripto}>
+                      <div className={styles.inscriptoInfo}>
+                        <span className={styles.inscriptoNombre}>
                           {i.clientes?.nombre} {i.clientes?.apellido}
                         </span>
-                        {i.esRecupero && <span className="etiqueta-recupero">Recupero</span>}
-                        {/* etiqueta nueva para distinguir visitas de prueba */}
-                        {i.esPrueba && <span className="etiqueta-prueba">Prueba</span>}
+                        {i.esRecupero && <span className={styles.etiquetaRecupero}>Recupero</span>}
+                        {i.esPrueba && <span className={styles.etiquetaPrueba}>Prueba</span>}
+                        {i.asistio && <span className={styles.etiquetaAsistio}>Asistió</span>}
                       </div>
-                      <button className="boton-eliminar-inscripto" onClick={() => manejarEliminar(i)}>
-                        Cancelar turno
-                      </button>
+
+                      <div className={styles.accionesInscripto}>
+                        {!i.asistio && !yaPaso && (
+                          <button
+                            className={styles.botonConfirmarAsistencia}
+                            onClick={() => confirmarAsistencia(i)}
+                          >
+                            Confirmar asistencia
+                          </button>
+                        )}
+                        <button
+                          className={styles.botonEliminarInscripto}
+                          onClick={() => setInscriptoACancelar(i)}
+                          disabled={yaPaso}
+                        >
+                          Cancelar turno
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -162,26 +207,26 @@ function DetalleClase() {
 
         {/* Modal agregar cliente (recupero) */}
         {modalAgregar && (
-          <div className="overlay-modal">
-            <div className="modal">
-              <button className="boton-cerrar-modal" onClick={() => setModalAgregar(false)} aria-label="Cerrar">
+          <div className={styles.overlayModal}>
+            <div className={styles.modal}>
+              <button className={styles.botonCerrarModal} onClick={() => setModalAgregar(false)} aria-label="Cerrar">
                 ✕
               </button>
 
-              <h2>Agregar cliente</h2>
-              <p>Clientes con cancelaciones pendientes este mes:</p>
+              <h2 className={styles.tituloModal}>Agregar cliente</h2>
+              <p className={styles.textoModal}>Clientes con cancelaciones pendientes este mes:</p>
 
               {cancelacionesDelMes.length === 0 ? (
-                <p className="detalle-vacio">No hay cancelaciones pendientes este mes.</p>
+                <p className={styles.detalleVacio}>No hay cancelaciones pendientes este mes.</p>
               ) : (
-                <ul className="lista-dias-modal">
+                <ul className={styles.listaDiasModal}>
                   {cancelacionesDelMes.map((c) => (
-                    <li key={c.id} className="item-dia-modal">
+                    <li key={c.id} className={styles.itemDiaModal}>
                       <span>
                         {c.clientes?.nombre} {c.clientes?.apellido}
-                        <span className="fecha-cancelacion"> — canceló el {c.fecha}</span>
+                        <span className={styles.fechaCancelacion}> — canceló el {c.fecha}</span>
                       </span>
-                      <button className="boton-habilitar" onClick={() => manejarAgregarRecupero(c)}>
+                      <button className={styles.botonHabilitar} onClick={() => manejarAgregarRecupero(c)}>
                         Asignar acá
                       </button>
                     </li>
@@ -189,8 +234,8 @@ function DetalleClase() {
                 </ul>
               )}
 
-              <div className="acciones-modal">
-                <button className="boton-secundario" onClick={() => setModalAgregar(false)}>
+              <div className={styles.accionesModal}>
+                <button className={styles.botonSecundario} onClick={() => setModalAgregar(false)}>
                   Cancelar
                 </button>
               </div>
@@ -198,28 +243,38 @@ function DetalleClase() {
           </div>
         )}
 
-        {/*  modal nuevo para la visita de prueba */}
+        {/* Modal: Clase de prueba */}
         {modalPrueba && (
-          <div className="overlay-modal">
-            <div className="modal">
-              <button className="boton-cerrar-modal" onClick={() => setModalPrueba(false)} aria-label="Cerrar">
+          <div className={styles.overlayModal}>
+            <div className={styles.modal}>
+              <button
+                className={styles.botonCerrarModal}
+                onClick={() => {
+                  setModalPrueba(false)
+                  setNombrePrueba('')
+                }}
+                aria-label="Cerrar"
+              >
                 ✕
               </button>
 
-              <h2>Clase de prueba</h2>
-              <p>Anotá a alguien que viene a probar, sin necesidad de registrarlo como cliente:</p>
+              <h2 className={styles.tituloModal}>Clase de prueba</h2>
+              <p className={styles.textoModal}>
+                Anotá a alguien que viene a probar, sin necesidad de registrarlo como cliente:
+              </p>
 
-              <label>Nombre</label>
+              <label className={styles.etiquetaModal}>Nombre</label>
               <input
                 type="text"
+                className={styles.campoTextoModal}
                 value={nombrePrueba}
                 onChange={(e) => setNombrePrueba(e.target.value)}
                 placeholder="Nombre y apellido"
               />
 
-              <div className="acciones-modal">
+              <div className={styles.accionesModal}>
                 <button
-                  className="boton-secundario"
+                  className={styles.botonSecundario}
                   onClick={() => {
                     setModalPrueba(false)
                     setNombrePrueba('')
@@ -231,6 +286,15 @@ function DetalleClase() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* Modal nuevo, reemplaza al window.confirm() de manejarEliminar() */}
+        {inscriptoACancelar && (
+          <ModalConfirmacion
+            mensaje={`¿Cancelar el turno de ${inscriptoACancelar.clientes?.nombre || 'este cliente'} para este día?`}
+            alConfirmar={confirmarCancelacion}
+            alCancelar={() => setInscriptoACancelar(null)}
+          />
         )}
       </div>
     </Layout>

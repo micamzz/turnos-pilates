@@ -5,15 +5,9 @@ import { obtenerClases } from '../services/clase'
 import { obtenerInscripcionesConClienteYClase } from '../services/inscripcion'
 import { obtenerReservasEnRango } from '../services/reserva'
 import { obtenerFeriadosEnRango, crearFeriado, eliminarFeriado } from '../services/feriado'
-import {
-  obtenerDiasDeLaSemana,
-  formatearFechaISO,
-  nombreDia,
-  esFechaPasada,
-  clientesEnClaseYFecha,
-} from '../utils/fechas'
+import { obtenerDiasDeLaSemana, formatearFechaISO, nombreDia, claseYaPaso, clientesEnClaseYFecha, } from '../utils/fechas'
 import ModalConfirmacion from '../components/ModalConfirmacion/ModalConfirmacion.jsx'
-import styles from './Agenda.module.css' 
+import styles from './Agenda.module.css'
 
 function Agenda() {
   const navegar = useNavigate()
@@ -92,14 +86,14 @@ function Agenda() {
 
   return (
     <Layout>
-     
+
       <div className={styles.contenedorAgenda}>
         <div className={styles.encabezadoAgenda}>
-       
+
           <button className={styles.botonNavegarSemana} onClick={() => setOffsetSemana((s) => s - 1)}>
             ← Anterior
           </button>
-      
+
           <h1 className={styles.tituloPagina}>Agenda semanal</h1>
           <button className={styles.botonNavegarSemana} onClick={() => setOffsetSemana((s) => s + 1)}>
             Siguiente →
@@ -115,22 +109,26 @@ function Agenda() {
 
         {!cargando && (
           <table className={styles.tablaAgenda}>
+
             <thead>
               <tr>
                 {diasSemana.map((fecha) => {
                   const fechaISO = formatearFechaISO(fecha)
+                  const esHoy = fechaISO === formatearFechaISO(new Date())
                   return (
-       
                     <th key={fechaISO} className={styles.encabezadoColumnaDia}>
                       {nombreDia(fecha).toUpperCase()}
                       <span className={styles.fechaChica}>
                         ({fecha.getDate()}/{fecha.getMonth() + 1}/{fecha.getFullYear()})
                       </span>
+                      {/* muestra "HOY" solo en la columna del día actual */}
+                      {esHoy && <span className={styles.etiquetaHoy}>HOY</span>}
                     </th>
                   )
                 })}
               </tr>
             </thead>
+
             <tbody>
               {horariosUnicos.map((hora) => (
                 <tr key={hora}>
@@ -153,11 +151,11 @@ function Agenda() {
 
                     const totalInscriptos = cantidadInscriptos(clase.id, fechaISO)
                     const cuposLibres = clase.capacidad - totalInscriptos
-                    const pasada = esFechaPasada(fechaISO)
+                    const pasada = claseYaPaso(fechaISO, hora)
 
                     return (
                       <td key={fechaISO} className={styles.celdaTurno}>
-           
+
                         <div
                           className={`${styles.tarjetaClase} ${pasada ? styles.tarjetaPasada : styles.tarjetaClickeable}`}
                           onClick={() => navegar(`/agenda/${clase.id}/${fechaISO}`)}
@@ -204,7 +202,7 @@ function Agenda() {
                         {nombreDia(fecha)} {fecha.getDate()}/{fecha.getMonth() + 1}
                         {yaEsFeriado && <span className={styles.etiquetaFeriado}> (Feriado)</span>}
                       </span>
-                
+
                       <button
                         className={yaEsFeriado ? styles.botonHabilitar : styles.botonInhabilitar}
                         onClick={() => pedirConfirmacionFeriado(fechaISO)}
@@ -224,7 +222,7 @@ function Agenda() {
           </div>
         )}
 
-        
+
         {confirmacionFeriado && (
           <ModalConfirmacion
             mensaje={
