@@ -5,13 +5,25 @@ import { obtenerClases } from '../services/clase'
 import { obtenerInscripcionesConClienteYClase } from '../services/inscripcion'
 import { obtenerReservasEnRango } from '../services/reserva'
 import { obtenerFeriadosEnRango, crearFeriado, eliminarFeriado } from '../services/feriado'
-import { obtenerDiasDeLaSemana, formatearFechaISO, nombreDia, claseYaPaso, clientesEnClaseYFecha, } from '../utils/fechas'
+import {
+  obtenerDiasDeLaSemana,
+  calcularDiaConOffset,
+  formatearFechaISO,
+  nombreDia,
+  esFechaPasada,
+  clientesEnClaseYFecha,
+} from '../utils/fechas'
+import { useEsMobile } from '../utils/useEsMobile'
 import ModalConfirmacion from '../components/ModalConfirmacion/ModalConfirmacion.jsx'
 import styles from './Agenda.module.css'
 
 function Agenda() {
   const navegar = useNavigate()
+  const esMobile = useEsMobile()
+
   const [offsetSemana, setOffsetSemana] = useState(0)
+  const [offsetDia, setOffsetDia] = useState(0)
+
   const [clases, setClases] = useState([])
   const [inscripciones, setInscripciones] = useState([])
   const [reservasDelDia, setReservasDelDia] = useState([])
@@ -20,25 +32,30 @@ function Agenda() {
   const [error, setError] = useState('')
   const [modalFeriadoAbierto, setModalFeriadoAbierto] = useState(false)
 
-
   const [confirmacionFeriado, setConfirmacionFeriado] = useState(null)
 
-  const diasSemana = obtenerDiasDeLaSemana(offsetSemana)
+  // En mobile, diasSemana tiene un solo día (hoy + offsetDia).
+  // En desktop, sigue siendo la semana completa de Lunes a Viernes.
+  const diasSemana = esMobile
+    ? [calcularDiaConOffset(offsetDia)]
+    : obtenerDiasDeLaSemana(offsetSemana)
 
   useEffect(() => {
     cargarDatos()
-  }, [offsetSemana])
+  }, [offsetSemana, offsetDia, esMobile])
 
   async function cargarDatos() {
     setCargando(true)
     try {
       const fechasISO = diasSemana.map(formatearFechaISO)
+      const primeraFecha = fechasISO[0]
+      const ultimaFecha = fechasISO[fechasISO.length - 1]
 
       const [listaClases, listaInscripciones, reservas, listaFeriados] = await Promise.all([
         obtenerClases(),
         obtenerInscripcionesConClienteYClase(),
-        obtenerReservasEnRango(fechasISO[0], fechasISO[4]),
-        obtenerFeriadosEnRango(fechasISO[0], fechasISO[4]),
+        obtenerReservasEnRango(primeraFecha, ultimaFecha),
+        obtenerFeriadosEnRango(primeraFecha, ultimaFecha),
       ])
 
       setClases(listaClases)
@@ -56,11 +73,9 @@ function Agenda() {
     return feriados.some((f) => f.fecha === fechaISO)
   }
 
-
   function pedirConfirmacionFeriado(fechaISO) {
     setConfirmacionFeriado({ fechaISO, esHabilitar: esFeriado(fechaISO) })
   }
-
 
   async function confirmarCambioFeriado() {
     const { fechaISO, esHabilitar } = confirmacionFeriado
@@ -86,18 +101,39 @@ function Agenda() {
 
   return (
     <Layout>
-
       <div className={styles.contenedorAgenda}>
         <div className={styles.encabezadoAgenda}>
-
-          <button className={styles.botonNavegarSemana} onClick={() => setOffsetSemana((s) => s - 1)}>
-            ← Anterior
-          </button>
-
-          <h1 className={styles.tituloPagina}>Agenda semanal</h1>
-          <button className={styles.botonNavegarSemana} onClick={() => setOffsetSemana((s) => s + 1)}>
-            Siguiente →
-          </button>
+          {esMobile ? (
+            <>
+              <button
+                className={styles.botonNavegarSemana}
+                onClick={() => setOffsetDia((d) => d - 1)}
+                aria-label="Día anterior"
+              >
+                ←
+              </button>
+              <h1 className={styles.tituloPagina}>
+                {nombreDia(diasSemana[0])} {diasSemana[0].getDate()}/{diasSemana[0].getMonth() + 1}
+              </h1>
+              <button
+                className={styles.botonNavegarSemana}
+                onClick={() => setOffsetDia((d) => d + 1)}
+                aria-label="Día siguiente"
+              >
+                →
+              </button>
+            </>
+          ) : (
+            <>
+              <button className={styles.botonNavegarSemana} onClick={() => setOffsetSemana((s) => s - 1)}>
+                 Anterior
+              </button>
+              <h1 className={styles.tituloPagina}>Agenda semanal</h1>
+              <button className={styles.botonNavegarSemana} onClick={() => setOffsetSemana((s) => s + 1)}>
+                Siguiente 
+              </button>
+            </>
+          )}
         </div>
 
         <button className={styles.botonAbrirModalFeriado} onClick={() => setModalFeriadoAbierto(true)}>
@@ -109,26 +145,21 @@ function Agenda() {
 
         {!cargando && (
           <table className={styles.tablaAgenda}>
-
             <thead>
               <tr>
                 {diasSemana.map((fecha) => {
                   const fechaISO = formatearFechaISO(fecha)
-                  const esHoy = fechaISO === formatearFechaISO(new Date())
                   return (
                     <th key={fechaISO} className={styles.encabezadoColumnaDia}>
                       {nombreDia(fecha).toUpperCase()}
                       <span className={styles.fechaChica}>
                         ({fecha.getDate()}/{fecha.getMonth() + 1}/{fecha.getFullYear()})
                       </span>
-                      {/* muestra "HOY" solo en la columna del día actual */}
-                      {esHoy && <span className={styles.etiquetaHoy}>HOY</span>}
                     </th>
                   )
                 })}
               </tr>
             </thead>
-
             <tbody>
               {horariosUnicos.map((hora) => (
                 <tr key={hora}>
@@ -151,11 +182,10 @@ function Agenda() {
 
                     const totalInscriptos = cantidadInscriptos(clase.id, fechaISO)
                     const cuposLibres = clase.capacidad - totalInscriptos
-                    const pasada = claseYaPaso(fechaISO, hora)
+                    const pasada = esFechaPasada(fechaISO)
 
                     return (
                       <td key={fechaISO} className={styles.celdaTurno}>
-
                         <div
                           className={`${styles.tarjetaClase} ${pasada ? styles.tarjetaPasada : styles.tarjetaClickeable}`}
                           onClick={() => navegar(`/agenda/${clase.id}/${fechaISO}`)}
@@ -191,7 +221,7 @@ function Agenda() {
               </button>
 
               <h2 className={styles.tituloModal}>Inhabilitar día</h2>
-              <p className={styles.textoModal}>Elegí qué día de esta semana querés inhabilitar:</p>
+              <p className={styles.textoModal}>Elegí qué día querés inhabilitar:</p>
               <ul className={styles.listaDiasModal}>
                 {diasSemana.map((fecha) => {
                   const fechaISO = formatearFechaISO(fecha)
@@ -202,7 +232,6 @@ function Agenda() {
                         {nombreDia(fecha)} {fecha.getDate()}/{fecha.getMonth() + 1}
                         {yaEsFeriado && <span className={styles.etiquetaFeriado}> (Feriado)</span>}
                       </span>
-
                       <button
                         className={yaEsFeriado ? styles.botonHabilitar : styles.botonInhabilitar}
                         onClick={() => pedirConfirmacionFeriado(fechaISO)}
@@ -222,7 +251,7 @@ function Agenda() {
           </div>
         )}
 
-
+        {/* Modal de confirmación: cambio de feriado */}
         {confirmacionFeriado && (
           <ModalConfirmacion
             mensaje={

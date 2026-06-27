@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { obtenerClientesConInscripciones, darDeBajaCliente, reactivarCliente } from '../services/clientes'
-import { obtenerClases } from '../services/clase'
+import { obtenerClases, verificarCupoDisponible } from '../services/clase'
 import { reprogramarInscripcion, crearInscripciones } from '../services/inscripcion'
 import { cancelarTurno } from '../services/reserva'
 import { obtenerPlanes } from '../services/planes'
@@ -9,7 +9,7 @@ import { obtenerFeriadosEnRango } from '../services/feriado'
 import { proximaFechaDeDia, formatearFechaISO, agruparClasesPorDia, primerYUltimoDiaDelMes } from '../utils/fechas'
 import { Layout } from '../components/layout/Layout.jsx'
 import ModalConfirmacion from '../components/ModalConfirmacion/ModalConfirmacion.jsx'
-import styles from './Clientes.module.css' 
+import styles from './Clientes.module.css'
 
 function Clientes() {
   const [clientes, setClientes] = useState([])
@@ -20,7 +20,6 @@ function Clientes() {
   const [busqueda, setBusqueda] = useState('')
   const [feriados, setFeriados] = useState([])
 
-  // Guarda el cliente a dar de baja, o null si no hay ningún confirm pendiente
   const [clienteABajar, setClienteABajar] = useState(null)
 
   const [modalReprogramar, setModalReprogramar] = useState(null)
@@ -81,8 +80,6 @@ function Clientes() {
     setPaginaActual(0)
   }
 
-
-  // Solo ejecuta la baja. La pregunta la hace el ModalConfirmacion antes de llamarla.
   async function confirmarDarDeBaja() {
     try {
       await darDeBajaCliente(clienteABajar.id)
@@ -110,6 +107,14 @@ function Clientes() {
       return
     }
     try {
+      // CAMBIO: revalidación real de cupo contra la base, justo antes de
+      // reprogramar. Evita que 2 acciones simultáneas sobrecarguen la clase.
+      const hayCupo = await verificarCupoDisponible(nuevaClaseId)
+      if (!hayCupo) {
+        setError('Esa clase ya no tiene cupo disponible')
+        return
+      }
+
       await reprogramarInscripcion(
         modalReprogramar.inscripcionElegida.id,
         modalReprogramar.clienteId,
@@ -197,6 +202,18 @@ function Clientes() {
     }
 
     try {
+      // CAMBIO: revalidación real contra la base, justo antes de confirmar.
+      // Si alguna de las clases elegidas ya no tiene cupo (porque alguien
+      // más se anotó mientras este modal estaba abierto), se frena acá.
+      for (const claseId of clasesReactivarSeleccionadas) {
+        const hayCupo = await verificarCupoDisponible(claseId)
+        if (!hayCupo) {
+          const clase = clases.find((c) => c.id === claseId)
+          setError(`La clase de ${clase?.dia_semana} ${clase?.hora.slice(0, 5)} ya no tiene cupo disponible`)
+          return
+        }
+      }
+
       await reactivarCliente(modalReactivar.id, planReactivarId)
 
       const nuevasInscripciones = clasesReactivarSeleccionadas.map((claseId) => ({
@@ -254,7 +271,6 @@ function Clientes() {
               const inscripcionesActivas = cliente.inscripcion.filter((i) => i.activa)
 
               return (
-
                 <tr
                   key={cliente.id}
                   className={`${styles.filaCliente} ${!cliente.activo ? styles.filaInactiva : ''}`}
@@ -269,7 +285,6 @@ function Clientes() {
                     ) : (
                       <ul className={styles.listaHorariosTabla}>
                         {inscripcionesActivas.map((i) => (
-  
                           <li key={i.id} className={styles.itemHorarioTabla}>
                             {i.clase.dia_semana} {i.clase.hora.slice(0, 5)}
                           </li>
@@ -302,7 +317,6 @@ function Clientes() {
                   </td>
                   <td className={styles.celdaTabla}>
                     {cliente.activo ? (
-                      // Ahora solo guarda el cliente en el estado para que se abra el ModalConfirmacion.
                       <button className={styles.botonBaja} onClick={() => setClienteABajar(cliente)}>
                         Dar de baja
                       </button>
@@ -344,17 +358,14 @@ function Clientes() {
         {modalReprogramar && (
           <div className={styles.overlayModal}>
             <div className={styles.modal}>
-
               <button className={styles.botonCerrarModal} onClick={cerrarModalReprogramar} aria-label="Cerrar">
                 ✕
               </button>
 
-  
               <h2 className={styles.tituloModal}>Reprogramar turno</h2>
 
               {!modalReprogramar.inscripcionElegida ? (
                 <>
-
                   <p className={styles.textoModal}>¿Cuál día querés reprogramar?</p>
                   <ul className={styles.listaDiasModal}>
                     {modalReprogramar.inscripciones.map((i) => (
@@ -365,7 +376,6 @@ function Clientes() {
                           onClick={() => setModalReprogramar((prev) => ({ ...prev, inscripcionElegida: i }))} >
                           Elegir  </button>
                       </li>
-
                     ))}
                   </ul>
                   <div className={styles.accionesModal}>
@@ -381,7 +391,7 @@ function Clientes() {
                     </strong>
                   </p>
                   <label className={styles.etiquetaModal}>Nueva clase</label>
-   
+
                   <select className={styles.campoSelectModal} value={nuevaClaseId} onChange={(e) => setNuevaClaseId(e.target.value)}>
                     <option value="">Seleccionar clase</option>
                     {clases.map((clase) => (
@@ -490,7 +500,6 @@ function Clientes() {
                     </p>
                     {clasesPorDia.map(({ dia, clases: clasesDelDia }) => (
                       <div key={dia} className={styles.grupoDia}>
-            
                         <strong className={styles.nombreDia}>{dia}</strong>
                         <div className={styles.listaHorarios}>
                           {clasesDelDia.map((clase) => {
@@ -503,8 +512,6 @@ function Clientes() {
                                 clasesReactivarSeleccionadas.length >= maximoClasesReactivar)
 
                             return (
-                              //  las clases combinadas ahora se arman con
-                              // template string usando las claves del objeto styles
                               <label
                                 key={clase.id}
                                 className={`${styles.opcionHorario} ${deshabilitado ? styles.opcionHorarioDeshabilitado : ''}`}
@@ -534,8 +541,9 @@ function Clientes() {
           </div>
         )}
 
-        {/* modal  */}
-        {clienteABajar && (<ModalConfirmacion
+        {/* modal */}
+        {clienteABajar && (
+          <ModalConfirmacion
             mensaje={`¿Dar de baja a ${clienteABajar.nombre}?`}
             alConfirmar={confirmarDarDeBaja}
             alCancelar={() => setClienteABajar(null)}

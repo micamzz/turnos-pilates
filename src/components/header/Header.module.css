@@ -1,20 +1,20 @@
 .header {
   background-color: #37634c;
-  height: 70px;  
-  padding: 0 32px;  
+  height: 70px;
+  padding: 0 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative; 
+  position: relative;
 }
 
 .logo {
-  height: 100px; 
+  height: 100px;
   width: auto;
-  position: absolute; 
-  top: 56%; 
-  transform: translateY(-50%); 
-  left: 32px; 
+  position: absolute;
+  top: 56%;
+  transform: translateY(-50%);
+  left: 32px;
 }
 
 .nav {
@@ -25,7 +25,7 @@
 }
 
 .navLink {
-  color: #ffffff;
+  color: white;
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 600;
@@ -41,15 +41,78 @@
 .botonCerrarSesion {
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #ffffff;
+  color: white;
   padding: 7px 14px;
   border-radius: 8px;
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s ease;
 }
 
 .botonCerrarSesion:hover {
   background: rgba(255, 255, 255, 0.25);
+}
+
+.hamburguesa {
+  display: none;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* TABLET */
+
+@media (max-width: 1024px) {
+  .logo {
+    height: 80px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .header {
+    height: 70px;
+    padding: 0 16px;
+  }
+
+  .logo {
+    position: static;
+    transform: none;
+    height: 70px;
+  }
+
+  .hamburguesa {
+    display: block;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .navAbierto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+
+    background-color: #37634c;
+    padding: 20px;
+    z-index: 1000;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .navLink,
+  .botonCerrarSesion {
+    width: 100%;
+    text-align: center;
+  }
 }

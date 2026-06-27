@@ -108,7 +108,7 @@ function DetalleClase() {
       await marcarAsistencia(persona.cliente_id, claseId, fecha)
       await cargarDatos()
     } catch (err) {
-      setError('No se pudo marcar la asistencia: ' + err.message)
+      setError('Todavia no está habilitado para confirmar asistencia a las personas que vienen a probar ')
     }
   }
 
@@ -120,9 +120,15 @@ function DetalleClase() {
   return (
     <Layout>
       <div className={styles.contenedorDetalle}>
-        <button className={styles.botonVolver} onClick={() => navegar('/agenda')}>
-           Volver a la agenda
-        </button>
+
+        <div className={styles.contenedorBotonVolver}>
+          <button
+            className={styles.botonVolver}
+            onClick={() => navegar('/agenda')}
+          >
+            Volver a la agenda
+          </button>
+        </div>
 
         {cargando && <p>Cargando...</p>}
         {error && <p className={styles.mensajeError}>{error}</p>}
@@ -137,9 +143,8 @@ function DetalleClase() {
                 </p>
               </div>
               <div
-                className={`${styles.badgeCuposDetalle} ${
-                  cuposLibres > 0 ? styles.badgeCuposDetalleLibres : styles.badgeCuposDetalleCompleto
-                }`}
+                className={`${styles.badgeCuposDetalle} ${cuposLibres > 0 ? styles.badgeCuposDetalleLibres : styles.badgeCuposDetalleCompleto
+                  }`}
               >
                 {cuposLibres > 0 ? `${cuposLibres} cupos libres` : 'Cupo completo'}
               </div>

@@ -1,7 +1,7 @@
 .contenedorHomeAdmin {
   min-height: 100vh;
   padding: var(--espacio-8) var(--espacio-6);
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -89,17 +89,13 @@
 .botonVerAgenda {
   background: none;
   border: none;
-  color: var(--verde);
+  color: var(--verde-oscuro);
   font-size: var(--texto-sm);
   font-weight: var(--peso-medio);
   cursor: pointer;
   padding: 0;
 }
 
-.botonVerAgenda:hover {
-  color: var(--verde-oscuro);
-  text-decoration: underline;
-}
 
 .resumenTurnosHoy {
   display: flex;

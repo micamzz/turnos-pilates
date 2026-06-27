@@ -27,3 +27,18 @@ export function calcularCuposRealesPorFecha(clase, inscripcionesDeLaClase, reser
   const presentes = clientesEnClaseYFecha(inscripcionesDeLaClase, reservasDeLaFecha, clase.id, fechaISO)
   return clase.capacidad - presentes.length
 }
+
+export async function verificarCupoDisponible(claseId) {
+  const { data, error } = await supabase
+    .from('clase')
+    .select('capacidad, inscripcion(id, activa)')
+    .eq('id', claseId)
+    .single()
+
+  if (error) throw error
+
+  const inscriptosActuales = data.inscripcion?.filter((i) => i.activa).length || 0
+  const cuposLibres = data.capacidad - inscriptosActuales
+
+  return cuposLibres > 0
+}

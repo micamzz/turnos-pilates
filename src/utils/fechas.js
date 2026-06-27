@@ -1,5 +1,4 @@
-// Dado un offset de semanas (0 = esta semana, 1 = la próxima, -1 = la anterior),
-// devuelve un array con las fechas de Lunes a Viernes de esa semana
+// Dado un offset de semanas (0 = esta semana, 1 = la próxima, -1 = la anterior), devuelve un array con las fechas de Lunes a Viernes de esa semana
 export function obtenerDiasDeLaSemana(offsetSemanas = 0) {
   const hoy = new Date()
   const diaActual = hoy.getDay()
@@ -17,6 +16,14 @@ export function obtenerDiasDeLaSemana(offsetSemanas = 0) {
     dias.push(fecha)
   }
   return dias
+}
+
+/* Devuelve la fecha de hoy desplazada por offsetDias (puede ser negativo para ir hacia atrás). Se usa en la vista mobile de la Agenda, que
+ navega día por día en vez de semana completa. */ 
+export function calcularDiaConOffset(offsetDias) {
+  const fecha = new Date()
+  fecha.setDate(fecha.getDate() + offsetDias)
+  return fecha
 }
 
 // Convierte un objeto Date a string 'YYYY-MM-DD', que es el formato que usa Postgres
@@ -65,7 +72,6 @@ export function agruparClasesPorDia(clases) {
   }))
 }
 
-
 export function primerYUltimoDiaDelMes(fechaReferencia) {
   const fecha = new Date(fechaReferencia)
   const primerDia = new Date(fecha.getFullYear(), fecha.getMonth(), 1)
@@ -77,7 +83,7 @@ export function primerYUltimoDiaDelMes(fechaReferencia) {
   }
 }
 
-/* Calcula si una fecha (string 'YYYY-MM-DD') ya pasó 
+/* Calcula si una fecha (string 'YYYY-MM-DD') ya pasó
 comparando solo el día (sin horas) para que "hoy" nunca cuente como pasado.*/
 export function esFechaPasada(fechaISO) {
   const hoy = new Date()
@@ -90,8 +96,6 @@ export function esFechaPasada(fechaISO) {
 /*Calcula si una clase ya pasó, comparando la fecha y hora de la clase con el momento actual.
  calcula hasta el dia siguiente a las 12:00 */
 export function claseYaPaso(fechaISO, horaClase) {
-  // Arma la fecha/hora exacta en que la clase debería bloquearse:
-  // el día siguiente a la fecha de la clase, a las 12:00.
   const [horas, minutos] = horaClase.split(':')
   const fechaClase = new Date(fechaISO)
   fechaClase.setHours(Number(horas), Number(minutos), 0, 0)
@@ -104,10 +108,8 @@ export function claseYaPaso(fechaISO, horaClase) {
   return ahora >= momentoDeBloqueo
 }
 
-
-/* Devuelve que clientes estan anotados en ese dia y hora, 
-permite que se pueda agregar gente de prueba(que no estan agendados como clientes)  */
-
+/* Devuelve que clientes estan anotados en ese dia y hora,
+permite que se pueda agregar gente de prueba(que no estan agendados como clientes) */
 export function clientesEnClaseYFecha(inscripcionesDeLaClase, reservas, claseId, fechaISO) {
   const fijosActivos = inscripcionesDeLaClase.filter((i) => {
     const fueCancelado = reservas.some(
@@ -150,9 +152,6 @@ export function clientesEnClaseYFecha(inscripcionesDeLaClase, reservas, claseId,
 
   const todos = [...fijosActivos, ...recuperos, ...pruebas]
 
-
-  /* A cada persona de la lista final, se le agrega si ya confirmo asistencia(en reserva
-  está el estado ASISTIO para cliente_id, clase_id y fecha) , una persona que viene de prueba no puede registrar asisntecia.*/
   return todos.map((persona) => ({
     ...persona,
     asistio: reservas.some(
@@ -163,4 +162,11 @@ export function clientesEnClaseYFecha(inscripcionesDeLaClase, reservas, claseId,
         r.estado === 'ASISTIO'
     ),
   }))
+}
+
+// Calcula el cupo REAL de una clase para una fecha puntual, considerando recuperos/pruebas ya asignados ese día y cancelaciones (no solo las
+// inscripciones fijas estructurales).
+export function calcularCuposRealesPorFecha(clase, inscripcionesDeLaClase, reservasDeLaFecha, fechaISO) {
+  const presentes = clientesEnClaseYFecha(inscripcionesDeLaClase, reservasDeLaFecha, clase.id, fechaISO)
+  return clase.capacidad - presentes.length
 }

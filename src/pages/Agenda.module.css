@@ -12,11 +12,12 @@
 }
 
 .tituloPagina {
- font-family: var(--fuente-titulo);
+  font-family: var(--fuente-titulo);
   font-size: var(--texto-xl);
-  font-weight: var(--peso-medio); 
+  font-weight: var(--peso-medio);
   color: var(--texto-principal);
-  margin-bottom: var(--espacio-1);
+  margin: 0;
+  text-align: center;
 }
 
 .botonNavegarSemana {
@@ -30,6 +31,7 @@
   font-size: var(--texto-sm);
   letter-spacing: 0.02em;
   transition: background 0.1s;
+  flex-shrink: 0;
 }
 
 .botonNavegarSemana:hover {
@@ -70,11 +72,6 @@
   padding: 0 var(--espacio-1) var(--espacio-3);
   letter-spacing: 0.05em;
   border: none;
-}
-
-.encabezadoColumnaDia:first-child {
-  color: var(--texto-principal);
-  font-size: var(--texto-xs);
 }
 
 .fechaChica {
@@ -182,14 +179,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: var(--espacio-4);
   z-index: 100;
 }
 
 .modal {
   position: relative;
   background: #fff;
+  border: 1px solid var(--borde-definido);
   border-radius: var(--radio-panel);
-  box-shadow: var(--sombra-flotante);
+  box-shadow: var(--sombra-definicion);
   padding: var(--espacio-6);
   width: 380px;
   max-width: 90vw;
@@ -307,10 +306,106 @@
   margin-right: auto;
 }
 
+
+/* RESPONSIVE*/
+
+@media (max-width: 900px) {
+  .contenedorAgenda {
+    padding: 0 var(--espacio-3);
+  }
+
+  .tarjetaClase {
+    min-height: 76px;
+    padding: var(--espacio-2) var(--espacio-1);
+  }
+}
+
+
+
+
 @media (max-width: 700px) {
+  .contenedorAgenda {
+    margin: var(--espacio-4) auto;
+    padding: 0 var(--espacio-2);
+  }
+
   .encabezadoAgenda {
-    flex-direction: column;
+    margin-bottom: var(--espacio-4);
     gap: var(--espacio-2);
-    text-align: center;
+  }
+
+  .tituloPagina {
+    font-size: var(--texto-md);
+    flex: 1;
+  }
+
+  .botonAbrirModalFeriado {
+    width: 100%;
+    margin: 0 0 var(--espacio-4) 0;
+    text-align: right;
+    border: none;
+  }
+
+
+  .tablaAgenda,
+  .tablaAgenda tbody,
+  .tablaAgenda tr {
+    display: block;
+    width: 100%;
+  }
+
+
+  .tablaAgenda thead {
+    display: none;
+  }
+
+  .celdaTurno,
+  .celdaVacia,
+  .celdaFeriado {
+    display: block;
+    padding: var(--espacio-1) 0;
+  }
+
+  .tarjetaClase {
+    width: 100%;
+    min-height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: var(--espacio-3) var(--espacio-4);
+  }
+
+  .horaClase {
+    font-size: var(--texto-md);
+  }
+
+  .filaCupos {
+    width: auto;
+  }
+
+  .celdaFeriadoInner {
+    min-height: auto;
+    padding: var(--espacio-3);
+  }
+}
+
+
+/* RESPONSIVE   */
+@media (max-width: 380px) {
+  .tituloPagina {
+    font-size: var(--texto-base);
+  }
+
+  .botonNavegarSemana {
+    padding: var(--espacio-1) var(--espacio-2);
+    font-size: var(--texto-xs);
+  }
+
+  .tarjetaClase {
+    padding: var(--espacio-2) var(--espacio-3);
+  }
+
+   .botonAbrirModalFeriado {
+    text-align: right;
+    border: none;
   }
 }
