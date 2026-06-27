@@ -61,7 +61,10 @@ export async function obtenerCancelacionesDelMes(fechaReferencia) {
 export async function crearRecupero(clienteId, claseId, fecha) {
   const { data, error } = await supabase
     .from('reserva')
-    .insert({ cliente_id: clienteId, clase_id: claseId, fecha, estado: 'RECUPERO' })
+    .upsert(
+      { cliente_id: clienteId, clase_id: claseId, fecha, estado: 'RECUPERO' },
+      { onConflict: 'cliente_id,clase_id,fecha' }
+    )
     .select()
     .single()
 

@@ -1,4 +1,5 @@
 import { supabase } from '../config/supabase'
+import { clientesEnClaseYFecha } from '../utils/fechas' 
 
 export async function obtenerClases() {
   const { data, error } = await supabase
@@ -19,4 +20,10 @@ export async function obtenerClases() {
       cuposDisponibles: clase.capacidad - inscriptos,
     }
   })
+}
+
+/* Calcula el cupo real de una clase para una fecha puntual*/
+export function calcularCuposRealesPorFecha(clase, inscripcionesDeLaClase, reservasDeLaFecha, fechaISO) {
+  const presentes = clientesEnClaseYFecha(inscripcionesDeLaClase, reservasDeLaFecha, clase.id, fechaISO)
+  return clase.capacidad - presentes.length
 }
