@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import Login from './pages/Login'
-import Clientes from './pages/Clientes'
-import AgregarCliente from './pages/AgregarCliente'
-import HomeAdmin from './pages/HomeAdmin'
-import Agenda from './pages/Agenda'
+import Login from './pages/Login.jsx'
+import Clientes from './pages/Clientes.jsx'
+import AgregarCliente from './pages/AgregarCliente.jsx'
+import HomeAdmin from './pages/HomeAdmin.jsx'
+import Agenda from './pages/Agenda.jsx'
 import DetalleClase from './pages/DetalleClase.jsx'
 
 
