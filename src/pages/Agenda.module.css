@@ -409,3 +409,53 @@
     border: none;
   }
 }
+/* ---- MENSAJE ESTUDIO CERRADO (solo mobile, finde de semana) ---- */
+.mensajeEstudioCerrado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--espacio-8) var(--espacio-4);
+  gap: var(--espacio-3);
+}
+
+.iconoCerrado {
+  font-size: 2.5rem;
+}
+
+.textoCerrado {
+  font-size: var(--texto-md);
+  font-weight: var(--peso-medio);
+  color: var(--texto-principal);
+  margin: 0;
+}
+
+.textoProximaClase {
+  font-size: var(--texto-base);
+  color: var(--texto-secundario);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.textoProximaClase strong {
+  color: var(--verde-oscuro);
+}
+
+.botonVerProxima {
+  margin-top: var(--espacio-2);
+  background: var(--verde);
+  color: white;
+  border: none;
+  border-radius: var(--radio-input);
+  padding: var(--espacio-3) var(--espacio-6);
+  font-size: var(--texto-base);
+  font-weight: var(--peso-medio);
+  cursor: pointer;
+  transition: background 0.1s;
+  min-height: var(--altura-boton);
+}
+
+.botonVerProxima:hover {
+  background: var(--verde-oscuro);
+}

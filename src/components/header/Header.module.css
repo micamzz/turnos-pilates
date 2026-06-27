@@ -74,9 +74,7 @@
   .logo {
     height: 75px;
   }
-  .topBar {
-  position: relative;
-}
+
 }
 
 @media (max-width: 900px) {
@@ -115,16 +113,13 @@
     flex-direction: column;
     align-items: stretch;
     gap: var(--espacio-2);
-
     position: absolute;
     top: 60px;
     left: 0;
     right: 0;
-
     background-color: #37634c;
     padding: var(--espacio-4);
     z-index: 1000;
-
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
   }
@@ -139,7 +134,5 @@
     align-items: center;
     justify-content: center;
   }
-  .topBar {
-  position: relative;
-}
+ 
 }

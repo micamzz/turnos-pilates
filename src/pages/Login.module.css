@@ -50,11 +50,12 @@
 .ladoFormulario {
   flex: 1;
   display: flex;
-  align-items: center;
+  align-items: center;      
   justify-content: center;
   background-color: #ffffff;
   padding: var(--espacio-8) var(--espacio-6);
   overflow-y: auto;
+  min-height: 100vh; 
 }
 
 .envolturaFormulario {
@@ -188,8 +189,7 @@
 @media (max-width: 480px) {
   .ladoFormulario {
     padding: var(--espacio-6) var(--espacio-4);
-    align-items: flex-start;
-    padding-top: 10vh;
+
   }
 
   .subtitulo {

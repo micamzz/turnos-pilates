@@ -403,8 +403,16 @@
   .detalleSeccionHeader {
     flex-direction: column;
     align-items: flex-start;
+    margin:0;
   }
 
+  .badgeCuposDetalle{
+    padding: 0;
+  }
+  .detalleSeccion{
+    margin-top: 0;
+
+  }
   .botonesAgregarDetalle {
     width: 100%;
   }
@@ -422,6 +430,10 @@
 
   .accionesInscripto {
     width: 100%;
+  }
+
+  .contenedorBotonVolver{
+    margin-bottom: 0;
   }
 }
 

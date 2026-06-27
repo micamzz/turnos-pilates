@@ -2,7 +2,7 @@
   max-width: var(--contenedor-max);
   margin: 0 auto;
   padding: var(--espacio-8) var(--contenedor-padding-x);
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 
 .bienvenida {
@@ -145,9 +145,9 @@
 
 /* MOBILE */
 @media (max-width: 480px) {
-  .contenedorHomeAdmin {
+  /* .contenedorHomeAdmin {
     padding: var(--espacio-4) var(--contenedor-padding-x-mobile);
-  }
+  } */
 
   .gridAcciones {
     grid-template-columns: 1fr;

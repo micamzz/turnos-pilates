@@ -13,3 +13,11 @@
 .main {
   flex: 1;
 }
+
+@media (max-width: 768px) {
+  .topBar {
+    position: relative;
+    top: auto;
+    z-index: auto;
+  }
+}

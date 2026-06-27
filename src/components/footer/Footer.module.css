@@ -3,10 +3,23 @@
   border-top: 1px solid var(--borde-sutil);
   padding: var(--espacio-3) var(--espacio-6);
   text-align: center;
+   padding: 2em 2em;
 }
 
 .footer p {
-  color: var(--texto-tenue);
+   color:var(--texto-principal);
   font-size: var(--texto-xs);
   margin: 0;
+}
+
+@media (max-width: 480px) {
+
+  .footer{
+    background-color: var(--verde-oscuro);
+    padding: 2em 2em;
+    color:black;
+  }
+
+
+
 }
