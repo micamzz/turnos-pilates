@@ -74,6 +74,19 @@
   .logo {
     height: 75px;
   }
+  .topBar {
+  position: relative;
+}
+}
+
+@media (max-width: 900px) {
+  .heroLogin {
+    display: none !important;
+  }
+  .ladoFormulario {
+    flex: 1;
+    width: 100%;
+  }
 }
 
 /* MOBILE */
@@ -113,6 +126,7 @@
     z-index: 1000;
 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
   }
 
   .navLink,
@@ -125,4 +139,7 @@
     align-items: center;
     justify-content: center;
   }
+  .topBar {
+  position: relative;
+}
 }
