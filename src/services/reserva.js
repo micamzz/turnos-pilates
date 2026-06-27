@@ -79,3 +79,18 @@ export async function crearVisitaDePrueba(nombreInvitado, claseId, fecha) {
   if (error) throw error
   return data
 }
+
+// Registra que un cliente asistió efectivamente a una clase puntual.
+export async function marcarAsistencia(clienteId, claseId, fecha) {
+  const { data, error } = await supabase
+    .from('reserva')
+    .upsert(
+      { cliente_id: clienteId, clase_id: claseId, fecha, estado: 'ASISTIO' },
+      { onConflict: 'cliente_id,clase_id,fecha' }
+    )
+    .select()
+    .single()
+
+  if (error) throw error
+  return data
+}

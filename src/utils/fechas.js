@@ -87,6 +87,23 @@ export function esFechaPasada(fechaISO) {
   return fecha < hoy
 }
 
+/*Calcula si una clase ya pasó, comparando la fecha y hora de la clase con el momento actual.
+ calcula hasta el dia siguiente a las 12:00 */
+export function claseYaPaso(fechaISO, horaClase) {
+  // Arma la fecha/hora exacta en que la clase debería bloquearse:
+  // el día siguiente a la fecha de la clase, a las 12:00.
+  const [horas, minutos] = horaClase.split(':')
+  const fechaClase = new Date(fechaISO)
+  fechaClase.setHours(Number(horas), Number(minutos), 0, 0)
+
+  const momentoDeBloqueo = new Date(fechaClase)
+  momentoDeBloqueo.setDate(momentoDeBloqueo.getDate() + 1)
+  momentoDeBloqueo.setHours(12, 0, 0, 0)
+
+  const ahora = new Date()
+  return ahora >= momentoDeBloqueo
+}
+
 
 /* Devuelve que clientes estan anotados en ese dia y hora, 
 permite que se pueda agregar gente de prueba(que no estan agendados como clientes)  */
@@ -117,7 +134,6 @@ export function clientesEnClaseYFecha(inscripcionesDeLaClase, reservas, claseId,
       esRecupero: true,
     }))
 
-  // visitas de prueba de esta clase y fecha puntual
   const pruebas = reservas
     .filter(
       (r) =>
@@ -132,5 +148,19 @@ export function clientesEnClaseYFecha(inscripcionesDeLaClase, reservas, claseId,
       esPrueba: true,
     }))
 
-  return [...fijosActivos, ...recuperos, ...pruebas]
+  const todos = [...fijosActivos, ...recuperos, ...pruebas]
+
+
+  /* A cada persona de la lista final, se le agrega si ya confirmo asistencia(en reserva
+  está el estado ASISTIO para cliente_id, clase_id y fecha) , una persona que viene de prueba no puede registrar asisntecia.*/
+  return todos.map((persona) => ({
+    ...persona,
+    asistio: reservas.some(
+      (r) =>
+        r.cliente_id === persona.cliente_id &&
+        String(r.clase_id) === String(claseId) &&
+        r.fecha === fechaISO &&
+        r.estado === 'ASISTIO'
+    ),
+  }))
 }
