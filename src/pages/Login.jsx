@@ -5,8 +5,6 @@ import heroBg from '../assets/hero-pilates.png';
 import { Eye, EyeOff } from "lucide-react";
 import styles from './Login.module.css'
 
-console.log("¿Qué tiene styles?:", styles);
-
 function Login() {
   const [correo, setCorreo] = useState('')
   const [contrasena, setContrasena] = useState('')
@@ -53,18 +51,21 @@ function Login() {
     navegar("/home");
   }
 
-  return (
-    <div className={styles.contenedorLogin}>
-      {/* Lado Izquierdo: Imagen de fondo Hero */}
-      <div
-        className={styles.heroLogin}
-        style={{ backgroundImage: `url(${heroBg})` }}
-      >
-        <div className={styles.capaHero}>
-          <h2 className={styles.tituloHero}>Aqui y ahora Pilates Reformer</h2>
-          <p className={styles.textoHero}>Gestiona tus clases de Pilates de forma simple y rápida.</p>
-        </div>
+return (
+  <div className={styles.contenedorLogin}>
+
+    {/* HERO IZQUIERDO */}
+    <div
+      className={styles.heroLogin}
+      style={{ backgroundImage: `url(${heroBg})` }}
+    >
+      <div className={styles.capaHero}>
+        <h2 className={styles.tituloHero}>Aqui y ahora Pilates Reformer</h2>
+        <p className={styles.textoHero}>
+          Gestiona tus clases de Pilates de forma simple y rápida.
+        </p>
       </div>
+    </div>
 
       {/* Lado Derecho: Formulario */}
       <div className={styles.ladoFormulario}>
