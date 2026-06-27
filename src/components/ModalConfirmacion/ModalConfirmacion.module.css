@@ -5,69 +5,81 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: var(--espacio-4);
   z-index: 1000;
 }
 
 .modal {
   position: relative;
   background: white;
-  border-radius: 12px;
-  padding: 28px 24px 20px;
+  border: 1px solid var(--borde-definido);
+  border-radius: var(--radio-panel);
+  box-shadow: var(--sombra-definicion);
+  padding: var(--espacio-6) var(--espacio-4) var(--espacio-4);
   width: 100%;
   max-width: 380px;
 }
 
 .botonCerrar {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: var(--espacio-3);
+  right: var(--espacio-3);
   background: none;
   border: none;
   font-size: 1.3rem;
   line-height: 1;
-  color: #9ca3af;
+  color: var(--texto-tenue);
   cursor: pointer;
-  padding: 4px;
+  padding: var(--espacio-1);
 }
 
 .botonCerrar:hover {
-  color: #4b5563;
+  color: var(--texto-secundario);
 }
 
 .mensaje {
-  color: #2c3e50;
-  font-size: 1rem;
-  margin: 8px 0 20px;
-  padding-right: 20px;
+  color: var(--texto-principal);
+  font-size: var(--texto-md);
+  margin: var(--espacio-2) 0 var(--espacio-6);
+  padding-right: var(--espacio-4);
+  line-height: 1.5;
 }
 
 .acciones {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: var(--espacio-2);
 }
 
 .botonSecundario {
-  background: #ecf0f1;
-  color: #2c3e50;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
+  background: #fafafa;
+  border: 1px solid var(--borde-definido);
+  color: var(--texto-secundario);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-2) var(--espacio-4);
   cursor: pointer;
-  font-weight: 600;
+  font-weight: var(--peso-medio);
+  font-size: var(--texto-sm);
+  transition: background 0.1s;
 }
 
+.botonSecundario:hover {
+  background: #f0f0f0;
+}
+
+
 .botonPrincipal {
-  background: #66a082;
+  background: var(--verde);
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
+  border-radius: var(--radio-input);
+  padding: var(--espacio-2) var(--espacio-4);
   cursor: pointer;
-  font-weight: 600;
+  font-weight: var(--peso-medio);
+  font-size: var(--texto-sm);
+  transition: background 0.1s;
 }
 
 .botonPrincipal:hover {
-  background: #4f7d65;
+  background: var(--verde-oscuro);
 }

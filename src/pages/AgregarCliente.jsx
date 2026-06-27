@@ -132,11 +132,11 @@ function AgregarCliente() {
     return (
         <Layout>
             <div className={styles.contenedorAgregarCliente}>
-                <h1 className={styles.tituloPagina}>Agregar Cliente</h1>
+                <h1 className={styles.tituloPagina}>Nuevo Alumno</h1>
 
                 <form onSubmit={manejarEnvio} className={styles.formularioCliente}>
                     <div className={styles.seccionForm}>
-                        <h2 className={styles.tituloSeccion}>Datos del cliente</h2>
+                        <h2 className={styles.tituloSeccion}>Datos</h2>
                         <div className={styles.filaCampos}>
                             <div className={styles.grupoEntrada}>
                                 <label className={styles.etiquetaCampo}>Nombre</label>
@@ -254,7 +254,7 @@ function AgregarCliente() {
                     </div>
 
                     <button type="submit" disabled={cargando} className={styles.botonGuardar}>
-                        {cargando ? 'Guardando...' : 'Guardar Cliente'}
+                        {cargando ? 'Guardando...' : 'Registrar Alumno'}
                     </button>
 
                     {errores.general && <p className={styles.mensajeError}>{errores.general}</p>}

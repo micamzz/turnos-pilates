@@ -1,86 +1,146 @@
 .contenedorHomeAdmin {
   min-height: 100vh;
-  padding: 2.5rem 2rem;
+  padding: var(--espacio-8) var(--espacio-6);
   max-width: 800px;
   margin: 0 auto;
 }
 
 .bienvenida {
-  margin-bottom: 2rem;
+  margin-bottom: var(--espacio-8);
 }
 
 .tituloBienvenida {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 6px;
+  font-size: var(--texto-xl);
+  font-weight: var(--peso-bold);
+  color: var(--texto-principal);
+  margin-bottom: var(--espacio-1);
 }
 
 .fecha {
-  font-size: 0.85rem;
-  color: #7f8c8d;
-  margin-bottom: 6px;
+  font-size: var(--texto-sm);
+  color: var(--texto-tenue);
+  margin-bottom: var(--espacio-1);
+  text-transform: capitalize;
 }
 
 .subtitulo {
-  font-size: 0.95rem;
-  color: #7f8c8d;
+  font-size: var(--texto-base);
+  color: var(--texto-secundario);
 }
 
 .gridAcciones {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
+  gap: var(--espacio-4);
+  margin-bottom: var(--espacio-8);
 }
+
 
 .cardAccion {
-  background: #ffffff;
-  border: 1px solid #e0ede6;
-  border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  background: #fff;
+  border: 1px solid var(--borde-definido);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-4) var(--espacio-6);
+  box-shadow: var(--sombra-definicion);
+  transition: border-color 0.1s;
 }
+
 
 .cardAccion:hover {
-  border-color: #66a082;
-  box-shadow: 0 2px 8px rgba(102, 160, 130, 0.15);
-}
-
-.iconoCard {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  background: #e8f5ee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  flex-shrink: 0;
+ border-color: var(--verde);
 }
 
 .tituloCard {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 4px;
+  font-size: var(--texto-md);
+  font-weight: var(--peso-medio);
+  color: var(--texto-principal);
+  margin-bottom: var(--espacio-1);
 }
 
 .textoCard {
-  font-size: 0.85rem;
-  color: #7f8c8d;
+  font-size: var(--texto-sm);
+  color: var(--texto-secundario);
   line-height: 1.5;
+}
+
+
+.seccionTurnosHoy {
+  border-top: 2px solid var(--verde-oscuro);
+  padding: var(--espacio-6) 0 0;
+}
+
+.encabezadoTurnosHoy {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--espacio-4);
+  flex-wrap: wrap;
+  gap: var(--espacio-2);
+}
+
+.tituloSeccionTurnos {
+  font-size: var(--texto-md);
+  font-weight: var(--peso-bold);
+  color: var(--texto-principal);
+  margin: 0;
+}
+
+.botonVerAgenda {
+  background: none;
+  border: none;
+  color: var(--verde);
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-medio);
+  cursor: pointer;
+  padding: 0;
+}
+
+.botonVerAgenda:hover {
+  color: var(--verde-oscuro);
+  text-decoration: underline;
+}
+
+.resumenTurnosHoy {
+  display: flex;
+  gap: var(--espacio-8);
+}
+
+.estadisticaTurno {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.numeroEstadistica {
+  font-size: 2.2rem;
+  font-weight: var(--peso-bold);
+  color: var(--verde-oscuro);
+  line-height: 1;
+}
+
+.etiquetaEstadistica {
+  font-size: var(--texto-xs);
+  color: var(--texto-tenue);
+  margin-top: var(--espacio-1);
+}
+
+.textoSinTurnosHoy,
+.textoCargandoTurnos {
+  font-size: var(--texto-base);
+  color: var(--texto-tenue);
+  margin: 0;
 }
 
 @media (max-width: 560px) {
   .contenedorHomeAdmin {
-    padding: 1.5rem 1rem;
+    padding: var(--espacio-6) var(--espacio-4);
   }
 
   .gridAcciones {
     grid-template-columns: 1fr;
+  }
+
+  .resumenTurnosHoy {
+    gap: var(--espacio-4);
   }
 }

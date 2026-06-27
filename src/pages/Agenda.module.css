@@ -1,107 +1,108 @@
 .contenedorAgenda {
   max-width: 1100px;
-  margin: 30px auto;
-  padding: 0 20px;
+  margin: var(--espacio-8) auto;
+  padding: 0 var(--espacio-4);
 }
 
 .encabezadoAgenda {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 28px;
+  margin-bottom: var(--espacio-6);
 }
 
 .tituloPagina {
-  font-size: 22px;
-  font-weight: 600;
-  color: #2c3e50;
+  font-size: var(--texto-lg);
+  font-weight: var(--peso-bold);
+  color: var(--texto-principal);
   margin: 0;
 }
 
 .botonNavegarSemana {
   background: #fff;
-  color: #66a082;
-  border: 1.5px solid #66a082;
-  border-radius: 8px;
-  padding: 9px 22px;
+  color: var(--verde);
+  border: 1px solid var(--verde);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-2) var(--espacio-4);
   cursor: pointer;
-  font-weight: 700;
-  font-size: 13px;
+  font-weight: var(--peso-bold);
+  font-size: var(--texto-sm);
   letter-spacing: 0.02em;
-  transition: background 0.15s;
+  transition: background 0.1s;
 }
 
 .botonNavegarSemana:hover {
-  background: #e8f4ef;
+  background: var(--verde-fondo);
 }
 
 .botonAbrirModalFeriado {
   display: block;
-  margin: 0 0 20px auto;
+  margin: 0 0 var(--espacio-4) auto;
   background: #fff;
-  color: #dc2626;
-  border: 1px solid #dc2626;
-  border-radius: 8px;
-  padding: 7px 14px;
-  font-weight: 600;
-  font-size: 13px;
+  color: var(--error);
+  border: 1px solid var(--error);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-1) var(--espacio-3);
+  font-weight: var(--peso-medio);
+  font-size: var(--texto-sm);
   cursor: pointer;
 }
 
 .botonAbrirModalFeriado:hover {
-  background: #fef2f2;
+  background: var(--error-fondo);
 }
 
 .tablaAgenda {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: var(--texto-base);
   background: transparent;
   table-layout: fixed;
 }
 
 .encabezadoColumnaDia {
   background: transparent;
-  color: #66a082;
-  font-weight: 700;
-  font-size: 13px;
+  color: var(--texto-secundario);
+  font-weight: var(--peso-bold);
+  font-size: var(--texto-sm);
   text-align: center;
-  padding: 0 6px 14px;
+  padding: 0 var(--espacio-1) var(--espacio-3);
   letter-spacing: 0.05em;
   border: none;
 }
 
 .encabezadoColumnaDia:first-child {
-  color: #2c3e50;
-  font-size: 12px;
+  color: var(--texto-principal);
+  font-size: var(--texto-xs);
 }
 
 .fechaChica {
   display: block;
-  font-size: 11px;
-  font-weight: 400;
-  color: #888;
+  font-size: var(--texto-xs);
+  font-weight: var(--peso-normal);
+  color: var(--texto-tenue);
   margin-top: 2px;
   letter-spacing: 0;
 }
 
 .celdaVacia {
-  padding: 6px;
+  padding: var(--espacio-1);
   border: none;
 }
 
 .celdaFeriado {
-  padding: 6px;
+  padding: var(--espacio-1);
   border: none;
 }
 
 .celdaFeriadoInner {
-  background: #e5e7eb;
-  color: #9ca3af;
-  font-weight: 600;
-  font-size: 12px;
-  border-radius: 10px;
-  padding: 14px 8px;
+  background: #fafafa;
+  color: var(--texto-tenue);
+  font-weight: var(--peso-medio);
+  font-size: var(--texto-xs);
+  border: 1px dashed var(--borde-sutil);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-3) var(--espacio-2);
   text-align: center;
   min-height: 90px;
   display: flex;
@@ -110,27 +111,31 @@
 }
 
 .celdaTurno {
-  padding: 6px;
+  padding: var(--espacio-1);
   border: none;
   vertical-align: top;
 }
 
 .tarjetaClase {
-  background: #fff;
-  border: 1.8px solid #66a082;
-  border-radius: 10px;
-  padding: 12px 10px 10px;
+  background: var(--verde-fondo);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-3) var(--espacio-2);
   min-height: 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 4px;
+  gap: var(--espacio-1);
+  transition: background 0.1s;
 }
 
 .tarjetaClickeable:hover {
-  background: #4f7d65;
-  box-shadow: 0 3px 10px rgba(80, 130, 100, 0.3);
+  background: var(--verde);
+}
+
+.tarjetaClickeable:hover .horaClase,
+.tarjetaClickeable:hover .badgeCupos {
+  color: white;
 }
 
 .tarjetaPasada {
@@ -140,21 +145,21 @@
 }
 
 .horaClase {
-  font-weight: 600;
-  color: #090d11;
+  font-weight: var(--peso-medio);
+  color: var(--texto-principal);
   text-align: center;
+  font-size: var(--texto-base);
 }
 
 .filaCupos {
   width: 100%;
   display: flex;
   justify-content: center;
-  color: #090d11;
 }
 
 .badgeCupos {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--texto-xs);
+  font-weight: var(--peso-medio);
   background: none;
   border: none;
   padding: 0;
@@ -162,17 +167,17 @@
 }
 
 .badgeCuposLibres {
-  color: #266a48;
+  color: var(--verde-oscuro);
 }
 
 .badgeCuposCompleto {
-  color: #cf2222;
+  color: var(--error);
 }
 
 .overlayModal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -182,31 +187,29 @@
 .modal {
   position: relative;
   background: #fff;
-  border-radius: 12px;
-  border: 0.5px solid #c2ddd2;
-  padding: 24px;
+  border-radius: var(--radio-panel);
+  box-shadow: var(--sombra-flotante);
+  padding: var(--espacio-6);
   width: 380px;
   max-width: 90vw;
 }
 
-
 .tituloModal {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 0 12px;
-  color: #2c3e50;
+  font-size: var(--texto-md);
+  font-weight: var(--peso-medio);
+  margin: 0 0 var(--espacio-3);
+  color: var(--texto-principal);
 }
 
-
 .textoModal {
-  font-size: 14px;
-  color: #555;
-  margin: 0 0 14px;
+  font-size: var(--texto-base);
+  color: var(--texto-secundario);
+  margin: 0 0 var(--espacio-3);
 }
 
 .listaDiasModal {
   list-style: none;
-  margin: 12px 0;
+  margin: var(--espacio-3) 0;
   padding: 0;
 }
 
@@ -214,101 +217,99 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #e8f4ef;
-  font-size: 14px;
+  padding: var(--espacio-2) 0;
+  border-bottom: 1px solid var(--borde-sutil);
+  font-size: var(--texto-base);
 }
 
 .etiquetaFeriado {
-  color: #dc2626;
-  font-size: 12px;
+  color: var(--error);
+  font-size: var(--texto-xs);
 }
 
 .accionesModal {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 16px;
+  gap: var(--espacio-2);
+  margin-top: var(--espacio-4);
 }
 
 .botonSecundario {
   background: transparent;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 13px;
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-2) var(--espacio-4);
+  font-size: var(--texto-sm);
   cursor: pointer;
-  color: #555;
+  color: var(--texto-secundario);
 }
 
 .botonSecundario:hover {
-  background: #f5f5f5;
+  background: #fafafa;
 }
 
 .botonInhabilitar {
-  background: #dc2626;
+  background: var(--error);
   color: white;
   border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 12px;
+  border-radius: var(--radio-input);
+  padding: var(--espacio-1) var(--espacio-3);
+  font-size: var(--texto-xs);
   cursor: pointer;
 }
 
 .botonHabilitar {
-  background: #66a082;
+  background: var(--verde);
   color: white;
   border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 12px;
+  border-radius: var(--radio-input);
+  padding: var(--espacio-1) var(--espacio-3);
+  font-size: var(--texto-xs);
   cursor: pointer;
 }
 
 .mensajeError {
-  color: #dc2626;
-  font-size: 14px;
-  margin: 8px 0;
+  color: var(--error);
+  font-size: var(--texto-base);
+  margin: var(--espacio-2) 0;
 }
 
 .botonCerrarModal {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: var(--espacio-4);
+  right: var(--espacio-4);
   background: none;
   border: none;
   font-size: 1.3rem;
   line-height: 1;
-  color: #9ca3af;
+  color: var(--texto-tenue);
   cursor: pointer;
-  padding: 4px;
+  padding: var(--espacio-1);
 }
 
 .botonCerrarModal:hover {
-  color: #4b5563;
+  color: var(--texto-secundario);
 }
 
-/* Etiqueta para el día actual */
 .etiquetaHoy {
   display: block;
   margin-top: 2px;
-  background: #66a082;
+  background: var(--verde);
   color: white;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: var(--peso-bold);
   letter-spacing: 0.05em;
-  border-radius: 4px;
-  padding: 1px 6px;
+  border-radius: var(--radio-pill);
+  padding: 1px var(--espacio-2);
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
 }
 
-
 @media (max-width: 700px) {
   .encabezadoAgenda {
     flex-direction: column;
-    gap: 10px;
+    gap: var(--espacio-2);
     text-align: center;
   }
 }

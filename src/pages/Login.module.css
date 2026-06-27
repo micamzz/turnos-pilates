@@ -13,9 +13,12 @@
   position: relative;
   display: flex;
   align-items: flex-end;
-  padding: 60px;
+  padding: var(--espacio-8);
 }
 
+/* Este gradiente se mantiene tal cual: a diferencia de los gradientes
+   decorativos que sacamos de HomeAdmin, este cumple una función real
+   (legibilidad del texto blanco sobre la foto), no es decoración. */
 .capaHero {
   position: absolute;
   top: 0;
@@ -26,19 +29,19 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 40px;
+  padding: var(--espacio-8);
   color: white;
   z-index: 1;
 }
 
 .tituloHero {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-  font-weight: 600;
+  font-size: var(--texto-xl);
+  margin-bottom: var(--espacio-2);
+  font-weight: var(--peso-medio);
 }
 
 .textoHero {
-  font-size: 1.1rem;
+  font-size: var(--texto-md);
   opacity: 0.9;
 }
 
@@ -48,7 +51,7 @@
   align-items: center;
   justify-content: center;
   background-color: #ffffff;
-  padding: 40px;
+  padding: var(--espacio-8);
 }
 
 .envolturaFormulario {
@@ -57,66 +60,68 @@
 }
 
 .tituloFormulario {
-  font-size: 2.2rem;
-  color: #2c3e50;
-  margin-bottom: 5px;
+  font-size: var(--texto-xl);
+  color: var(--texto-principal);
+  margin-bottom: var(--espacio-1);
 }
 
 .subtitulo {
-  color: #7f8c8d;
-  margin-bottom: 30px;
-  font-size: 0.95rem;
+  color: var(--texto-secundario);
+  margin-bottom: var(--espacio-8);
+  font-size: var(--texto-base);
 }
 
 .grupoEntrada {
-  margin-bottom: 20px;
+  margin-bottom: var(--espacio-4);
 }
 
 .etiquetaCampo {
   display: block;
-  margin-bottom: 8px;
-  color: #34495e;
-  font-size: 0.9rem;
-  font-weight: 600;
+  margin-bottom: var(--espacio-2);
+  color: var(--texto-secundario);
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-bold);
 }
 
+/* CAMBIO: mismo ajuste que el resto del sistema — borde definido en
+   vez de fondo gris claro sin límite, foco marcado solo con color
+   de borde, sin sombra difusa (glow) */
 .entradaTexto {
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #dcdde1;
-  border-radius: 8px;
-  font-size: 1rem;
-  color: #2c3e50;
-  transition: all 0.3s ease;
-  background-color: #f8f9fa;
+  padding: var(--espacio-3) var(--espacio-4);
+  border: 1px solid var(--borde-definido);
+  border-radius: var(--radio-input);
+  font-size: var(--texto-md);
+  color: var(--texto-principal);
+  transition: border-color 0.1s;
+  background-color: #fff;
 }
 
 .entradaTexto:focus {
   outline: none;
-  border-color: #66a082;
-  background-color: #fff;
+  border-color: var(--verde);
 }
 
 .botonEnviar {
   width: 100%;
-  padding: 14px;
-  background-color: #66a082;
+  padding: var(--espacio-4);
+  background-color: var(--verde);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: var(--radio-input);
+  font-size: var(--texto-md);
+  font-weight: var(--peso-bold);
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  margin-top: 10px;
+  transition: background-color 0.1s;
+  margin-top: var(--espacio-2);
 }
 
 .botonEnviar:hover:not(:disabled) {
-  background-color: #4f7d65;
+  background-color: var(--verde-oscuro);
 }
 
 .botonEnviar:disabled {
-  background-color: #a4b0be;
+  background-color: var(--texto-tenue);
   cursor: not-allowed;
   opacity: 0.7;
 }
@@ -133,11 +138,11 @@
 .botonOjo {
   position: absolute;
   top: 50%;
-  right: 12px;
+  right: var(--espacio-3);
   transform: translateY(-50%);
   background: transparent;
   border: none;
-  color: #6b7280;
+  color: var(--texto-secundario);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -146,7 +151,7 @@
 }
 
 .botonOjo:hover {
-  color: #374151;
+  color: var(--texto-principal);
 }
 
 .botonOjo:focus {
@@ -155,15 +160,15 @@
 
 .errorCampo {
   display: block;
-  margin-top: 4px;
-  color: #dc2626;
-  font-size: 0.85rem;
+  margin-top: var(--espacio-1);
+  color: var(--error);
+  font-size: var(--texto-sm);
 }
 
 .mensajeError {
-  margin: 0.25rem 0;
-  color: #dc2626;
-  font-size: 0.875rem;
+  margin: var(--espacio-1) 0;
+  color: var(--error);
+  font-size: var(--texto-sm);
 }
 
 @media (max-width: 768px) {
@@ -171,6 +176,6 @@
     display: none;
   }
   .ladoFormulario {
-    padding: 20px;
+    padding: var(--espacio-4);
   }
 }

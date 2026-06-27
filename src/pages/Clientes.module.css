@@ -1,113 +1,98 @@
-:root {
-  --verde: #66a082;
-  --verde-hover: #558a6e;
-  --verde-claro: #e8f4ef;
-  --verde-borde: #c2ddd2;
-  --verde-fondo: #c8e0d5;
-  --rojo: #b91c1c;
-  --rojo-baja: #491c20;
-  --texto: #2c3e50;
-  --texto-suave: #555;
-  --texto-muted: #888;
-  --gris-claro: #dcdde1;
-  --gris-fondo: #f3f4f6;
-  --gris-hover: #9ca3af;
-}
-
 .contenedorClientes {
   max-width: 1100px;
-  margin: 2rem auto;
-  padding: 0 1.25rem;
+  margin: var(--espacio-8) auto;
+  padding: 0 var(--espacio-4);
 }
 
 .encabezadoClientes {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--espacio-4);
 }
 
 .tituloPagina {
   margin: 0;
-  font-size: 1.375rem;
-  font-weight: 500;
-  color: var(--texto);
+  font-size: var(--texto-lg);
+  font-weight: var(--peso-medio);
+  color: var(--texto-principal);
 }
 
 .botonAgregarCliente {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
+  gap: var(--espacio-1);
+  padding: var(--espacio-2) var(--espacio-4);
+  border-radius: var(--radio-input);
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-medio);
   border: none;
   cursor: pointer;
   background-color: var(--verde);
   color: white;
-  transition: background 0.15s;
+  transition: background 0.1s;
 }
 
 .botonAgregarCliente:hover {
-  background-color: var(--verde-hover);
+  background-color: var(--verde-oscuro);
 }
 
 .botonReactivar {
   background-color: var(--verde);
   color: white;
   border: none;
-  border-radius: 0.375rem;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.82rem;
+  border-radius: var(--radio-input);
+  padding: var(--espacio-1) var(--espacio-3);
+  font-size: var(--texto-xs);
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.1s;
 }
 
 .botonReactivar:hover {
-  background-color: var(--verde-hover);
+  background-color: var(--verde-oscuro);
 }
 
 .botonBaja {
-  background-color: var(--rojo-baja);
-  color: white;
-  border: none;
-  border-radius: 0.375rem;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.82rem;
+  background-color: transparent;
+  color: var(--error);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-1) var(--espacio-3);
+  font-size: var(--texto-xs);
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.1s, border-color 0.1s;
 }
 
 .botonBaja:hover {
-  background-color: #6b2227;
+  background-color: var(--error-fondo);
+  border-color: var(--error);
 }
 
 .botonLink {
   background: none;
   border: none;
   color: var(--verde);
-  font-size: 0.75rem;
+  font-size: var(--texto-xs);
   cursor: pointer;
-  padding-left: 0.375rem;
+  padding-left: var(--espacio-1);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .botonLinkRojo {
-  color: var(--rojo);
+  color: var(--error);
 }
 
 .buscadorClientes {
   width: 100%;
   max-width: 350px;
-  padding: 0.625rem 0.875rem;
-  border: 1px solid var(--gris-claro);
-  border-radius: 0.5rem;
-  margin-bottom: 1.25rem;
-  font-size: 0.875rem;
+  padding: var(--espacio-2) var(--espacio-3);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-input);
+  margin-bottom: var(--espacio-4);
+  font-size: var(--texto-sm);
   background: white;
-  color: var(--texto);
+  color: var(--texto-principal);
   outline: none;
 }
 
@@ -115,37 +100,35 @@
   border-color: var(--verde);
 }
 
+
 .tablaClientes {
   width: 100%;
   border-collapse: collapse;
-  background: white;
-  border-radius: 0.625rem;
-  overflow: hidden;
-  border: 0.5px solid var(--verde-borde);
+  background: transparent;
 }
 
 .encabezadoColumna {
-  background-color: var(--verde-claro);
-  color: var(--verde-hover);
+  background-color: transparent;
+  color: var(--texto-tenue);
   text-align: left;
-  padding: 0.6875rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 500;
+  padding: var(--espacio-2) var(--espacio-4) var(--espacio-2) 0;
+  font-size: var(--texto-xs);
+  font-weight: var(--peso-bold);
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  border-bottom: 1px solid var(--borde-sutil);
 }
 
 .celdaTabla {
-  padding: 0.75rem 1rem;
-  border-top: 0.5px solid var(--verde-borde);
-  font-size: 0.875rem;
-  color: var(--texto);
+  padding: var(--espacio-3) var(--espacio-4) var(--espacio-3) 0;
+  border-bottom: 1px solid var(--borde-sutil);
+  font-size: var(--texto-base);
+  color: var(--texto-principal);
   vertical-align: middle;
 }
 
-
 .filaCliente:hover {
-  background-color: #f5faf7;
+  background-color: #fafafa;
 }
 
 .listaHorariosTabla {
@@ -154,9 +137,8 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--espacio-1);
 }
-
 
 .itemHorarioTabla {
   display: flex;
@@ -166,35 +148,35 @@
 
 .accionesHorario {
   display: flex;
-  gap: 0.5rem;
-  margin-left: 0.5rem;
+  gap: var(--espacio-2);
+  margin-left: var(--espacio-2);
 }
+
 
 .estadoActivo,
 .estadoInactivo {
-  padding: 0.1875rem 0.625rem;
-  border-radius: 1.25rem;
-  font-size: 0.75rem;
-  font-weight: 500;
+  padding: 2px var(--espacio-3);
+  border-radius: var(--radio-pill);
+  font-size: var(--texto-xs);
+  font-weight: var(--peso-medio);
 }
 
 .estadoActivo {
-  background: #d6f0e3;
-  color: #2a7a52;
+  background: var(--verde-fondo);
+  color: var(--verde-oscuro);
 }
 
 .estadoInactivo {
-  background: var(--gris-fondo);
-  color: var(--texto-muted);
+  background: #f1f1f1;
+  color: var(--texto-tenue);
 }
 
 .filaInactiva {
-  background-color: var(--gris-fondo);
+  background-color: #fafafa;
 }
 
-
 .filaInactiva .celdaTabla {
-  color: var(--gris-hover);
+  color: var(--texto-tenue);
 }
 
 .filaInactiva .botonReactivar {
@@ -202,43 +184,43 @@
 }
 
 .mensajeError {
-  color: var(--rojo);
-  font-size: 0.875rem;
-  margin: 0.5rem 0;
+  color: var(--error);
+  font-size: var(--texto-base);
+  margin: var(--espacio-2) 0;
 }
 
 .paginacion {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  padding-bottom: 1rem;
+  gap: var(--espacio-4);
+  margin-top: var(--espacio-6);
+  padding-bottom: var(--espacio-4);
 }
 
 .botonPagina {
   background-color: var(--verde);
   color: white;
   border: none;
-  border-radius: 0.4rem;
-  padding: 0.5rem 1.2rem;
-  font-size: 0.875rem;
+  border-radius: var(--radio-input);
+  padding: var(--espacio-2) var(--espacio-6);
+  font-size: var(--texto-sm);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.1s;
 }
 
 .botonPagina:hover:not(:disabled) {
-  background-color: var(--verde-hover);
+  background-color: var(--verde-oscuro);
 }
 
 .botonPagina:disabled {
-  background-color: var(--verde-fondo);
+  background-color: var(--borde-sutil);
   cursor: not-allowed;
 }
 
 .paginaInfo {
-  font-size: 0.875rem;
-  color: var(--texto-suave);
+  font-size: var(--texto-base);
+  color: var(--texto-secundario);
   min-width: 4rem;
   text-align: center;
 }
@@ -250,15 +232,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.25rem;
+  padding: var(--espacio-4);
   z-index: 1000;
 }
 
 .modal {
   position: relative;
   background: white;
-  border-radius: 0.75rem;
-  border: 0.5px solid var(--verde-borde);
+  border-radius: var(--radio-panel);
+  box-shadow: var(--sombra-flotante);
   width: 100%;
   max-width: 480px;
   max-height: 85vh;
@@ -268,27 +250,26 @@
 }
 
 .tituloModal {
-  padding: 1.5rem 1.5rem 0;
-  margin: 0 0 0.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--texto);
+  padding: var(--espacio-6) var(--espacio-6) 0;
+  margin: 0 0 var(--espacio-2);
+  font-size: var(--texto-md);
+  font-weight: var(--peso-medio);
+  color: var(--texto-principal);
 }
 
 .textoModal {
-  padding: 0 1.5rem;
-  margin: 0 0 0.75rem;
-  font-size: 0.875rem;
-  color: var(--texto-suave);
+  padding: 0 var(--espacio-6);
+  margin: 0 0 var(--espacio-3);
+  font-size: var(--texto-base);
+  color: var(--texto-secundario);
 }
-
 
 .etiquetaModal {
   display: block;
-  margin-bottom: 0.375rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--verde-hover);
+  margin-bottom: var(--espacio-1);
+  font-size: var(--texto-xs);
+  font-weight: var(--peso-medio);
+  color: var(--texto-secundario);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -296,13 +277,13 @@
 .campoSelectModal,
 .campoFechaModal {
   width: 100%;
-  padding: 0.625rem;
-  margin-top: 0.5rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--texto);
+  padding: var(--espacio-2);
+  margin-top: var(--espacio-2);
+  border-radius: var(--radio-input);
+  font-size: var(--texto-base);
+  color: var(--texto-principal);
   outline: none;
-  border: 1px solid var(--gris-claro);
+  border: 1px solid var(--borde-sutil);
   box-sizing: border-box;
 }
 
@@ -313,95 +294,95 @@
 
 .modalContenidoScroll {
   overflow-y: auto;
-  padding: 0 1.5rem;
+  padding: 0 var(--espacio-6);
   flex: 1;
 }
 
 .accionesModal {
   display: flex;
   justify-content: flex-end;
-  gap: 0.625rem;
-  padding: 1rem 1.5rem;
-  border-top: 1px solid var(--verde-borde);
+  gap: var(--espacio-2);
+  padding: var(--espacio-4) var(--espacio-6);
+  border-top: 1px solid var(--borde-sutil);
   margin: 0;
   flex-shrink: 0;
 }
 
 .botonSecundario {
-  background: var(--gris-fondo);
-  color: var(--texto);
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.8125rem;
+  background: transparent;
+  color: var(--texto-secundario);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-2) var(--espacio-4);
+  font-size: var(--texto-sm);
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.1s;
 }
 
 .botonSecundario:hover {
-  background: var(--gris-claro);
+  background: #fafafa;
 }
 
 .botonConfirmar {
   background: var(--verde);
   color: white;
   border: none;
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  border-radius: var(--radio-input);
+  padding: var(--espacio-2) var(--espacio-4);
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-medio);
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.1s;
 }
 
 .botonConfirmar:hover {
-  background-color: var(--verde-hover);
+  background-color: var(--verde-oscuro);
 }
 
 .botonCerrarModal {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: var(--espacio-4);
+  right: var(--espacio-4);
   background: none;
   border: none;
   font-size: 1.3rem;
   line-height: 1;
-  color: var(--gris-hover);
+  color: var(--texto-tenue);
   cursor: pointer;
-  padding: 0.25rem;
+  padding: var(--espacio-1);
 }
 
 .botonCerrarModal:hover {
-  color: var(--texto-suave);
+  color: var(--texto-secundario);
 }
 
 .listaDiasModal {
   list-style: none;
   padding: 0;
-  margin: 0 0 1rem;
+  margin: 0 0 var(--espacio-4);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--espacio-2);
 }
 
 .itemDiaModal {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0;
-  border-bottom: 0.5px solid var(--verde-borde);
-  font-size: 0.875rem;
+  padding: var(--espacio-2) 0;
+  border-bottom: 1px solid var(--borde-sutil);
+  font-size: var(--texto-base);
 }
 
 .grupoDia {
-  margin-bottom: 1rem;
+  margin-bottom: var(--espacio-4);
 }
 
 .nombreDia {
   display: block;
-  font-size: 0.8125rem;
-  color: var(--texto-suave);
-  margin-bottom: 0.375rem;
+  font-size: var(--texto-sm);
+  color: var(--texto-secundario);
+  margin-bottom: var(--espacio-1);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -409,40 +390,40 @@
 .listaHorarios {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--espacio-2);
 }
 
 .opcionHorario {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  font-size: 0.875rem;
+  gap: var(--espacio-1);
+  font-size: var(--texto-base);
   cursor: pointer;
-  color: var(--texto);
+  color: var(--texto-principal);
 }
 
 .opcionHorarioDeshabilitado {
-  color: var(--gris-hover);
+  color: var(--texto-tenue);
   cursor: not-allowed;
 }
 
 .ayudaPlan {
-  font-size: 0.8125rem;
-  color: var(--texto-suave);
-  margin: 0.5rem 0 1rem;
+  font-size: var(--texto-sm);
+  color: var(--texto-secundario);
+  margin: var(--espacio-2) 0 var(--espacio-4);
 }
 
 .botonInhabilitar {
   background: none;
-  border: 1px solid var(--verde-borde);
-  color: var(--verde-hover);
-  border-radius: 0.375rem;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.8125rem;
+  border: 1px solid var(--borde-sutil);
+  color: var(--verde-oscuro);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-1) var(--espacio-3);
+  font-size: var(--texto-sm);
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.1s;
 }
 
 .botonInhabilitar:hover {
-  background: var(--verde-claro);
+  background: var(--verde-fondo);
 }

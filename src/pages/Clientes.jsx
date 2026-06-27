@@ -218,9 +218,9 @@ function Clientes() {
     <Layout>
       <div className={styles.contenedorClientes}>
         <div className={styles.encabezadoClientes}>
-          <h1 className={styles.tituloPagina}>Clientes</h1>
+          <h1 className={styles.tituloPagina}>Alumnos</h1>
           <button className={styles.botonAgregarCliente} onClick={() => navegar('/agregar-cliente')}>
-            + Agregar Cliente
+            + Nuevo Alumno
           </button>
         </div>
 
@@ -232,9 +232,9 @@ function Clientes() {
           className={styles.buscadorClientes}
         />
 
-        {cargando && <p>Cargando clientes...</p>}
+        {cargando && <p>Cargando alumnos...</p>}
         {error && <p className={styles.mensajeError}>{error}</p>}
-        {!cargando && clientesFiltrados.length === 0 && <p>No se encontraron clientes.</p>}
+        {!cargando && clientesFiltrados.length === 0 && <p>No se encontraron alumnos.</p>}
 
         <table className={styles.tablaClientes}>
           <thead>

@@ -1,109 +1,122 @@
 .contenedorDetalle {
   max-width: 700px;
-  margin: 36px auto;
-  padding: 0 24px;
+  margin: var(--espacio-8) auto;
+  padding: 0 var(--espacio-6);
 }
 
 .botonVolver {
   background: none;
   border: none;
-  color: #66a082;
-  font-size: 14px;
-  font-weight: 600;
+  color: var(--verde);
+  font-size: var(--texto-base);
+  font-weight: var(--peso-medio);
   cursor: pointer;
   padding: 0;
-  margin-bottom: 28px;
+  margin-bottom: var(--espacio-6);
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--espacio-1);
 }
 
 .botonVolver:hover {
-  color: #4f7d65;
+  color: var(--verde-oscuro);
 }
 
 .detalleEncabezado {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 32px;
+  margin-bottom: var(--espacio-8);
 }
 
 .detalleTitulo {
-  font-size: 28px;
-  font-weight: 700;
-  color: #2c3e50;
-  margin: 0 0 6px;
+  font-size: var(--texto-xl);
+  font-weight: var(--peso-bold);
+  color: var(--texto-principal);
+  margin: 0 0 var(--espacio-1);
 }
 
 .detalleSubtitulo {
-  font-size: 15px;
-  color: #666;
+  font-size: var(--texto-base);
+  color: var(--texto-secundario);
   margin: 0;
 }
 
+
 .badgeCuposDetalle {
-  font-size: 13px;
-  font-weight: 600;
-  border-radius: 20px;
-  padding: 6px 16px;
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-bold);
+  border-radius: var(--radio-pill);
+  padding: var(--espacio-1) var(--espacio-4);
   white-space: nowrap;
 }
 
 .badgeCuposDetalleLibres {
-  background: #e8f4ef;
-  color: #3d7a5d;
-  border: 1px solid #a8d5bc;
+  background: var(--verde-fondo);
+  color: var(--verde-oscuro);
 }
 
 .badgeCuposDetalleCompleto {
-  background: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fca5a5;
+  background: var(--error-fondo);
+  color: var(--error);
 }
 
+
 .detalleSeccion {
-  background: #fff;
-  border: 1px solid #c2ddd2;
-  border-radius: 12px;
-  padding: 20px 24px;
+  border-top: 2px solid var(--verde-oscuro);
+  padding: var(--espacio-6) 0 0;
 }
 
 .detalleSeccionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: var(--espacio-4);
 }
 
 .tituloSeccion {
-  font-size: 16px;
-  font-weight: 600;
-  color: #2c3e50;
+  font-size: var(--texto-md);
+  font-weight: var(--peso-bold);
+  color: var(--texto-principal);
   margin: 0;
 }
 
+.botonesAgregarDetalle {
+  display: flex;
+  gap: var(--espacio-2);
+}
+
 .botonAgregarDetalle {
-  background: #66a082;
+  background: var(--verde);
   color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
+  border-radius: var(--radio-input);
+  padding: var(--espacio-2) var(--espacio-4);
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-bold);
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.1s;
 }
 
 .botonAgregarDetalle:hover {
-  background: #4f7d65;
+  background: var(--verde-oscuro);
+}
+
+.botonAgregarPrueba {
+  background: white;
+  color: var(--verde);
+  border: 1px solid var(--verde);
+}
+
+.botonAgregarPrueba:hover {
+  background: var(--verde-fondo);
 }
 
 .detalleVacio {
-  color: #999;
-  font-size: 14px;
+  color: var(--texto-tenue);
+  font-size: var(--texto-base);
   text-align: center;
-  padding: 20px 0;
+  padding: var(--espacio-4) 0;
 }
 
 .listaInscriptos {
@@ -112,60 +125,105 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
+
+
 
 .itemInscripto {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 14px;
-  background: #f5faf7;
-  border-radius: 8px;
-  border: 1px solid #d6eee3;
+  padding: var(--espacio-3) 0;
+  border-bottom: 1px solid var(--borde-sutil);
 }
 
 .inscriptoInfo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--espacio-2);
 }
 
 .inscriptoNombre {
-  font-size: 15px;
-  color: #2c3e50;
-  font-weight: 500;
+  font-size: var(--texto-md);
+  color: var(--texto-principal);
+  font-weight: var(--peso-medio);
 }
 
+
 .etiquetaRecupero {
-  background: #e8f4ef;
-  color: #3d7a5d;
+  background: var(--verde-fondo);
+  color: var(--verde-oscuro);
   font-size: 11px;
-  font-weight: 600;
-  border-radius: 20px;
-  padding: 2px 8px;
-  border: 1px solid #a8d5bc;
+  font-weight: var(--peso-bold);
+  border-radius: var(--radio-pill);
+  padding: 2px var(--espacio-2);
 }
+
+.etiquetaPrueba {
+  background: #f5eee0;
+  color: #8a6420;
+  font-size: 11px;
+  font-weight: var(--peso-bold);
+  border-radius: var(--radio-pill);
+  padding: 2px var(--espacio-2);
+}
+
+.etiquetaAsistio {
+  background: var(--verde-fondo);
+  color: var(--verde-oscuro);
+  font-size: 11px;
+  font-weight: var(--peso-bold);
+  border-radius: var(--radio-pill);
+  padding: 2px var(--espacio-2);
+}
+
+.accionesInscripto {
+  display: flex;
+  gap: var(--espacio-2);
+}
+
+.botonConfirmarAsistencia {
+  background: var(--verde);
+  color: white;
+  border: none;
+  border-radius: var(--radio-input);
+  padding: var(--espacio-1) var(--espacio-3);
+  font-size: var(--texto-xs);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.botonConfirmarAsistencia:hover {
+  background: var(--verde-oscuro);
+}
+
 
 .botonEliminarInscripto {
   background: transparent;
-  border: 1px solid #fca5a5;
-  color: #dc2626;
-  border-radius: 6px;
-  padding: 5px 12px;
-  font-size: 12px;
+  border: 1px solid var(--borde-sutil);
+  color: var(--error);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-1) var(--espacio-3);
+  font-size: var(--texto-xs);
   cursor: pointer;
-  transition: background 0.12s;
+  transition: background 0.1s, border-color 0.1s;
 }
 
 .botonEliminarInscripto:hover {
-  background: #fef2f2;
+  background: var(--error-fondo);
+  border-color: var(--error);
 }
 
+.botonEliminarInscripto:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* MODAL */
 .overlayModal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -175,176 +233,120 @@
 .modal {
   position: relative;
   background: #fff;
-  border-radius: 12px;
-  border: 1px solid #c2ddd2;
-  padding: 24px;
+  border: 1px solid var(--borde-definido);
+  border-radius: var(--radio-panel);
+  box-shadow: var(--sombra-definicion);
+  padding: var(--espacio-6);
   width: 420px;
   max-width: 90vw;
 }
 
-
 .tituloModal {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 0 8px;
-  color: #2c3e50;
+  font-size: var(--texto-md);
+  font-weight: var(--peso-medio);
+  margin: 0 0 var(--espacio-2);
+  color: var(--texto-principal);
 }
 
 .textoModal {
-  font-size: 14px;
-  color: #555;
-  margin: 0 0 14px;
+  font-size: var(--texto-base);
+  color: var(--texto-secundario);
+  margin: 0 0 var(--espacio-3);
 }
 
 .listaDiasModal {
   list-style: none;
   padding: 0;
-  margin: 0 0 8px;
+  margin: 0 0 var(--espacio-2);
 }
 
 .itemDiaModal {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #e8f4ef;
-  font-size: 14px;
-  gap: 12px;
+  padding: var(--espacio-2) 0;
+  border-bottom: 1px solid var(--borde-sutil);
+  font-size: var(--texto-base);
+  gap: var(--espacio-3);
 }
 
 .fechaCancelacion {
-  color: #999;
-  font-size: 12px;
+  color: var(--texto-tenue);
+  font-size: var(--texto-xs);
 }
 
 .accionesModal {
   display: flex;
   justify-content: flex-end;
-  margin-top: 16px;
-  gap: 10px;
+  margin-top: var(--espacio-4);
+  gap: var(--espacio-2);
 }
 
 .botonSecundario {
   background: transparent;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 13px;
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-input);
+  padding: var(--espacio-2) var(--espacio-4);
+  font-size: var(--texto-sm);
   cursor: pointer;
-  color: #555;
+  color: var(--texto-secundario);
 }
 
 .botonSecundario:hover {
-  background: #f5f5f5;
+  background: #fafafa;
 }
 
 .botonHabilitar {
-  background: #66a082;
+  background: var(--verde);
   color: white;
   border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 12px;
+  border-radius: var(--radio-input);
+  padding: var(--espacio-1) var(--espacio-3);
+  font-size: var(--texto-xs);
   cursor: pointer;
   white-space: nowrap;
 }
 
 .botonHabilitar:hover {
-  background: #4f7d65;
+  background: var(--verde-oscuro);
 }
 
 .mensajeError {
-  color: #dc2626;
-  font-size: 14px;
-  margin: 8px 0;
-}
-
-.botonesAgregarDetalle {
-  display: flex;
-  gap: 8px;
-}
-
-.botonAgregarPrueba {
-  background: white;
-  color: #66a082;
-  border: 1px solid #66a082;
-}
-
-.etiquetaPrueba {
-  background: #fef3c7;
-  color: #92400e;
-  font-size: 0.72rem;
-  padding: 2px 8px;
-  border-radius: 6px;
-  margin-left: 8px;
+  color: var(--error);
+  font-size: var(--texto-base);
+  margin: var(--espacio-2) 0;
 }
 
 .botonCerrarModal {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: var(--espacio-4);
+  right: var(--espacio-4);
   background: none;
   border: none;
   font-size: 1.3rem;
   line-height: 1;
-  color: #9ca3af;
+  color: var(--texto-tenue);
   cursor: pointer;
-  padding: 4px;
+  padding: var(--espacio-1);
 }
 
 .botonCerrarModal:hover {
-  color: #4b5563;
+  color: var(--texto-secundario);
 }
 
 .etiquetaModal {
   display: block;
-  margin-bottom: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #2c3e50;
+  margin-bottom: var(--espacio-2);
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-bold);
+  color: var(--texto-principal);
 }
 
 .campoTextoModal {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #dcdde1;
-  border-radius: 8px;
-  font-size: 14px;
+  padding: var(--espacio-2) var(--espacio-3);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-input);
+  font-size: var(--texto-base);
   box-sizing: border-box;
-}
-
-.botonEliminarInscripto:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* Para marcar asistencia */
-.accionesInscripto {
-  display: flex;
-  gap: 8px;
-}
-
-.botonConfirmarAsistencia {
-  background: #66a082;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 5px 12px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: background 0.12s;
-}
-
-.botonConfirmarAsistencia:hover {
-  background: #4f7d65;
-}
-
-.etiquetaAsistio {
-  background: #d6f0e3;
-  color: #2a7a52;
-  font-size: 11px;
-  font-weight: 600;
-  border-radius: 20px;
-  padding: 2px 8px;
-  border: 1px solid #a8d5bc;
 }

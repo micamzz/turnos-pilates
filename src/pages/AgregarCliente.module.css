@@ -1,137 +1,139 @@
 .contenedorAgregarCliente {
   min-height: 100vh;
-  padding: 2rem 1.25rem;
+  padding: var(--espacio-8) var(--espacio-4);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .tituloPagina {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: 1.125rem;
+  font-size: var(--texto-xl);
+  font-weight: var(--peso-bold);
+  color: var(--texto-principal);
+  margin-bottom: var(--espacio-4);
 }
 
 .formularioCliente {
   width: 100%;
   max-width: 43.75rem;
   background: #ffffff;
-  border-radius: 1.125rem;
-  padding: 1.75rem 2rem;
-  border: 0.0625rem solid #c8e0d5;
+  border-radius: var(--radio-panel);
+  padding: var(--espacio-6) var(--espacio-8);
+  border: 1px solid var(--borde-sutil);
 }
 
 .tituloSeccion {
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--texto-xs);
+  font-weight: var(--peso-bold);
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: #66a082;
-  margin-bottom: 0.625rem;
+  color: var(--verde);
+  margin-bottom: var(--espacio-2);
 }
 
 .separador {
-  height: 0.0625rem;
-  background: #c8e0d5;
-  margin: 0.875rem 0;
+  height: 1px;
+  background: var(--borde-sutil);
+  margin: var(--espacio-4) 0;
 }
 
 .filaCampos {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.875rem;
+  gap: var(--espacio-3);
 }
 
 .grupoEntrada {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.625rem;
+  margin-bottom: var(--espacio-2);
 }
 
 .etiquetaCampo {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #34495e;
-  margin-bottom: 0.3125rem;
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-medio);
+  color: var(--texto-secundario);
+  margin-bottom: var(--espacio-1);
 }
 
 .opcional {
-  font-size: 0.75rem;
-  font-weight: 400;
-  color: #9ca3af;
+  font-size: var(--texto-xs);
+  font-weight: var(--peso-normal);
+  color: var(--texto-tenue);
 }
+
 
 .entradaTexto,
 .entradaSelect {
-  padding: 0.625rem 0.875rem;
-  border: 0.0625rem solid #dcdde1;
-  border-radius: 0.5625rem;
-  font-size: 0.9rem;
-  color: #2c3e50;
-  background: #f8f9fa;
-  transition: all 0.2s ease;
+  padding: var(--espacio-2) var(--espacio-3);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-input);
+  font-size: var(--texto-base);
+  color: var(--texto-principal);
+  background: #fff;
+  transition: border-color 0.1s;
 }
 
 .entradaTexto:hover,
 .entradaSelect:hover {
-  border-color: #66a082;
+  border-color: var(--verde);
 }
 
 .entradaTexto:focus,
 .entradaSelect:focus {
   outline: none;
-  border-color: #66a082;
-  background: inherit;
+  border-color: var(--verde);
 }
 
 .ayudaPlan {
-  font-size: 0.875rem;
-  color: #7f8c8d;
-  margin-bottom: 0.5rem;
+  font-size: var(--texto-sm);
+  color: var(--texto-secundario);
+  margin-bottom: var(--espacio-2);
 }
 
 .ayudaPlan strong {
-  color: #66a082;
+  color: var(--verde);
 }
 
+
 .grupoDia {
-  margin-bottom: 0.5rem;
-  padding: 0.625rem 0.75rem;
-  border-radius: 0.6875rem;
-  border: 0.0625rem solid #c8e0d5;
+  padding: var(--espacio-2) 0;
+  border-bottom: 1px solid var(--borde-sutil);
 }
 
 .nombreDia {
   display: block;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 0.4375rem;
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-bold);
+  color: var(--texto-principal);
+  margin-bottom: var(--espacio-2);
   text-transform: capitalize;
 }
 
 .listaHorarios {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.375rem;
+  gap: var(--espacio-2);
   align-items: center;
 }
+
 
 .opcionHorario {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.375rem 0.625rem;
+  padding: var(--espacio-1) var(--espacio-2);
   min-width: 3.625rem;
-  border: 0.0625rem solid #dcdde1;
-  border-radius: 0.5rem;
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-input);
   background: #fff;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #34495e;
+  font-size: var(--texto-sm);
+  font-weight: var(--peso-medio);
+  color: var(--texto-secundario);
   cursor: pointer;
   user-select: none;
+  transition: border-color 0.1s, background 0.1s;
 }
 
 .opcionHorario input[type="checkbox"] {
@@ -139,16 +141,14 @@
 }
 
 .opcionHorario:hover {
-  border-color: #66a082;
-  background: #f4faf7;
+  border-color: var(--verde);
 }
 
 .opcionHorario:has(input:checked) {
-  background: #e0f0e8;
-  border-color: #66a082;
-  color: #4f7d65;
-  font-weight: 700;
-  box-shadow: 0 0.125rem 0.375rem rgba(102, 160, 130, 0.2);
+  background: var(--verde);
+  border-color: var(--verde);
+  color: white;
+  font-weight: var(--peso-bold);
 }
 
 .opcionHorario.deshabilitado {
@@ -158,41 +158,43 @@
 }
 
 .opcionHorario.deshabilitado:hover {
-  border-color: #dcdde1;
+  border-color: var(--borde-sutil);
   background: #f3f4f6;
 }
 
+
 .botonGuardar {
-  width: 27%;
-  margin: 0.75rem auto 0;
-  display: block;
-  padding: 0.75rem 1rem;
+ display: block; 
+  width: auto;
+  margin: var(--espacio-3) auto 0;
+  padding: var(--espacio-3) var(--espacio-8);
   border: none;
-  border-radius: 0.5625rem;
-  background-color: #66a082;
+  border-radius: var(--radio-input);
+  background-color: var(--verde);
   color: white;
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: var(--peso-bold);
+  font-size: var(--texto-base);
   cursor: pointer;
+  transition: background 0.1s;
 }
 
 .botonGuardar:hover:not(:disabled) {
-  background-color: #4f7d65;
+  background-color: var(--verde-oscuro);
 }
 
 .botonGuardar:active:not(:disabled) {
-  transform: scale(0.98);
+  transform: scale(0.99);
 }
 
 .botonGuardar:disabled {
-  background-color: #a4b0be;
+  background-color: var(--texto-tenue);
   cursor: not-allowed;
 }
 
 .mensajeError {
-  margin: 0.25rem 0;
-  color: #dc2626;
-  font-size: 0.875rem;
+  margin: var(--espacio-1) 0;
+  color: var(--error);
+  font-size: var(--texto-sm);
 }
 
 @media (max-width: 35rem) {
@@ -201,7 +203,6 @@
   }
 
   .formularioCliente {
-    padding: 1.25rem;
-    border-radius: 0.875rem;
+    padding: var(--espacio-4);
   }
 }
