@@ -1,20 +1,27 @@
 .header {
-   background-color: #37634c;
-  padding: 12px 32px;
+  background-color: #37634c;
+  height: 70px;  
+  padding: 0 32px;  
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative; 
 }
 
 .logo {
-  height: 48px;
+  height: 100px; 
   width: auto;
+  position: absolute; 
+  top: 56%; 
+  transform: translateY(-50%); 
+  left: 32px; 
 }
 
 .nav {
   display: flex;
   align-items: center;
   gap: 24px;
+  margin-left: auto;
 }
 
 .navLink {
