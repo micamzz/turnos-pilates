@@ -1,3 +1,63 @@
+:root {
+  /*  Radios: casi planos, un solo propósito cada uno */
+  --radio-input: 3px;
+  /* inputs, selects, botones, celdas */
+  --radio-panel: 4px;
+  /* modales y paneles grandes */
+  --radio-pill: 999px;
+  /* SOLO badges de estado (Activo, Asistió, etc.) */
+
+  /* Espaciado: escala única, separar con aire en vez de bordes  */
+  --espacio-1: 4px;
+  --espacio-2: 8px;
+  --espacio-3: 12px;
+  --espacio-4: 16px;
+  --espacio-6: 24px;
+  --espacio-8: 32px;
+
+  /* Sombras */
+  --sombra-flotante: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --sombra-definicion: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --borde-definido: #d8d2c5;
+
+  /*Color: funcional, no decorativo  */
+  --verde: #3f5e44;
+  --verde-oscuro: #2c4530;
+  --verde-fondo: #eef2ec;
+
+  /* DESPUÉS — mismo tono de familia, menos saturado */
+  --verde: #5a7a5e;
+  --verde-oscuro: #3f5e44;
+  /* el viejo "--verde" pasa a ser el oscuro */
+  --verde-suave: #87a18a;
+
+
+  --texto-principal: #232323;
+  --texto-secundario: #6b6560;
+  --texto-tenue: #9a948c;
+
+  --borde-sutil: #e3ddd2;
+
+  --error: #a13d2e;
+  --error-fondo: #f7eae7;
+  --exito: #2c4530;
+
+  /* Fuentes */
+  --fuente-titulo: 'Fraunces', Georgia, serif;
+  --fuente-base: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  --texto-xs: 12px;
+  --texto-sm: 13px;
+  --texto-base: 15px;
+  --texto-md: 17px;
+  --texto-lg: 24px;
+  --texto-xl: 36px;
+
+  --peso-normal: 400;
+  --peso-medio: 600;
+  --peso-bold: 700;
+}
+
 html,
 body,
 #root {
@@ -15,9 +75,8 @@ body,
 /* Base global */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: #f7f9fa;
-  color: #2c3e50;
+  font-family: var(--fuente-base);
+  color: var(--texto-principal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

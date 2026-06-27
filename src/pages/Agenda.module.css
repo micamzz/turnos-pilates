@@ -12,10 +12,11 @@
 }
 
 .tituloPagina {
-  font-size: var(--texto-lg);
-  font-weight: var(--peso-bold);
+ font-family: var(--fuente-titulo);
+  font-size: var(--texto-xl);
+  font-weight: var(--peso-medio); 
   color: var(--texto-principal);
-  margin: 0;
+  margin-bottom: var(--espacio-1);
 }
 
 .botonNavegarSemana {

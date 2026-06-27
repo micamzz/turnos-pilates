@@ -16,9 +16,6 @@
   padding: var(--espacio-8);
 }
 
-/* Este gradiente se mantiene tal cual: a diferencia de los gradientes
-   decorativos que sacamos de HomeAdmin, este cumple una función real
-   (legibilidad del texto blanco sobre la foto), no es decoración. */
 .capaHero {
   position: absolute;
   top: 0;
@@ -34,10 +31,13 @@
   z-index: 1;
 }
 
+/* Cambiar color */
 .tituloHero {
+  font-family: var(--fuente-titulo);
   font-size: var(--texto-xl);
-  margin-bottom: var(--espacio-2);
-  font-weight: var(--peso-medio);
+  font-weight: var(--peso-medio); 
+  color: var(--texto-principal);
+  margin-bottom: var(--espacio-1);
 }
 
 .textoHero {
@@ -60,10 +60,13 @@
 }
 
 .tituloFormulario {
+ font-family: var(--fuente-titulo);
   font-size: var(--texto-xl);
+  font-weight: var(--peso-medio); 
   color: var(--texto-principal);
   margin-bottom: var(--espacio-1);
 }
+
 
 .subtitulo {
   color: var(--texto-secundario);

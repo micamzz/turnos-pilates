@@ -23,7 +23,7 @@ function Header() {
       <nav className={styles.nav}>
         <Link to="/home" className={styles.navLink}>Inicio</Link>
         <Link to="/agenda" className={styles.navLink}>Turnos</Link>
-        <Link to="/clientes" className={styles.navLink}>Clientes</Link>
+        <Link to="/clientes" className={styles.navLink}>Alumnos</Link>
         {/* El boton abre el modal para luego confirmar si quiere cerrar sesion o no */}
         <button onClick={() => setModalCerrarSesionAbierto(true)} className={styles.botonCerrarSesion}>
           Cerrar sesión

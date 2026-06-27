@@ -30,10 +30,11 @@
 }
 
 .detalleTitulo {
+   font-family: var(--fuente-titulo);
   font-size: var(--texto-xl);
-  font-weight: var(--peso-bold);
+  font-weight: var(--peso-medio); 
   color: var(--texto-principal);
-  margin: 0 0 var(--espacio-1);
+  margin-bottom: var(--espacio-1);
 }
 
 .detalleSubtitulo {

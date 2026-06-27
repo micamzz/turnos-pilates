@@ -121,7 +121,7 @@ function DetalleClase() {
     <Layout>
       <div className={styles.contenedorDetalle}>
         <button className={styles.botonVolver} onClick={() => navegar('/agenda')}>
-          ← Volver a la agenda
+           Volver a la agenda
         </button>
 
         {cargando && <p>Cargando...</p>}

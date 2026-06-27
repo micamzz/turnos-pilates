@@ -12,11 +12,13 @@
 }
 
 .tituloPagina {
-  margin: 0;
-  font-size: var(--texto-lg);
-  font-weight: var(--peso-medio);
+ font-family: var(--fuente-titulo);
+  font-size: var(--texto-xl);
+  font-weight: var(--peso-medio); 
   color: var(--texto-principal);
+  margin-bottom: var(--espacio-1);
 }
+
 
 .botonAgregarCliente {
   display: flex;
