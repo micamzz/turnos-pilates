@@ -31,7 +31,6 @@ export async function cancelarTurno(clienteId, claseId, fecha) {
 
 // Trae las cancelaciones (CANCELADA) del mes que no fueron recuperadas.
 export async function obtenerCancelacionesDelMes(fechaReferencia) {
-  
   const { desde, hasta } = primerYUltimoDiaDelMes(fechaReferencia)
 
   const { data: canceladas, error: errorCanceladas } = await supabase
@@ -45,24 +44,33 @@ export async function obtenerCancelacionesDelMes(fechaReferencia) {
 
   const { data: recuperos, error: errorRecuperos } = await supabase
     .from('reserva')
-    .select('cliente_id, fecha')
+    .select('cancelacion_resuelta_id')
     .eq('estado', 'RECUPERO')
-    .gte('fecha', desde)
-    .lte('fecha', hasta)
+    .not('cancelacion_resuelta_id', 'is', null)
 
   if (errorRecuperos) throw errorRecuperos
 
-  return canceladas.filter(
-    (c) => !recuperos.some((r) => r.cliente_id === c.cliente_id && r.fecha === c.fecha)
-  )
+  const idsYaResueltos = recuperos.map((r) => r.cancelacion_resuelta_id)
+
+
+  return canceladas.filter((c) => !idsYaResueltos.includes(c.id))
 }
 
-// Registra que un cliente recupera una clase puntual (no es su día fijo)
-export async function crearRecupero(clienteId, claseId, fecha) {
+/* Registra que un cliente recupera una clase puntual (no es su día fijo).
+ cancelacionId es el id de la fila CANCELADA que este recupero resuelve —
+ permite que, una vez recuperada, esa cancelación deje de aparecer como pendiente. */
+
+export async function crearRecupero(clienteId, claseId, fecha, cancelacionId) {
   const { data, error } = await supabase
     .from('reserva')
     .upsert(
-      { cliente_id: clienteId, clase_id: claseId, fecha, estado: 'RECUPERO' },
+      {
+        cliente_id: clienteId,
+        clase_id: claseId,
+        fecha,
+        estado: 'RECUPERO',
+        cancelacion_resuelta_id: cancelacionId, // CAMBIO: nuevo campo
+      },
       { onConflict: 'cliente_id,clase_id,fecha' }
     )
     .select()

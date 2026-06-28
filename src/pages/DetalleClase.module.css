@@ -9,7 +9,7 @@
   background: none;
   border: none;
   color: var(--verde-oscuro);
-  font-size: var(--texto-sm);
+  font-size: var(--texto-base);
   font-weight: var(--peso-medio);
   cursor: pointer;
   padding: 0;

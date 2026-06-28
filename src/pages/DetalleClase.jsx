@@ -78,13 +78,13 @@ function DetalleClase() {
 
   async function manejarAgregarRecupero(cancelacion) {
     try {
-      await crearRecupero(cancelacion.cliente_id, claseId, fecha)
-      setModalAgregar(false)
-      await cargarDatos()
-    } catch (err) {
-      setError('No se pudo agregar: ' + err.message)
-    }
+      await crearRecupero(cancelacion.cliente_id, claseId, fecha, cancelacion.id)
+    setModalAgregar(false)
+    await cargarDatos()
+  } catch (err) {
+    setError('No se pudo agregar: ' + err.message)
   }
+}
 
   async function confirmarVisitaDePrueba() {
     if (!nombrePrueba.trim()) {
@@ -158,7 +158,7 @@ function DetalleClase() {
                 {cuposLibres > 0 && !yaPaso && (
                   <div className={styles.botonesAgregarDetalle}>
                     <button className={styles.botonAgregarDetalle} onClick={() => setModalAgregar(true)}>
-                      + Agregar cliente
+                      + Agregar Alumno
                     </button>
                     <button
                       className={`${styles.botonAgregarDetalle} ${styles.botonAgregarPrueba}`}

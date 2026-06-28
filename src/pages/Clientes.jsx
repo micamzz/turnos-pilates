@@ -6,7 +6,7 @@ import { reprogramarInscripcion, crearInscripciones } from '../services/inscripc
 import { cancelarTurno } from '../services/reserva'
 import { obtenerPlanes } from '../services/planes'
 import { obtenerFeriadosEnRango } from '../services/feriado'
-import { proximaFechaDeDia, formatearFechaISO, agruparClasesPorDia, primerYUltimoDiaDelMes } from '../utils/fechas'
+import { proximaFechaDeDia, formatearFechaISO, agruparClasesPorDia, primerYUltimoDiaDelMes, calcularCuposRealesPorFecha, } from '../utils/fechas'
 import { Layout } from '../components/layout/Layout.jsx'
 import ModalConfirmacion from '../components/ModalConfirmacion/ModalConfirmacion.jsx'
 import styles from './Clientes.module.css'
@@ -32,9 +32,11 @@ function Clientes() {
   const [planReactivarId, setPlanReactivarId] = useState('')
   const [clasesReactivarSeleccionadas, setClasesReactivarSeleccionadas] = useState([])
 
-  // Guarda el nombre del cliente recién reactivado, para mostrar el
-  // modal de confirmación de éxito. null = no hay aviso pendiente.
+  /* Guarda el nombre del cliente recién reactivado, para mostrar el modal de confirmación de éxito. null = no hay aviso pendiente. */
   const [clienteReactivadoExitoso, setClienteReactivadoExitoso] = useState(null)
+
+  const [inscripcionesPorClase, setInscripcionesPorClase] = useState([])
+  const [reservasProximaSemana, setReservasProximaSemana] = useState([])
 
   const navegar = useNavigate()
   const [paginaActual, setPaginaActual] = useState(0)
@@ -44,13 +46,19 @@ function Clientes() {
     cargarDatos()
   }, [])
 
+
   async function cargarDatos() {
     try {
-      const [listaClientes, listaClases, listaPlanes] = await Promise.all([
-        obtenerClientesConInscripciones(), obtenerClases(), obtenerPlanes(),])
+      const [listaClientes, listaClases, listaPlanes, listaInscripciones] = await Promise.all([
+        obtenerClientesConInscripciones(),
+        obtenerClases(),
+        obtenerPlanes(),
+        obtenerInscripcionesConClienteYClase(),
+      ])
       setClientes(listaClientes)
       setClases(listaClases)
       setPlanes(listaPlanes)
+      setInscripcionesPorClase(listaInscripciones)
 
       const hoy = new Date()
       const en3Meses = new Date(hoy.getFullYear(), hoy.getMonth() + 3, 0)
@@ -58,12 +66,19 @@ function Clientes() {
       const { hasta } = primerYUltimoDiaDelMes(en3Meses)
       const listaFeriados = await obtenerFeriadosEnRango(desde, hasta)
       setFeriados(listaFeriados)
+
+      /* reservas de los próximos 7 días, para calcular cupo real  de la próxima ocurrencia de cada día de la semana */
+      const en7Dias = new Date(hoy)
+      en7Dias.setDate(hoy.getDate() + 7)
+      const reservasSemana = await obtenerReservasEnRango(formatearFechaISO(hoy), formatearFechaISO(en7Dias))
+      setReservasProximaSemana(reservasSemana)
     } catch (err) {
       setError('No se pudieron cargar los datos: ' + err.message)
     } finally {
       setCargando(false)
     }
   }
+
 
   const clientesFiltrados = clientes
     .filter((c) => {
@@ -396,13 +411,21 @@ function Clientes() {
 
                   <select className={styles.campoSelectModal} value={nuevaClaseId} onChange={(e) => setNuevaClaseId(e.target.value)}>
                     <option value="">Seleccionar clase</option>
-                    {clases.map((clase) => (
-                      <option key={clase.id} value={clase.id} disabled={clase.cuposDisponibles <= 0}>
-                        {clase.dia_semana} {clase.hora.slice(0, 5)}
-                        {clase.cuposDisponibles <= 0 ? ' - COMPLETO' : ` - ${clase.cuposDisponibles} libres`}
-                      </option>
-                    ))}
+                    {clases.map((clase) => {
+                      const proximaFecha = formatearFechaISO(proximaFechaDeDia(clase.dia_semana))
+                      const inscripcionesDeEstaClase = inscripcionesPorClase.filter((i) => i.clase_id === clase.id)
+                      const cuposReales = calcularCuposRealesPorFecha(clase, inscripcionesDeEstaClase, reservasProximaSemana, proximaFecha)
+
+                      return (
+                        <option key={clase.id} value={clase.id} disabled={cuposReales <= 0}>
+                          {clase.dia_semana} {clase.hora.slice(0, 5)}
+                          {cuposReales <= 0 ? ' - COMPLETO' : ` - ${cuposReales} libres`}
+                        </option>
+                      )
+                    })}
                   </select>
+
+
                   <div className={styles.accionesModal}>
                     <button onClick={cerrarModalReprogramar} className={styles.botonSecundario}>Cancelar</button>
                     <button className={styles.botonConfirmar} onClick={confirmarReprogramacion}>Confirmar</button>
