@@ -2,7 +2,7 @@
   max-width: var(--contenedor-max);
   margin: 0 auto;
   padding: var(--espacio-8) var(--contenedor-padding-x);
-  min-height: 100vh;
+ 
 }
 
 .botonVolver {

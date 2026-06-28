@@ -2,7 +2,7 @@
   max-width: var(--contenedor-max);
   margin: 0 auto;
   padding: var(--espacio-8) var(--contenedor-padding-x);
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 
 .encabezadoClientes {
@@ -385,7 +385,7 @@
 
 .listaDiasModal {
   list-style: none;
-  padding: 0;
+  padding: 0 25px;
   margin: 0 0 var(--espacio-4);
   display: flex;
   flex-direction: column;
@@ -396,8 +396,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--espacio-2) 0;
-  border-bottom: 1px solid var(--borde-sutil);
   font-size: var(--texto-base);
 }
 
