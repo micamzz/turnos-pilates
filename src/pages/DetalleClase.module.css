@@ -25,7 +25,7 @@
 .contenedorBotonVolver {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: var(--espacio-4);
+  /* margin-bottom: var(--espacio-4); */
 }
 
 .detalleEncabezado {

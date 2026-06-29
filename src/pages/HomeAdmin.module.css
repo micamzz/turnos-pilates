@@ -93,11 +93,11 @@
   background: none;
   border: none;
   color: var(--verde-oscuro);
-  font-size: var(--texto-sm);
+  font-size: var(--texto-base);
   font-weight: var(--peso-medio);
   cursor: pointer;
   padding: 0;
-  min-height: var(--altura-boton);
+  /* min-height: var(--altura-boton); */
 }
 
 .resumenTurnosHoy {
@@ -120,8 +120,8 @@
 }
 
 .etiquetaEstadistica {
-  font-size: var(--texto-xs);
-  color: var(--texto-tenue);
+  font-size: var(--texto-s);
+  color: var(--texto-secundario);
   margin-top: var(--espacio-1);
 }
 
@@ -141,6 +141,16 @@
   .bienvenida {
     margin-bottom: var(--espacio-6);
   }
+  .etiquetaEstadistica {
+  font-size: var(--texto-xs);
+}
+
+.botonVerAgenda{
+   font-size: var(--texto-xs);
+}
+.numeroEstadistica{
+  font-size: 1.5rem;
+}
 }
 
 /* MOBILE */

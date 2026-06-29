@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react'
 import { formatearFechaCompleta, nombreDia, formatearFechaISO } from '../utils/fechas'
 import { useNavigate } from 'react-router-dom'
 import { obtenerClases } from '../services/clase'
-import styles from './HomeAdmin.module.css' // ajustar el nombre si tu versión usa otro
+import styles from './HomeAdmin.module.css' 
 import { Layout } from '../components/layout/Layout.jsx'
 
 function HomeAdmin() {
   const navegar = useNavigate()
   const fecha = formatearFechaCompleta()
 
- 
+
   const [clasesHoy, setClasesHoy] = useState([])
   const [cargando, setCargando] = useState(true)
 
@@ -52,7 +52,7 @@ function HomeAdmin() {
           </div>
 
           <div className={styles.cardAccion} onClick={() => navegar('/agenda')}>
-    
+
             <div>
               <h2 className={styles.tituloCard}>Reprogramar turno</h2>
               <p className={styles.textoCard}>Asigná un turno a un cliente en el horario disponible.</p>
@@ -65,7 +65,7 @@ function HomeAdmin() {
           <div className={styles.encabezadoTurnosHoy}>
             <h2 className={styles.tituloSeccionTurnos}>Turnos de hoy</h2>
             <button className={styles.botonVerAgenda} onClick={() => navegar('/agenda')}>
-              Ver agenda completa 
+              Ver agenda completa
             </button>
           </div>
 
@@ -75,14 +75,27 @@ function HomeAdmin() {
             <p className={styles.textoSinTurnosHoy}>Hoy no hay clases programadas.</p>
           ) : (
             <div className={styles.resumenTurnosHoy}>
-              <div className={styles.estadisticaTurno}>
+
+              <div
+                className={styles.estadisticaTurno}
+                 onClick={() => navegar("/agenda")}
+                style={{ cursor: "pointer" }}
+              >
                 <span className={styles.numeroEstadistica}>{cantidadClasesHoy}</span>
                 <span className={styles.etiquetaEstadistica}>clases hoy</span>
               </div>
-              <div className={styles.estadisticaTurno}>
+
+              <div
+                className={styles.estadisticaTurno}
+                onClick={() => navegar("/clientes")}
+                style={{ cursor: "pointer" }}
+              >
                 <span className={styles.numeroEstadistica}>{totalAlumnosHoy}</span>
-                <span className={styles.etiquetaEstadistica}>alumnos anotados</span>
+                <span className={styles.etiquetaEstadistica}>
+                  alumnos anotados en total
+                </span>
               </div>
+
             </div>
           )}
         </div>
