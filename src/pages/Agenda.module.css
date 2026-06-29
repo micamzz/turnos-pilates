@@ -291,19 +291,9 @@
   color: var(--texto-secundario);
 }
 
-.etiquetaHoy {
-  display: block;
-  margin-top: 2px;
-  background: var(--verde);
-  color: white;
-  font-size: 10px;
-  font-weight: var(--peso-bold);
-  letter-spacing: 0.05em;
-  border-radius: var(--radio-pill);
-  padding: 1px var(--espacio-2);
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
+.nombreDiaHoy {
+  color: var(--verde-oscuro);
+   font-weight: var(--peso-bold);
 }
 
 

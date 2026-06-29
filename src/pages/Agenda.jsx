@@ -10,7 +10,7 @@ import {
   calcularDiaConOffset,
   formatearFechaISO,
   nombreDia,
-  esFechaPasada,
+  claseYaPaso,
   clientesEnClaseYFecha,
 } from '../utils/fechas'
 import { useEsMobile } from '../utils/useEsMobile'
@@ -226,21 +226,26 @@ function Agenda() {
 
             {!cargando && (
               <table className={styles.tablaAgenda}>
-                <thead>
-                  <tr>
-                    {diasSemana.map((fecha) => {
-                      const fechaISO = formatearFechaISO(fecha)
-                      return (
-                        <th key={fechaISO} className={styles.encabezadoColumnaDia}>
-                          {nombreDia(fecha).toUpperCase()}
-                          <span className={styles.fechaChica}>
-                            ({fecha.getDate()}/{fecha.getMonth() + 1}/{fecha.getFullYear()})
-                          </span>
-                        </th>
-                      )
-                    })}
-                  </tr>
-                </thead>
+             <thead>
+  <tr>
+    {diasSemana.map((fecha) => {
+      const fechaISO = formatearFechaISO(fecha)
+      const esHoy = fechaISO === formatearFechaISO(new Date())
+      return (
+        <th key={fechaISO} className={styles.encabezadoColumnaDia}>
+          {/* CAMBIO: el nombre del día ahora tiene una clase condicional según si es hoy */}
+          <span className={esHoy ? styles.nombreDiaHoy : ''}>
+            {nombreDia(fecha).toUpperCase()}
+          </span>
+          <span className={styles.fechaChica}>
+            ({fecha.getDate()}/{fecha.getMonth() + 1}/{fecha.getFullYear()})
+          </span>
+        </th>
+      )
+    })}
+  </tr>
+</thead>
+
                 <tbody>
                   {horariosUnicos.map((hora) => (
                     <tr key={hora}>
@@ -263,7 +268,7 @@ function Agenda() {
 
                         const totalInscriptos = cantidadInscriptos(clase.id, fechaISO)
                         const cuposLibres = clase.capacidad - totalInscriptos
-                        const pasada = esFechaPasada(fechaISO)
+                        const pasada = claseYaPaso(fechaISO, hora)
 
                         return (
                           <td key={fechaISO} className={styles.celdaTurno}>
