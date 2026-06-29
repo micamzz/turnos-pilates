@@ -96,9 +96,11 @@ export function esFechaPasada(fechaISO) {
 /*Calcula si una clase ya pasó, comparando la fecha y hora de la clase con el momento actual.
  calcula hasta el dia siguiente a las 12:00 */
 export function claseYaPaso(fechaISO, horaClase) {
-  const [horas, minutos] = horaClase.split(':')
-  const fechaClase = new Date(fechaISO)
-  fechaClase.setHours(Number(horas), Number(minutos), 0, 0)
+  const [anio, mes, dia] = fechaISO.split('-').map(Number)
+  const [horas, minutos] = horaClase.split(':').map(Number)
+
+
+  const fechaClase = new Date(anio, mes - 1, dia, horas, minutos, 0, 0)
 
   const momentoDeBloqueo = new Date(fechaClase)
   momentoDeBloqueo.setDate(momentoDeBloqueo.getDate() + 1)
@@ -107,7 +109,6 @@ export function claseYaPaso(fechaISO, horaClase) {
   const ahora = new Date()
   return ahora >= momentoDeBloqueo
 }
-
 /* Devuelve que clientes estan anotados en ese dia y hora,
 permite que se pueda agregar gente de prueba(que no estan agendados como clientes) */
 export function clientesEnClaseYFecha(inscripcionesDeLaClase, reservas, claseId, fechaISO) {
