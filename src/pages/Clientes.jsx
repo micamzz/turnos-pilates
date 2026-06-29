@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import styles from './Clientes.module.css'
 import { useNavigate } from 'react-router-dom'
 import { obtenerClientesConInscripciones, darDeBajaCliente, reactivarCliente } from '../services/clientes'
 import { obtenerClases, verificarCupoDisponible } from '../services/clase'
@@ -9,7 +10,6 @@ import { obtenerFeriadosEnRango } from '../services/feriado'
 import { proximaFechaDeDia, formatearFechaISO, agruparClasesPorDia, primerYUltimoDiaDelMes, calcularCuposRealesPorFecha, } from '../utils/fechas'
 import { Layout } from '../components/layout/Layout.jsx'
 import ModalConfirmacion from '../components/ModalConfirmacion/ModalConfirmacion.jsx'
-import styles from './Clientes.module.css'
 
 function Clientes() {
   const [clientes, setClientes] = useState([])
@@ -578,7 +578,7 @@ function Clientes() {
         {/* Modal: reactivación exitosa */}
         {clienteReactivadoExitoso && (
           <ModalConfirmacion
-            mensaje="Cliente dado de alta correctamente"
+            mensaje="El alumn@ fue dado de alta correctamente"
             alConfirmar={() => setClienteReactivadoExitoso(null)}
             textoBoton="Aceptar"
           />

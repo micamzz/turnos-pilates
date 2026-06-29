@@ -2,25 +2,31 @@ import { useState, useEffect } from 'react'
 import { formatearFechaCompleta, nombreDia, formatearFechaISO } from '../utils/fechas'
 import { useNavigate } from 'react-router-dom'
 import { obtenerClases } from '../services/clase'
-import styles from './HomeAdmin.module.css' 
+import { contarClientesActivos } from '../services/clientes' // CAMBIO: nuevo import
+import styles from './HomeAdmin.module.css'
 import { Layout } from '../components/layout/Layout.jsx'
 
 function HomeAdmin() {
   const navegar = useNavigate()
   const fecha = formatearFechaCompleta()
 
-
   const [clasesHoy, setClasesHoy] = useState([])
+  const [totalAlumnosActivos, setTotalAlumnosActivos] = useState(0) // CAMBIO: nuevo estado
   const [cargando, setCargando] = useState(true)
 
   useEffect(() => {
     async function cargarResumenHoy() {
       try {
-        const todasLasClases = await obtenerClases()
+        // CAMBIO: las 2 consultas se piden en paralelo
+        const [todasLasClases, totalActivos] = await Promise.all([
+          obtenerClases(),
+          contarClientesActivos(),
+        ])
+
         const hoyNombre = nombreDia(new Date())
-        // Filtra solo las clases cuyo día de la semana coincide con hoy
         const deHoy = todasLasClases.filter((c) => c.dia_semana === hoyNombre)
         setClasesHoy(deHoy)
+        setTotalAlumnosActivos(totalActivos) // CAMBIO
       } catch (err) {
         console.error('No se pudo cargar el resumen de hoy:', err.message)
       } finally {
@@ -30,7 +36,6 @@ function HomeAdmin() {
     cargarResumenHoy()
   }, [])
 
-  //  cálculos derivados para el resumen
   const cantidadClasesHoy = clasesHoy.length
   const totalAlumnosHoy = clasesHoy.reduce((suma, c) => suma + (c.inscriptos || 0), 0)
 
@@ -52,7 +57,6 @@ function HomeAdmin() {
           </div>
 
           <div className={styles.cardAccion} onClick={() => navegar('/agenda')}>
-
             <div>
               <h2 className={styles.tituloCard}>Reprogramar turno</h2>
               <p className={styles.textoCard}>Asigná un turno a un cliente en el horario disponible.</p>
@@ -75,11 +79,10 @@ function HomeAdmin() {
             <p className={styles.textoSinTurnosHoy}>Hoy no hay clases programadas.</p>
           ) : (
             <div className={styles.resumenTurnosHoy}>
-
               <div
                 className={styles.estadisticaTurno}
-                 onClick={() => navegar("/agenda")}
-                style={{ cursor: "pointer" }}
+                onClick={() => navegar('/agenda')}
+                style={{ cursor: 'pointer' }}
               >
                 <span className={styles.numeroEstadistica}>{cantidadClasesHoy}</span>
                 <span className={styles.etiquetaEstadistica}>clases hoy</span>
@@ -87,17 +90,36 @@ function HomeAdmin() {
 
               <div
                 className={styles.estadisticaTurno}
-                onClick={() => navegar("/clientes")}
-                style={{ cursor: "pointer" }}
+                onClick={() => navegar('/clientes')}
+                style={{ cursor: 'pointer' }}
               >
                 <span className={styles.numeroEstadistica}>{totalAlumnosHoy}</span>
-                <span className={styles.etiquetaEstadistica}>
-                  alumnos anotados en total
-                </span>
+                {/* CAMBIO: texto más preciso, antes decía "en total" */}
+                <span className={styles.etiquetaEstadistica}>alumnos anotados hoy</span>
               </div>
-
             </div>
           )}
+        </div>
+
+        {/* CAMBIO: sección nueva, separada conceptualmente de "hoy" */}
+        <div className={styles.seccionTurnosHoy}>
+          <div className={styles.encabezadoTurnosHoy}>
+            <h2 className={styles.tituloSeccionTurnos}>Total del sistema</h2>
+            <button className={styles.botonVerAgenda} onClick={() => navegar('/clientes')}>
+              Ver todos los alumnos
+            </button>
+          </div>
+
+          <div className={styles.resumenTurnosHoy}>
+            <div
+              className={styles.estadisticaTurno}
+              onClick={() => navegar('/clientes')}
+              style={{ cursor: 'pointer' }}
+            >
+              <span className={styles.numeroEstadistica}>{totalAlumnosActivos}</span>
+              <span className={styles.etiquetaEstadistica}>alumnos activos en total</span>
+            </div>
+          </div>
         </div>
       </div>
     </Layout>

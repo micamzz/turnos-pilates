@@ -91,3 +91,13 @@ export async function darDeBajaCliente(id) {
 export async function reactivarCliente(id, planId) {
    return actualizarCliente(id, { activo: true, plan_id: planId }) 
 }
+
+export async function contarClientesActivos() {
+  const { count, error } = await supabase
+    .from('clientes')
+    .select('*', { count: 'exact', head: true })
+    .eq('activo', true)
+
+  if (error) throw error
+  return count
+}
