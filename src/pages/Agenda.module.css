@@ -67,7 +67,7 @@
   background: transparent;
   color: var(--texto-secundario);
   font-weight: var(--peso-bold);
-  font-size: var(--texto-sm);
+  font-size: var(--texto-sd);
   text-align: center;
   padding: 0 var(--espacio-1) var(--espacio-3);
   letter-spacing: 0.05em;
