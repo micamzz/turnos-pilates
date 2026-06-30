@@ -361,7 +361,7 @@
     min-height: auto;
     flex-direction: row;
     justify-content: space-between;
-    padding: var(--espacio-3) var(--espacio-4);
+  
   }
 
   .horaClase {
