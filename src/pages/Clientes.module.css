@@ -418,11 +418,7 @@
   gap: var(--espacio-2);
 }
 
-/* CAMBIO: antes era texto plano con checkbox nativo visible, sin borde
-   ni fondo — se veía como un formulario crudo, no como un chip
-   seleccionable. Ahora usa el mismo patrón "chip" que ya existe en
-   AgregarCliente.module.css, para que ambas pantallas se vean
-   consistentes entre sí. */
+
 .opcionHorario {
   position: relative;
   display: inline-flex;

@@ -233,7 +233,7 @@ function Agenda() {
       const esHoy = fechaISO === formatearFechaISO(new Date())
       return (
         <th key={fechaISO} className={styles.encabezadoColumnaDia}>
-          {/* CAMBIO: el nombre del día ahora tiene una clase condicional según si es hoy */}
+
           <span className={esHoy ? styles.nombreDiaHoy : ''}>
             {nombreDia(fecha).toUpperCase()}
           </span>

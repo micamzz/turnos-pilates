@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { formatearFechaCompleta, nombreDia, formatearFechaISO } from '../utils/fechas'
 import { useNavigate } from 'react-router-dom'
 import { obtenerClases } from '../services/clase'
-import { contarClientesActivos } from '../services/clientes' // CAMBIO: nuevo import
+import { contarClientesActivos } from '../services/clientes' 
 import styles from './HomeAdmin.module.css'
 import { Layout } from '../components/layout/Layout.jsx'
 
@@ -11,13 +11,13 @@ function HomeAdmin() {
   const fecha = formatearFechaCompleta()
 
   const [clasesHoy, setClasesHoy] = useState([])
-  const [totalAlumnosActivos, setTotalAlumnosActivos] = useState(0) // CAMBIO: nuevo estado
+  const [totalAlumnosActivos, setTotalAlumnosActivos] = useState(0) 
   const [cargando, setCargando] = useState(true)
 
   useEffect(() => {
     async function cargarResumenHoy() {
       try {
-        // CAMBIO: las 2 consultas se piden en paralelo
+
         const [todasLasClases, totalActivos] = await Promise.all([
           obtenerClases(),
           contarClientesActivos(),
@@ -26,7 +26,7 @@ function HomeAdmin() {
         const hoyNombre = nombreDia(new Date())
         const deHoy = todasLasClases.filter((c) => c.dia_semana === hoyNombre)
         setClasesHoy(deHoy)
-        setTotalAlumnosActivos(totalActivos) // CAMBIO
+        setTotalAlumnosActivos(totalActivos) 
       } catch (err) {
         console.error('No se pudo cargar el resumen de hoy:', err.message)
       } finally {
@@ -89,19 +89,15 @@ function HomeAdmin() {
               </div>
 
               <div
-                className={styles.estadisticaTurno}
-                onClick={() => navegar('/clientes')}
-                style={{ cursor: 'pointer' }}
-              >
+                className={styles.estadisticaTurno}>
                 <span className={styles.numeroEstadistica}>{totalAlumnosHoy}</span>
-                {/* CAMBIO: texto más preciso, antes decía "en total" */}
                 <span className={styles.etiquetaEstadistica}>Alumnos anotados hoy</span>
               </div>
             </div>
           )}
         </div>
 
-        {/* CAMBIO: sección nueva, separada conceptualmente de "hoy" */}
+    
         <div className={styles.seccionTurnosHoy}>
           <div className={styles.encabezadoTurnosHoy}>
             <h2 className={styles.tituloSeccionTurnos}>Total del sistema</h2>

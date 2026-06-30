@@ -69,7 +69,7 @@ export async function crearRecupero(clienteId, claseId, fecha, cancelacionId) {
         clase_id: claseId,
         fecha,
         estado: 'RECUPERO',
-        cancelacion_resuelta_id: cancelacionId, // CAMBIO: nuevo campo
+        cancelacion_resuelta_id: cancelacionId, 
       },
       { onConflict: 'cliente_id,clase_id,fecha' }
     )

@@ -94,10 +94,7 @@ function AgregarCliente() {
 
     setCargando(true)
     try {
-      // CAMBIO: revalidación real de cupo contra la base, justo antes de
-      // crear el cliente. Evita que 2 altas simultáneas sobrecarguen la
-      // misma clase, ya que el cupo mostrado en pantalla pudo quedar viejo
-      // mientras la dueña completaba el formulario.
+
       for (const claseId of clasesSeleccionadas) {
         const hayCupo = await verificarCupoDisponible(claseId)
         if (!hayCupo) {
