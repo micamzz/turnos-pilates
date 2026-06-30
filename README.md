@@ -174,11 +174,10 @@ http://localhost:5173
 npm run build
 ```
 
----
+
 
 ##  Capturas
 
-### Desktop
 ### Login
 ![Login](./assets-readme/screenshots/login.png)
 
@@ -202,22 +201,13 @@ npm run build
 
 ---
 
-### Mobile
+## Mobile
 
-### Login
-![Mobile Login](./assets-readme/screenshots/mobile-login.jpeg)
-
-### Home
-![Mobile Home](./assets-readme/screenshots/mobile-home.jpeg)
-
-### Agenda semanal
-![Mobile Agenda](./assets-readme/screenshots/mobile-agenda.jpeg)
-
-### Detalle de una clase
-![Mobile Detalle de una clase](./assets-readme/screenshots/mobile-detalle-clase.jpeg)
-
-### Agregar Alumno
-![Mobile Agregar Alumnos](./assets-readme/screenshots/mobile-agregar-alumno.jpeg)
-
-### Listado de alumnos
-![Mobile Listado de Alumnos](./assets-readme/screenshots/mobile-listado-alumnos.jpeg)
+<img src="./assets-readme/screenshots/mobile-login.jpeg" width="280" />
+<br/>
+<img src="./assets-readme/screenshots/mobile-home.jpeg" width="280" />
+<img src="./assets-readme/screenshots/mobile-agenda.jpeg" width="280" />
+<br/>
+<img src="./assets-readme/screenshots/mobile-detalle-clase.jpeg" width="280" />
+<img src="./assets-readme/screenshots/mobile-agregar-alumno.jpeg" width="280" />
+<img src="./assets-readme/screenshots/mobile-listado-alumnos.jpeg" width="280" />
