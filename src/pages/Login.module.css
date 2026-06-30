@@ -200,12 +200,13 @@
 
 /* MOBILE MEDIANO */
 @media (max-width: 480px) {
+  
+
   .ladoFormulario {
-    padding: var(--espacio-6) var(--espacio-4);
-     padding-top: 35vh;
+    padding: var(--espacio-4);
+     padding-top: 17vh;
 
   }
-
   .subtitulo {
     margin-bottom: var(--espacio-6);
   }
@@ -213,12 +214,7 @@
 
 /* MOBILE PEQUEÑO */
 @media (max-width: 360px) {
-  .ladoFormulario {
-    padding: var(--espacio-4);
-     padding-top: 17vh;
-
-  }
-
+  
   .tituloFormulario {
     font-size: 24px;
   }
