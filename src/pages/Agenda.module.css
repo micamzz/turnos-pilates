@@ -306,7 +306,7 @@
 
   .tarjetaClase {
     min-height: 76px;
-    padding: var(--espacio-2) var(--espacio-1);
+    padding: var(--espacio-4) var(--espacio-4);
   }
 }
 
@@ -388,10 +388,6 @@
   .botonNavegarSemana {
     padding: var(--espacio-1) var(--espacio-2);
     font-size: var(--texto-xs);
-  }
-
-  .tarjetaClase {
-    padding: var(--espacio-2) var(--espacio-3);
   }
 
    .botonAbrirModalFeriado {

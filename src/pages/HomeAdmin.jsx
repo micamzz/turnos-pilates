@@ -85,7 +85,7 @@ function HomeAdmin() {
                 style={{ cursor: 'pointer' }}
               >
                 <span className={styles.numeroEstadistica}>{cantidadClasesHoy}</span>
-                <span className={styles.etiquetaEstadistica}>clases hoy</span>
+                <span className={styles.etiquetaEstadistica}>Clases hoy</span>
               </div>
 
               <div
@@ -95,7 +95,7 @@ function HomeAdmin() {
               >
                 <span className={styles.numeroEstadistica}>{totalAlumnosHoy}</span>
                 {/* CAMBIO: texto más preciso, antes decía "en total" */}
-                <span className={styles.etiquetaEstadistica}>alumnos anotados hoy</span>
+                <span className={styles.etiquetaEstadistica}>Alumnos anotados hoy</span>
               </div>
             </div>
           )}
@@ -117,7 +117,7 @@ function HomeAdmin() {
               style={{ cursor: 'pointer' }}
             >
               <span className={styles.numeroEstadistica}>{totalAlumnosActivos}</span>
-              <span className={styles.etiquetaEstadistica}>alumnos activos en total</span>
+              <span className={styles.etiquetaEstadistica}>Alumnos activos en total</span>
             </div>
           </div>
         </div>
