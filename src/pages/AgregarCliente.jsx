@@ -262,7 +262,7 @@ function AgregarCliente() {
           </div>
 
           <button type="submit" disabled={cargando} className={styles.botonGuardar}>
-            {cargando ? 'Guardando...' : 'Guardar Cliente'}
+            {cargando ? 'Guardando...' : 'Registrar alumno'}
           </button>
 
           {errores.general && <p className={styles.mensajeError}>{errores.general}</p>}
