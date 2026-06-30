@@ -219,18 +219,27 @@ npm run build
 
 ### Home
 ![Home](./assets-readme/screenshots/home.png)
+![Mobile Home](./assets-readme/screenshots/mobile-home.jpeg)
 
 ### Agenda semanal
 ![Agenda](./assets-readme/screenshots/agenda.png)
 
+![Mobile Agenda](./assets-readme/screenshots/mobile-agenda.jpeg)
+
 ### Detalle de una clase
 ![Detalle de una clase](./assets-readme/screenshots/detalle-clase.png)
+
+![Mobile Detalle de una clase](./assets-readme/screenshots/mobile-detalle-clase.jpeg)
 
 ### Agregar Alumno
 ![Agregar Alumnos](./assets-readme/screenshots/agregar-alumno.png)
 
+![Mobile Agregar Alumnos](./assets-readme/screenshots/mobile-agregar-alumno.jpeg)
+
 ### Listado de alumnos
 ![Listado de Alumnos](./assets-readme/screenshots/listado-alumnos.png)
+
+![Mobile Listado de Alumnos](./assets-readme/screenshots/mobile-listado-alumnos.jpeg)
 
 ---
 
