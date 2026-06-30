@@ -12,8 +12,6 @@ Aplicación web de administración para un estudio de Pilates ("Aquí y Ahora"),
 > 🔑 Contraseña: admin1234
 
 
-
-
 ##  Tecnologías utilizadas
 
 ### Frontend
@@ -43,7 +41,15 @@ Se empleó para:
 
 Todas las sugerencias fueron revisadas, adaptadas y validadas manualmente antes de ser incorporadas al proyecto.
 
+##  Seguridad
 
+El sistema implementa seguridad en múltiples capas:
+
+- Supabase Authentication para gestión de usuarios
+- Protected Routes en el frontend
+- **Row Level Security (RLS)** en todas las tablas
+
+Las políticas de RLS aseguran que ninguna operación pueda ejecutarse sin un usuario autenticado, evitando el acceso directo a la base de datos mediante la `anon key`.
 
 ##  Funcionalidades
 
@@ -66,9 +72,7 @@ Todas las sugerencias fueron revisadas, adaptadas y validadas manualmente antes 
 ###  Agenda semanal
 - Vista semanal completa de clases
 - Cupos en tiempo real
-- Adaptación mobile (vista por día)
 - Navegación por fechas
-
 
 
 ###  Gestión de clases
@@ -76,28 +80,15 @@ Todas las sugerencias fueron revisadas, adaptadas y validadas manualmente antes 
 - Cancelaciones
 - Asignación de recuperos
 - Registro de visitas de prueba
-- Control de asistencia
-
+- Asistencia
 
 
 ###  Reprogramación
 - Cambio de horario fijo de alumnos
 - Validación previa de disponibilidad real
 
-
-
 ###  Feriados
 - Bloqueo de fechas completas
-
-
-###  Validación de cupos
-El sistema valida disponibilidad en dos niveles:
-
-1. En la interfaz (cálculo en tiempo real)
-2. Antes de escribir en la base de datos
-
-Esto reduce problemas de sobrecupos por acciones simultáneas.
-
 
 
 ##  Arquitectura
@@ -107,18 +98,16 @@ El proyecto está organizado en capas para separar UI, lógica de negocio y acce
 ```text
 src
 │
-├── components/   # Componentes reutilizables
-├── pages/        # Vistas principales
-├── services/     # Lógica de acceso a Supabase
-├── hooks/        # Hooks personalizados
-├── utils/        # Funciones utilitarias
-├── styles/       # Estilos globales
-└── supabase/     # Configuración del cliente
+├── components/   # Componentes reutilizables (Header, Footer, Layout, Modales).
+├── context/      # AuthContext — sesión global compartida.
+├── config/       # Cliente Supabase.
+├── pages/        # Vistas principales.
+├── services/     # Lógica de acceso a Supabase.
+├── utils/        # Funciones utilitarias (fechas, cálculo de cupos).
+└── assets/       # Imágenes.
 ```
 
-Toda la comunicación con la base de datos se centraliza en `services`, manteniendo los componentes enfocados únicamente en la UI.
-
-
+Toda la comunicación con la base de datos se centraliza en `services/`, manteniendo los componentes enfocados únicamente en la UI. La verificación de sesión vive en `context/AuthContext` y se comparte con toda la app sin repetir llamadas a Supabase en cada ruta.
 
 ##  Modelo de datos
 
@@ -132,19 +121,6 @@ Toda la comunicación con la base de datos se centraliza en `services`, mantenie
 | feriado      | Días sin actividad |
 
 Se separan **inscripciones permanentes** y **reservas puntuales** para evitar duplicación de registros y simplificar la lógica de recuperos y cancelaciones.
-
-
-
-##  Seguridad
-
-El sistema implementa seguridad en múltiples capas:
-
-- Supabase Authentication para gestión de usuarios
-- Protected Routes en el frontend
-- **Row Level Security (RLS)** en todas las tablas
-
-Las políticas de RLS aseguran que ninguna operación pueda ejecutarse sin un usuario autenticado, evitando el acceso directo a la base de datos mediante la `anon key`.
-
 
 
 ##  Instalación
@@ -192,8 +168,6 @@ Abrir:
 http://localhost:5173
 ```
 
-
-
 ##  Build
 
 ```bash
@@ -202,44 +176,48 @@ npm run build
 
 ---
 
-##  Decisiones de diseño
-
-- Separación entre inscripciones fijas y reservas puntuales
-- Capa de servicios para aislar lógica de negocio
-- CSS Modules para evitar colisiones de estilos
-- Variables de diseño centralizadas
-- Validación doble de cupos (UI + DB)
-- Diseño responsive mobile-first
-
-
 ##  Capturas
 
+### Desktop
 ### Login
 ![Login](./assets-readme/screenshots/login.png)
 
 ### Home
 ![Home](./assets-readme/screenshots/home.png)
-![Mobile Home](./assets-readme/screenshots/mobile-home.jpeg)
+
 
 ### Agenda semanal
 ![Agenda](./assets-readme/screenshots/agenda.png)
 
-![Mobile Agenda](./assets-readme/screenshots/mobile-agenda.jpeg)
-
 ### Detalle de una clase
 ![Detalle de una clase](./assets-readme/screenshots/detalle-clase.png)
 
-![Mobile Detalle de una clase](./assets-readme/screenshots/mobile-detalle-clase.jpeg)
 
 ### Agregar Alumno
 ![Agregar Alumnos](./assets-readme/screenshots/agregar-alumno.png)
 
-![Mobile Agregar Alumnos](./assets-readme/screenshots/mobile-agregar-alumno.jpeg)
-
 ### Listado de alumnos
 ![Listado de Alumnos](./assets-readme/screenshots/listado-alumnos.png)
 
-![Mobile Listado de Alumnos](./assets-readme/screenshots/mobile-listado-alumnos.jpeg)
 
 ---
 
+### Mobile
+
+### Login
+![Mobile Login](./assets-readme/screenshots/mobile-login.jpeg)
+
+### Home
+![Mobile Home](./assets-readme/screenshots/mobile-home.jpeg)
+
+### Agenda semanal
+![Mobile Agenda](./assets-readme/screenshots/mobile-agenda.jpeg)
+
+### Detalle de una clase
+![Mobile Detalle de una clase](./assets-readme/screenshots/mobile-detalle-clase.jpeg)
+
+### Agregar Alumno
+![Mobile Agregar Alumnos](./assets-readme/screenshots/mobile-agregar-alumno.jpeg)
+
+### Listado de alumnos
+![Mobile Listado de Alumnos](./assets-readme/screenshots/mobile-listado-alumnos.jpeg)
