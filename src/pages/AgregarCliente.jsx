@@ -142,7 +142,7 @@ function AgregarCliente() {
   return (
     <Layout>
       <div className={styles.contenedorAgregarCliente}>
-        <h1 className={styles.tituloPagina}>Agregar Cliente</h1>
+        <h1 className={styles.tituloPagina}>Agregar Alumno</h1>
 
         <form onSubmit={manejarEnvio} className={styles.formularioCliente}>
           <div className={styles.seccionForm}>

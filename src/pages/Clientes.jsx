@@ -32,7 +32,6 @@ function Clientes() {
   const [planReactivarId, setPlanReactivarId] = useState('')
   const [clasesReactivarSeleccionadas, setClasesReactivarSeleccionadas] = useState([])
 
-  /* Guarda el nombre del cliente recién reactivado, para mostrar el modal de confirmación de éxito. null = no hay aviso pendiente. */
   const [clienteReactivadoExitoso, setClienteReactivadoExitoso] = useState(null)
 
   const [inscripcionesPorClase, setInscripcionesPorClase] = useState([])
@@ -45,7 +44,6 @@ function Clientes() {
   useEffect(() => {
     cargarDatos()
   }, [])
-
 
   async function cargarDatos() {
     try {
@@ -67,7 +65,6 @@ function Clientes() {
       const listaFeriados = await obtenerFeriadosEnRango(desde, hasta)
       setFeriados(listaFeriados)
 
-      /* reservas de los próximos 7 días, para calcular cupo real  de la próxima ocurrencia de cada día de la semana */
       const en7Dias = new Date(hoy)
       en7Dias.setDate(hoy.getDate() + 7)
       const reservasSemana = await obtenerReservasEnRango(formatearFechaISO(hoy), formatearFechaISO(en7Dias))
@@ -78,7 +75,6 @@ function Clientes() {
       setCargando(false)
     }
   }
-
 
   const clientesFiltrados = clientes
     .filter((c) => {
@@ -109,7 +105,6 @@ function Clientes() {
     }
   }
 
-  // ---- Reprogramar (mensual / permanente) ----
   function abrirModalReprogramar(clienteId, inscripciones) {
     setModalReprogramar({ clienteId, inscripciones, inscripcionElegida: null })
     setNuevaClaseId('')
@@ -131,7 +126,6 @@ function Clientes() {
         setError('Esa clase ya no tiene cupo disponible')
         return
       }
-
       await reprogramarInscripcion(
         modalReprogramar.inscripcionElegida.id,
         modalReprogramar.clienteId,
@@ -144,7 +138,6 @@ function Clientes() {
     }
   }
 
-  // ---- Cancelar día (puntual, por fecha) ----
   function abrirModalCancelarDia(clienteId, inscripciones) {
     setModalCancelarDia({ clienteId, inscripciones, inscripcionElegida: null })
     setFechaCancelar('')
@@ -166,13 +159,11 @@ function Clientes() {
       setError('Seleccioná una fecha')
       return
     }
-
     const esFeriado = feriados.some((f) => f.fecha === fechaCancelar)
     if (esFeriado) {
       setError('Esa fecha está marcada como feriado, no se puede cancelar un turno ahí')
       return
     }
-
     try {
       await cancelarTurno(
         modalCancelarDia.clienteId,
@@ -186,7 +177,6 @@ function Clientes() {
     }
   }
 
-  // ---- Reactivar cliente (con nuevo plan y días) ----
   function abrirModalReactivar(cliente) {
     setModalReactivar(cliente)
     setPlanReactivarId('')
@@ -217,7 +207,6 @@ function Clientes() {
       setError('Seleccioná al menos un día')
       return
     }
-
     try {
       for (const claseId of clasesReactivarSeleccionadas) {
         const hayCupo = await verificarCupoDisponible(claseId)
@@ -227,17 +216,13 @@ function Clientes() {
           return
         }
       }
-
       const nombreCliente = modalReactivar.nombre
-
       await reactivarCliente(modalReactivar.id, planReactivarId)
-
       const nuevasInscripciones = clasesReactivarSeleccionadas.map((claseId) => ({
         cliente_id: modalReactivar.id,
         clase_id: claseId,
       }))
       await crearInscripciones(nuevasInscripciones)
-
       cerrarModalReactivar()
       setClienteReactivadoExitoso(nombreCliente)
       await cargarDatos()
@@ -270,15 +255,16 @@ function Clientes() {
         {error && <p className={styles.mensajeError}>{error}</p>}
         {!cargando && clientesFiltrados.length === 0 && <p>No se encontraron alumnos.</p>}
 
+        {/* ── TABLA: visible en tablet y desktop ── */}
         <table className={styles.tablaClientes}>
           <thead>
             <tr>
               <th className={styles.encabezadoColumna}>Nombre</th>
               <th className={styles.encabezadoColumna}>Apellido</th>
-              <th className={styles.encabezadoColumna}>Teléfono</th>
+              <th className={`${styles.encabezadoColumna} ${styles.colTelefono}`}>Teléfono</th>
               <th className={styles.encabezadoColumna}>Plan</th>
               <th className={styles.encabezadoColumna}>Horario</th>
-              <th className={styles.encabezadoColumna}>Turno</th>
+              <th className={`${styles.encabezadoColumna} ${styles.colTurno}`}>Turno</th>
               <th className={styles.encabezadoColumna}>Estado</th>
               <th className={styles.encabezadoColumna}></th>
             </tr>
@@ -286,7 +272,6 @@ function Clientes() {
           <tbody>
             {clientesPaginados.map((cliente) => {
               const inscripcionesActivas = cliente.inscripcion.filter((i) => i.activa)
-
               return (
                 <tr
                   key={cliente.id}
@@ -294,7 +279,7 @@ function Clientes() {
                 >
                   <td className={styles.celdaTabla}>{cliente.nombre}</td>
                   <td className={styles.celdaTabla}>{cliente.apellido}</td>
-                  <td className={styles.celdaTabla}>{cliente.telefono}</td>
+                  <td className={`${styles.celdaTabla} ${styles.colTelefono}`}>{cliente.telefono}</td>
                   <td className={styles.celdaTabla}>{cliente.planes ? cliente.planes.nombre : 'Sin plan'}</td>
                   <td className={styles.celdaTabla}>
                     {inscripcionesActivas.length === 0 ? (
@@ -309,7 +294,7 @@ function Clientes() {
                       </ul>
                     )}
                   </td>
-                  <td className={styles.celdaTabla}>
+                  <td className={`${styles.celdaTabla} ${styles.colTurno}`}>
                     {cliente.activo && inscripcionesActivas.length > 0 && (
                       <div className={styles.accionesHorario}>
                         <button
@@ -349,6 +334,77 @@ function Clientes() {
           </tbody>
         </table>
 
+        {/* ── CARDS: visible solo en mobile (≤640px) ── */}
+        <div className={styles.listaClientesMobile}>
+          {clientesPaginados.map((cliente) => {
+            const inscripcionesActivas = cliente.inscripcion.filter((i) => i.activa)
+            return (
+              <div
+                key={cliente.id}
+                className={`${styles.cardClienteMobile} ${!cliente.activo ? styles.filaInactiva : ''}`}
+              >
+                <div className={styles.cardClienteEncabezado}>
+                  <div className={styles.cardClienteNombre}>
+                    {cliente.nombre} {cliente.apellido}
+                  </div>
+                  <span className={cliente.activo ? styles.estadoActivo : styles.estadoInactivo}>
+                    {cliente.activo ? 'Activo' : 'Inactivo'}
+                  </span>
+                </div>
+
+                {cliente.telefono && (
+                  <div className={styles.cardClienteDetalle}>
+                    <span>Teléfono</span>
+                    {cliente.telefono}
+                  </div>
+                )}
+
+                <div className={styles.cardClienteDetalle}>
+                  <span>Plan</span>
+                  {cliente.planes ? cliente.planes.nombre : 'Sin plan'}
+                </div>
+
+                {inscripcionesActivas.length > 0 && (
+                  <div className={styles.cardClienteDetalle}>
+                    <span>Horario</span>
+                    {inscripcionesActivas.map((i) => (
+                      <div key={i.id}>{i.clase.dia_semana} {i.clase.hora.slice(0, 5)}</div>
+                    ))}
+                  </div>
+                )}
+
+                <div className={styles.cardClienteAcciones}>
+                  {cliente.activo && inscripcionesActivas.length > 0 && (
+                    <>
+                      <button
+                        className={styles.botonLink}
+                        onClick={() => abrirModalReprogramar(cliente.id, inscripcionesActivas)}
+                      >
+                        Reprogramar
+                      </button>
+                      <button
+                        className={`${styles.botonLink} ${styles.botonLinkRojo}`}
+                        onClick={() => abrirModalCancelarDia(cliente.id, inscripcionesActivas)}
+                      >
+                        Cancelar día
+                      </button>
+                    </>
+                  )}
+                  {cliente.activo ? (
+                    <button className={styles.botonBaja} onClick={() => setClienteABajar(cliente)}>
+                      Dar de baja
+                    </button>
+                  ) : (
+                    <button className={styles.botonReactivar} onClick={() => abrirModalReactivar(cliente)}>
+                      Reactivar
+                    </button>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
         {totalPaginas > 1 && (
           <div className={styles.paginacion}>
             <button
@@ -375,12 +431,8 @@ function Clientes() {
         {modalReprogramar && (
           <div className={styles.overlayModal}>
             <div className={styles.modal}>
-              <button className={styles.botonCerrarModal} onClick={cerrarModalReprogramar} aria-label="Cerrar">
-                ✕
-              </button>
-
+              <button className={styles.botonCerrarModal} onClick={cerrarModalReprogramar} aria-label="Cerrar">✕</button>
               <h2 className={styles.tituloModal}>Reprogramar turno</h2>
-
               {!modalReprogramar.inscripcionElegida ? (
                 <>
                   <p className={styles.textoModal}>¿Cuál día querés reprogramar?</p>
@@ -388,10 +440,10 @@ function Clientes() {
                     {modalReprogramar.inscripciones.map((i) => (
                       <li key={i.id} className={styles.itemDiaModal}>
                         <span>{i.clase.dia_semana} {i.clase.hora.slice(0, 5)}</span>
-
                         <button className={styles.botonInhabilitar}
-                          onClick={() => setModalReprogramar((prev) => ({ ...prev, inscripcionElegida: i }))} >
-                          Elegir  </button>
+                          onClick={() => setModalReprogramar((prev) => ({ ...prev, inscripcionElegida: i }))}>
+                          Elegir
+                        </button>
                       </li>
                     ))}
                   </ul>
@@ -408,14 +460,12 @@ function Clientes() {
                     </strong>
                   </p>
                   <label className={styles.etiquetaModal}>Nueva clase</label>
-
                   <select className={styles.campoSelectModal} value={nuevaClaseId} onChange={(e) => setNuevaClaseId(e.target.value)}>
                     <option value="">Seleccionar clase</option>
                     {clases.map((clase) => {
                       const proximaFecha = formatearFechaISO(proximaFechaDeDia(clase.dia_semana))
                       const inscripcionesDeEstaClase = inscripcionesPorClase.filter((i) => i.clase_id === clase.id)
                       const cuposReales = calcularCuposRealesPorFecha(clase, inscripcionesDeEstaClase, reservasProximaSemana, proximaFecha)
-
                       return (
                         <option key={clase.id} value={clase.id} disabled={cuposReales <= 0}>
                           {clase.dia_semana} {clase.hora.slice(0, 5)}
@@ -424,8 +474,6 @@ function Clientes() {
                       )
                     })}
                   </select>
-
-
                   <div className={styles.accionesModal}>
                     <button onClick={cerrarModalReprogramar} className={styles.botonSecundario}>Cancelar</button>
                     <button className={styles.botonConfirmar} onClick={confirmarReprogramacion}>Confirmar</button>
@@ -440,12 +488,8 @@ function Clientes() {
         {modalCancelarDia && (
           <div className={styles.overlayModal}>
             <div className={styles.modal}>
-              <button className={styles.botonCerrarModal} onClick={cerrarModalCancelarDia} aria-label="Cerrar">
-                ✕
-              </button>
-
+              <button className={styles.botonCerrarModal} onClick={cerrarModalCancelarDia} aria-label="Cerrar">✕</button>
               <h2 className={styles.tituloModal}>Cancelar día puntual</h2>
-
               {!modalCancelarDia.inscripcionElegida ? (
                 <>
                   <p className={styles.textoModal}>¿Cuál día querés cancelar?</p>
@@ -493,12 +537,8 @@ function Clientes() {
         {modalReactivar && (
           <div className={styles.overlayModal}>
             <div className={styles.modal}>
-              <button className={styles.botonCerrarModal} onClick={cerrarModalReactivar} aria-label="Cerrar">
-                ✕
-              </button>
-
+              <button className={styles.botonCerrarModal} onClick={cerrarModalReactivar} aria-label="Cerrar">✕</button>
               <h2 className={styles.tituloModal}>Reactivar a {modalReactivar.nombre}</h2>
-
               <div className={styles.modalContenidoScroll}>
                 <label className={styles.etiquetaModal}>Plan</label>
                 <select
@@ -516,7 +556,6 @@ function Clientes() {
                     </option>
                   ))}
                 </select>
-
                 {planReactivarSeleccionado && (
                   <>
                     <p className={styles.ayudaPlan}>
@@ -535,7 +574,6 @@ function Clientes() {
                               (!estaSeleccionada &&
                                 maximoClasesReactivar &&
                                 clasesReactivarSeleccionadas.length >= maximoClasesReactivar)
-
                             return (
                               <label
                                 key={clase.id}
@@ -557,7 +595,6 @@ function Clientes() {
                   </>
                 )}
               </div>
-
               <div className={styles.accionesModal}>
                 <button onClick={cerrarModalReactivar} className={styles.botonSecundario}>Cancelar</button>
                 <button className={styles.botonConfirmar} onClick={confirmarReactivacion}>Confirmar</button>
@@ -566,7 +603,6 @@ function Clientes() {
           </div>
         )}
 
-        {/* Modal: dar de baja */}
         {clienteABajar && (
           <ModalConfirmacion
             mensaje={`¿Dar de baja a ${clienteABajar.nombre}?`}
@@ -575,7 +611,6 @@ function Clientes() {
           />
         )}
 
-        {/* Modal: reactivación exitosa */}
         {clienteReactivadoExitoso && (
           <ModalConfirmacion
             mensaje="El alumn@ fue dado de alta correctamente"
