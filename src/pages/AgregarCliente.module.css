@@ -14,9 +14,8 @@
   font-weight: var(--peso-medio);
   color: var(--texto-principal);
   margin: 0 0 var(--espacio-6);
-  align-self: flex-start;
-  width: 100%;
-  max-width: 43.75rem;
+  align-self: center;
+
 }
 
 .formularioCliente {
